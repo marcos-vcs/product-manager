@@ -1,6 +1,7 @@
 package br.com.product.mannager.controller;
 
 import br.com.product.mannager.exceptions.PaginationException;
+import br.com.product.mannager.models.Filter;
 import br.com.product.mannager.models.Product;
 import br.com.product.mannager.models.Response;
 import br.com.product.mannager.service.ProductManagerService;
@@ -83,6 +84,22 @@ public class ProductManagerController {
             }
 
             return new ResponseEntity<>(this.service.read(skip, limit), HttpStatus.OK);
+
+        }catch (Exception e){
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<Response<List<Product>>> search(@RequestParam int skip, @RequestParam int limit, @RequestParam Filter filter, @RequestParam String search){
+        Response<List<Product>> response = new Response<>();
+        try{
+            if(skip < 0 || limit < 0){
+                throw new PaginationException("Erro, parametro skip ou limit e menor que 0, verifique!");
+            }
+
+            return new ResponseEntity<>(this.service.read(skip, limit, filter, search), HttpStatus.OK);
 
         }catch (Exception e){
             response.setMessage(e.getMessage());

@@ -1,6 +1,7 @@
 package br.com.product.mannager.service;
 
 import br.com.product.mannager.exceptions.CrudErrorException;
+import br.com.product.mannager.models.Filter;
 import br.com.product.mannager.models.Product;
 import br.com.product.mannager.models.Response;
 import org.springframework.data.domain.Sort;
@@ -79,13 +80,38 @@ public class ProductManagerService implements CrudInterface<Product> {
         try{
             Query query = new Query();
             query.with(Sort.by(Sort.Direction.DESC, "code"));
-            query.skip(skip).limit(limit);
             if(limit > 100){
                 limit = 100;
             }
+            query.skip(skip).limit(limit);
 
-            List<Product> products = new ArrayList<>();
-            this.template.find(query, Product.class).forEach(e -> products.add(e));
+
+            List<Product> products = new ArrayList<>(this.template.find(query, Product.class));
+
+            response.setResponse(products);
+            response.setQuantity(getQuantity());
+            response.setMessage("OK");
+            return response;
+
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            throw new CrudErrorException("Erro critico ao obter registros");
+        }
+    }
+
+    @Override
+    public Response<List<Product>> read(int skip, int limit, Filter filter, String search) throws CrudErrorException {
+        Response<List<Product>> response = new Response<>();
+        try{
+
+            Query query = new Query(Criteria.where(filter.getFilter()).is(search));
+            query.with(Sort.by(Sort.Direction.DESC, "code"));
+            if(limit > 100){
+                limit = 100;
+            }
+            query.skip(skip).limit(limit);
+
+            List<Product> products = new ArrayList<>(this.template.find(query, Product.class));
 
             response.setResponse(products);
             response.setQuantity(getQuantity());
