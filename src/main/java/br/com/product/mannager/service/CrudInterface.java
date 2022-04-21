@@ -10,7 +10,7 @@ public interface CrudInterface<T> {
     Response create(T obj) throws CrudErrorException;
     Response update(T obj) throws CrudErrorException;
     Response delete(String code) throws CrudErrorException;
-    Response read(User user, int skip, int limit) throws CrudErrorException;
+    Response read(int skip, int limit) throws CrudErrorException;
 
 
 }
