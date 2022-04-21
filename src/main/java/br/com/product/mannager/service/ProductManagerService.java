@@ -104,7 +104,7 @@ public class ProductManagerService implements CrudInterface<Product> {
         Response<List<Product>> response = new Response<>();
         try{
 
-            Query query = new Query(Criteria.where(filter.getFilter()).is(search));
+            Query query = new Query(Criteria.where(filter.getFilter()).regex(".*"+search+".*", "i"));
             query.with(Sort.by(Sort.Direction.DESC, "code"));
             if(limit > 100){
                 limit = 100;
