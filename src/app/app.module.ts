@@ -17,6 +17,13 @@ import { environment } from '../environments/environment';
 import { provideAuth,getAuth } from '@angular/fire/auth';
 import { HomeComponent } from './application/home/home.component';
 import { AuthenticationComponent } from './security/authentication/authentication.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+
 
 @NgModule({
   declarations: [
@@ -31,13 +38,18 @@ import { AuthenticationComponent } from './security/authentication/authenticatio
     AuthenticationComponent
   ],
   imports: [
+    MatButtonModule,
+    MatInputModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatMenuModule,
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    [RouterModule.forRoot(rootRouterConfig, {useHash: true}),
+    [RouterModule.forRoot(rootRouterConfig, {useHash: true})],
     provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideAuth(() => getAuth())
-  ]
+    provideAuth(() => getAuth()),
+    BrowserAnimationsModule
   ],
   providers: [
     { provide: APP_BASE_HREF,  useValue: '/' }

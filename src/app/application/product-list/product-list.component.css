@@ -1,0 +1,19 @@
+.title{
+  margin-left: 20px;
+  font-size: 24px;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+}
+.navbar-bg{
+  background-color: #4dbce9;
+}
+.navbar-btn{
+  padding: 10px;
+}
+.btn-navbar-custom{
+  border-radius: 6px;
+  font-size: 18px;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+}
+
