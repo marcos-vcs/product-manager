@@ -23,6 +23,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { NgxMaskModule } from 'ngx-mask';
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import { MatButtonModule } from '@angular/material/button';
     AuthenticationComponent
   ],
   imports: [
+    NgxMaskModule.forRoot(),
     MatButtonModule,
     MatInputModule,
     MatIconModule,

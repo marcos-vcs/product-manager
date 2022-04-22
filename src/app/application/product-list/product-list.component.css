@@ -16,4 +16,11 @@
   font-family: 'Open Sans', sans-serif;
   font-weight: 600;
 }
-
+.active-filter{
+  background-color: #4dbce9;
+  color: #fff;
+}
+.center{
+  margin: auto;
+  text-align: center;
+}
