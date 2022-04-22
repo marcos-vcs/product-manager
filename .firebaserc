@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "product-manager-dbb81": {
+      "hosting": {
+        "productMannager": [
+          "product-manager-dbb81"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "product-manager-dbb81"
+  }
+}

@@ -12,6 +12,11 @@ import { RouterModule } from '@angular/router';
 import { rootRouterConfig } from './app.routes';
 import { APP_BASE_HREF } from '@angular/common';
 import { HttpClientModule } from "@angular/common/http";
+import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { environment } from '../environments/environment';
+import { provideAuth,getAuth } from '@angular/fire/auth';
+import { HomeComponent } from './application/home/home.component';
+import { AuthenticationComponent } from './security/authentication/authentication.component';
 
 @NgModule({
   declarations: [
@@ -21,13 +26,18 @@ import { HttpClientModule } from "@angular/common/http";
     CreateComponent,
     ProductListComponent,
     ProductModalComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    HomeComponent,
+    AuthenticationComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    [RouterModule.forRoot(rootRouterConfig, {useHash: true})]
+    [RouterModule.forRoot(rootRouterConfig, {useHash: true}),
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth())
+  ]
   ],
   providers: [
     { provide: APP_BASE_HREF,  useValue: '/' }

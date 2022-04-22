@@ -98,6 +98,16 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "productMannager:build:production",
+            "firebaseProject": "product-manager-dbb81",
+            "firebaseHostingSite": "product-manager-dbb81"
+          }
         }
       }
     }
