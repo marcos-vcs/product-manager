@@ -22,6 +22,8 @@ export class ProductListComponent implements OnInit {
   filter = 'NAME';
   search = '';
   products: Product[] = [];
+  notFoundMessage = false;
+  loadState = false;
 
   constructor(
     private security: SecurityService,
@@ -35,18 +37,42 @@ export class ProductListComponent implements OnInit {
   }
 
   get(){
-    this.database.get(this.skip, this.limit).subscribe(
-      (data: Response) => {
-        data.response.forEach(element => {
-          this.products.push(element);
-          console.log(element);
-        });
-        this.max = data.quantity;
-      },
-      error => {
-        console.log(error);
-      }
-    );
+    this.products = [];
+    this.notFoundMessage = false;
+    this.loadState = true;
+
+    setTimeout(() => {
+      this.database.get(this.skip, this.limit).subscribe(
+        (data: Response) => {
+          data.response.forEach(element => {
+            this.products.push(element);
+            console.log(element);
+          });
+          this.max = data.quantity;
+
+          if(this.products.length === 0){
+            this.notFoundMessage = true;
+          }
+          this.loadState = false;
+        },
+        (error) => {
+
+          if(this.products.length === 0){
+            this.notFoundMessage = true;
+          }
+
+          this.snackbar.openSnackbarAlert('Servidor não encontrado.');
+          console.log(error);
+
+          this.loadState = false;
+
+          setTimeout(() => {
+            this.get();
+          }, 3000);
+
+        }
+      );
+    }, 1000);
   }
 
   logout(){

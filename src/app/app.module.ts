@@ -26,6 +26,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { NgxMaskModule } from 'ngx-mask';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     AuthenticationComponent
   ],
   imports: [
+    MatProgressSpinnerModule,
     MatDialogModule,
     NgxMaskModule.forRoot(),
     MatButtonModule,
