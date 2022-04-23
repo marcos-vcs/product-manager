@@ -35,3 +35,7 @@ body {
   color: white !important;
   border: none;
 }
+*:focus {
+  outline: none !important;
+  border: 0 !important;
+}

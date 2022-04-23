@@ -1,0 +1,19 @@
+.title{
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+  font-size: 22px;
+  color: #696969;
+}
+.w-70{
+  width: 70%;
+}
+.button{
+  background-color: #4DBCE9;
+  color: #fff;
+  border-radius: 10px;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  margin-top: 20px;
+  margin-left: 15%;
+}

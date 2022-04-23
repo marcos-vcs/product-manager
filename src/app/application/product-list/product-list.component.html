@@ -13,7 +13,7 @@
         <div class="collapse navbar-collapse" id="navbar">
           <ul class="navbar-nav ml-auto mt-2 mt-lg-0 ">
             <li class="nav-item navbar-btn">
-              <button type="button" class="btn btn-light btn-navbar-custom">Novo produto</button>
+              <button (click)="create();" type="button" class="btn btn-light btn-navbar-custom">Novo produto</button>
             </li>
             <li class="nav-item navbar-btn">
               <button type="button" class="btn btn-light btn-navbar-custom">Sobre</button>
@@ -67,13 +67,13 @@
     <div class="col-1"></div>
     <div class="col-md-10">
       <div class="row row-cols-1 row-cols-md-2 mt-5">
-        <div class="col mb-4 center" *ngFor="product of products" style="max-width: 420px;">
+        <div class="col mb-4 center" *ngFor="let product of products" style="max-width: 420px;">
           <div class="card card-config" style="width: 18rem;">
             <img class="card-img-top" src="..." onerror="this.onerror=null;this.src='../../../assets/not-found-product-image.png'" alt="Card image cap">
             <div class="card-body">
-              <h5 class="card-title">Notebook RV411</h5>
-              <p class="card-text">Samsung</p>
-              <p class="card-text">1099.90</p>
+              <h5 class="card-title">{{product.name | titlecase}}</h5>
+              <p class="card-text">{{product.brand | titlecase}}</p>
+              <p class="card-text">{{product.price | currency : 'BRL'}}</p>
             </div>
           </div>
         </div>

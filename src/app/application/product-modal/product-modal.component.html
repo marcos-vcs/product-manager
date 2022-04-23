@@ -1,1 +1,75 @@
-<p>product-modal works!</p>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <button (click)="onDismiss();" class="float-right" mat-icon-button aria-label="Fechar">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col title text-center">
+      <span *ngIf="data.isNew">Cadastre um novo produto</span>
+      <span *ngIf="!data.isNew">Editar produto</span>
+    </div>
+  </div>
+
+  <div class="row my-5">
+    <div class="col">
+      <form class="form" ngNativeValidation>
+
+        <div class="row">
+          <div class="col-6">
+            <img class="card-img-top" src="..." onerror="this.onerror=null;this.src='../../../assets/not-found-product-image.png'" alt="imagem do produto">
+          </div>
+          <div class="col-6">
+            
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col text-center">
+            <mat-form-field class="w-70" appearance="fill">
+              <mat-label>Nome</mat-label>
+              <input [(ngModel)]="data.product.name" name="name" type="text" matInput placeholder="Informe o nome">
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col text-center">
+            <mat-form-field class="w-70" appearance="fill">
+              <mat-label>Marca</mat-label>
+              <input [(ngModel)]="data.product.brand" name="brand" type="text" matInput placeholder="Informe a marca">
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col text-center">
+            <mat-form-field class="w-70" appearance="fill">
+              <mat-label>Preço</mat-label>
+              <input [(ngModel)]="data.product.price" mask="separator.2" [thousandSeparator]="'.'" [decimalMarker]="','" name="price" type="text" matInput placeholder="Informe o preço">
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col text-center">
+            <mat-form-field class="w-70" appearance="fill">
+              <mat-label>Descrição</mat-label>
+              <textarea [(ngModel)]="data.product.description" name="description" type="text" matInput placeholder="Descreva o produto"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <button mat-raised-button class="button">
+          <span *ngIf="data.isNew">Salvar</span>
+          <span *ngIf="!data.isNew">Editar</span>
+        </button>
+
+      </form>
+    </div>
+  </div>
+
+</div>

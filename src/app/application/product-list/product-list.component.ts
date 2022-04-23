@@ -7,6 +7,7 @@ import { Response } from 'src/app/model/response';
 import { SecurityService } from 'src/app/security/security.service';
 import { ConfirmDialogComponent, ConfirmDialogModel } from '../confirm-dialog/confirm-dialog.component';
 import { DatabaseService } from '../database.service';
+import { ProductModalComponent } from '../product-modal/product-modal.component';
 
 
 @Component({
@@ -95,21 +96,38 @@ export class ProductListComponent implements OnInit {
 
   }
 
+  async create(){
+    const product = new Product();
+    const dialogRef = this.dialog.open(ProductModalComponent, {
+      minWidth: "550px",
+      width: "900px",
+      height: "90vh",
+      disableClose: true,
+      data: {
+        product: product,
+        isNew: true
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.get();
+      }
+    });
+
+  }
 
   setFilterName(){
     this.search = '';
     this.filter = 'NAME';
   }
-
   setFilterBrand(){
     this.search = '';
     this.filter = 'BRAND';
   }
-
   setFilterPrice(){
     this.search = '';
     this.filter = 'PRICE';
   }
-
 
 }
