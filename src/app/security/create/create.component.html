@@ -1,1 +1,69 @@
-<p>create works!</p>
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+    <!-- Tabs Titles -->
+
+    <!-- Icon -->
+    <div class="fadeIn first">
+      <img src="../../../assets/login.png" id="icon" alt="User Icon">
+    </div>
+
+    <!-- Login Form -->
+    <form #form="ngForm" (ngSubmit)="onSubmit(form.value)" ngNativeValidate>
+
+      <input
+      required
+      type="text"
+      id="login"
+      class="fadeIn second"
+      name="login"
+      [(ngModel)]="name"
+      placeholder="Nome">
+
+      <input
+        required
+        type="email"
+        id="login"
+        class="fadeIn second"
+        name="login"
+        [(ngModel)]="email"
+        placeholder="Email">
+
+      <input
+        required
+        type="password"
+        id="password"
+        class="fadeIn third"
+        name="login"
+        (change)="verifyPassword()"
+        [(ngModel)]="password1"
+        placeholder="Senha">
+
+      <input
+        required
+        type="password"
+        id="password"
+        class="fadeIn third"
+        name="login"
+        (change)="verifyPassword()"
+        [(ngModel)]="password2"
+        placeholder="Confirme a senha">
+        <div *ngIf="!verifyPassword()" class="ml-5" style="text-align: left;">
+          <small>
+            As senhas devem ser iguais.
+          </small>
+        </div>
+
+      <input
+        type="submit"
+        class="fadeIn fourth mt-4"
+        value="Entrar">
+
+    </form>
+
+    <!-- Remind Passowrd -->
+    <div id="formFooter">
+      <a class="underlineHover" [routerLink]="['/login']">Já tem uma conta?</a>
+    </div>
+
+  </div>
+</div>

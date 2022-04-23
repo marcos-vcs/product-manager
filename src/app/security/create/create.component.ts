@@ -7,9 +7,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreateComponent implements OnInit {
 
+  name = '';
+  email = '';
+  password1 = '';
+  password2 = '';
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  onSubmit(form: any) {
+    if(this.verifyPassword()) {
+      console.log(form);
+    }
+  }
+
+  verifyPassword(): boolean {
+    if (this.password1 === this.password2) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
 }
