@@ -7,7 +7,7 @@ import { CreateComponent } from './security/create/create.component';
 import { ProductListComponent } from './application/product-list/product-list.component';
 import { ProductModalComponent } from './application/product-modal/product-modal.component';
 import { ConfirmDialogComponent } from './application/confirm-dialog/confirm-dialog.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { rootRouterConfig } from './app.routes';
 import { APP_BASE_HREF } from '@angular/common';
@@ -27,10 +27,11 @@ import { NgxMaskModule } from 'ngx-mask';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-
-
+import { AngularFireModule } from '@angular/fire/compat';
 import ptBr from '@angular/common/locales/pt';
 import { registerLocaleData } from '@angular/common';
+import { AngularFireStorageModule, BUCKET } from '@angular/fire/compat/storage';
+import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 registerLocaleData(ptBr);
 
 @NgModule({
@@ -46,6 +47,8 @@ registerLocaleData(ptBr);
     AuthenticationComponent
   ],
   imports: [
+    ReactiveFormsModule,
+    NgxMatFileInputModule,
     MatProgressSpinnerModule,
     MatDialogModule,
     NgxMaskModule.forRoot(),
@@ -60,13 +63,16 @@ registerLocaleData(ptBr);
     HttpClientModule,
     [RouterModule.forRoot(rootRouterConfig, {useHash: true})],
     provideFirebaseApp(() => initializeApp(environment.firebase)),
+    AngularFireModule.initializeApp(environment.firebase),
     provideAuth(() => getAuth()),
+    AngularFireStorageModule,
     BrowserAnimationsModule
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'pt' },
     { provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' },
-    { provide: APP_BASE_HREF,  useValue: '/' }
+    { provide: APP_BASE_HREF,  useValue: '/' },
+    { provide: BUCKET, useValue: 'gs://product-manager-dbb81.appspot.com' }
   ],
   bootstrap: [AppComponent]
 })

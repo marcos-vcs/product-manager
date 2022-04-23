@@ -88,5 +88,12 @@
       <button *ngIf="products.length !== max" type="button" class="btn btn-primary see-more">Veja mais</button>
     </div>
   </div>
+  <div class="row text-center" style="margin-top: -50px; margin-bottom: 100px;">
+    <div class="col">
+      <span *ngIf="products.length === max && !loadState" class="allProducts">
+        Todos os produtos foram carregados!
+      </span>
+    </div>
+  </div>
   <div class="col-1"></div>
 </div>

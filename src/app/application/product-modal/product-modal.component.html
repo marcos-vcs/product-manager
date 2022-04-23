@@ -18,12 +18,23 @@
     <div class="col">
       <form class="form" ngNativeValidation>
 
-        <div class="row">
+        <div class="row mb-5">
           <div class="col-6">
-            <img class="card-img-top" src="..." onerror="this.onerror=null;this.src='../../../assets/not-found-product-image.png'" alt="imagem do produto">
+            <mat-spinner *ngIf="!isPhoto" class="mx-auto"></mat-spinner>
+            <img *ngIf="isPhoto" class="card-img-top" src="{{this.data.product.url}}" onerror="this.onerror=null;this.src='../../../assets/not-found-product-image.png'" alt="imagem do produto">
           </div>
           <div class="col-6">
-            
+            <mat-form-field class="file-input">
+              <ngx-mat-file-input
+                (change)="setPhoto()"
+                [formControl]="fileControl"
+                placeholder="Selecione uma imagem"
+                [multiple]="false"
+                [accept]="'image/png, image/jpeg'"
+                [color]="color">
+                 <mat-icon style="font-size: 26px;" ngxMatFileInputIcon>image_search</mat-icon>
+              </ngx-mat-file-input>
+           </mat-form-field>
           </div>
         </div>
 

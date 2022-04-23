@@ -47,7 +47,6 @@ export class ProductListComponent implements OnInit {
         (data: Response) => {
           data.response.forEach(element => {
             this.products.push(element);
-            console.log(element);
           });
           this.max = data.quantity;
 
