@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { SnackbarService } from 'src/app/geral/snackbar.service';
+import { SecurityService } from '../security.service';
 
 @Component({
   selector: 'app-create',
@@ -12,14 +15,27 @@ export class CreateComponent implements OnInit {
   password1 = '';
   password2 = '';
 
-  constructor() { }
+  constructor(
+    private router: Router,
+    private snackbar: SnackbarService,
+    private security: SecurityService
+  ) { }
 
   ngOnInit(): void {
   }
 
   onSubmit(form: any) {
-    if(this.verifyPassword()) {
-      console.log(form);
+    if(this.verifyPassword() &&
+       this.name.length > 0 &&
+       this.email.length > 0 &&
+       this.password1.length > 0 &&
+       this.password2.length > 0 &&
+       this.password1 === this.password2) {
+      this.security.createUser(this.name, this.email, this.password1);
+      this.snackbar.openSnackbarSuccess('Cadastro realizado com sucesso!');
+      setTimeout(() => {
+        this.router.navigate(['/login']);
+      } , 2000);
     }
   }
 

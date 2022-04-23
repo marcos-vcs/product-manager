@@ -4,7 +4,7 @@
 
     <!-- Icon -->
     <div class="fadeIn first">
-      <img src="../../../assets/login.png" id="icon" alt="User Icon">
+      <img src="../../../assets/create.png" id="icon" alt="User Icon">
     </div>
 
     <!-- Login Form -->
@@ -47,16 +47,21 @@
         (change)="verifyPassword()"
         [(ngModel)]="password2"
         placeholder="Confirme a senha">
-        <div *ngIf="!verifyPassword()" class="ml-5" style="text-align: left;">
-          <small>
+        <div *ngIf="!verifyPassword() && password1.length > 0 && password2.length > 0" class="ml-5" style="text-align: left;">
+          <small style="color: rgb(255, 0, 0);">
             As senhas devem ser iguais.
+          </small>
+        </div>
+        <div *ngIf="verifyPassword() && password1.length < 8 && password1.length > 0 && password2.length > 0" class="ml-5" style="text-align: left;">
+          <small style="color: rgb(255, 0, 0);">
+            A senha deve ter no mínimo 8 caracteres.
           </small>
         </div>
 
       <input
         type="submit"
         class="fadeIn fourth mt-4"
-        value="Entrar">
+        value="Cadastre-se">
 
     </form>
 
