@@ -7,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RecoveryComponent implements OnInit {
 
+  email = '';
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  onSubmit(form: any) {
+    console.log(form);
   }
 
 }

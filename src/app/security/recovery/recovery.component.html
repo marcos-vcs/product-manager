@@ -1,1 +1,35 @@
-<p>recovery works!</p>
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+    <!-- Tabs Titles -->
+
+    <!-- Icon -->
+    <div class="fadeIn first">
+      <img src="../../../assets/login.png" id="icon" alt="User Icon">
+    </div>
+
+    <!-- Login Form -->
+    <form #form="ngForm" (ngSubmit)="onSubmit(form.value)" ngNativeValidate>
+
+      <input
+        required
+        type="email"
+        id="login"
+        class="fadeIn second"
+        name="login"
+        [(ngModel)]="email"
+        placeholder="Email">
+
+      <input
+        type="submit"
+        class="fadeIn fourth mt-4"
+        value="Enviar">
+
+    </form>
+
+    <!-- Remind Passowrd -->
+    <div id="formFooter">
+      <a class="underlineHover" [routerLink]="['/login']">Lembrou a senha?</a>
+    </div>
+
+  </div>
+</div>

@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid" style="background-color: #EEEEEE;">
   <div class="row">
     <div class="col">
       <nav class="navbar navbar-expand-lg navbar-dark navbar-bg">
@@ -27,8 +27,9 @@
 
     </div>
   </div>
+
   <div class="row justify-content-center">
-    <div class="col-lg-10 mt-5 center">
+    <div class="col-lg-8 mt-5 center">
         <button mat-raised-button class="ml-3" style="border-radius: 100px; margin-right: -30px;" [matMenuTriggerFor]="beforeMenu"><mat-icon>filter_list</mat-icon></button>
         <mat-menu #beforeMenu="matMenu" xPosition="before">
           <button [ngClass]="{'active-filter': filter === 'NAME'}" (click)="setFilterName();" mat-menu-item>Nome (Padrão)</button>
@@ -36,7 +37,7 @@
           <button [ngClass]="{'active-filter': filter === 'PRICE'}" (click)="setFilterPrice();" mat-menu-item>Preço</button>
         </mat-menu>
 
-        <mat-form-field class="ml-5" style="width: 550px">
+        <mat-form-field class="ml-5" style="width: 70%">
           <span matPrefix></span>
 
           <input *ngIf="filter === 'PRICE'" type="text" mask="separator.2" [thousandSeparator]="'.'" [decimalMarker]="','" prefix="R$ " matInput placeholder="Buscar" name= "search" [(ngModel)]="search">
@@ -46,4 +47,31 @@
         </mat-form-field>
       </div>
   </div>
+
+  <div class="row">
+    <div class="col-1"></div>
+    <div class="col-md-10">
+      <div class="row row-cols-1 row-cols-md-2 mt-5">
+        <div class="col mb-4 center" *ngFor="product of products" style="max-width: 420px;">
+          <div class="card card-config" style="width: 18rem;">
+            <img class="card-img-top" src="..." onerror="this.onerror=null;this.src='../../../assets/not-found-product-image.png'" alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">Notebook RV411</h5>
+              <p class="card-text">Samsung</p>
+              <p class="card-text">1099.90</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-1"></div>
+  </div>
+
+  <div class="row">
+    <div class="col-1"></div>
+    <div class="col-lg-10 mt-3 mb-5 ml-4">
+      <button *ngIf="products.length !== max" type="button" class="btn btn-primary see-more">Veja mais</button>
+    </div>
+  </div>
+  <div class="col-1"></div>
 </div>
