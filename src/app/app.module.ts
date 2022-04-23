@@ -24,6 +24,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { NgxMaskModule } from 'ngx-mask';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import { NgxMaskModule } from 'ngx-mask';
   imports: [
     NgxMaskModule.forRoot(),
     MatButtonModule,
+    MatSnackBarModule,
     MatInputModule,
     MatIconModule,
     MatFormFieldModule,
