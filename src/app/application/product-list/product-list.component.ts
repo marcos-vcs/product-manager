@@ -117,6 +117,25 @@ export class ProductListComponent implements OnInit {
 
   }
 
+  async edit(product: Product){
+    const dialogRef = this.dialog.open(ProductModalComponent, {
+      minWidth: "550px",
+      width: "900px",
+      height: "90vh",
+      disableClose: true,
+      data: {
+        product: product,
+        isNew: false
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.get();
+      }
+    });
+  }
+
   setFilterName(){
     this.search = '';
     this.filter = 'NAME';
