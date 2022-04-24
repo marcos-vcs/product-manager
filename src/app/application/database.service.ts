@@ -30,7 +30,7 @@ export class DatabaseService {
 
   search(skip: number, limit: number, filter: string, search: string): Observable<Response>{
     return this.http.get<Response>(
-      `${environment.api}?skip=${skip}&limit=${limit}&filter=${filter}&search=${search}`
+      `${environment.api}/search?skip=${skip}&limit=${limit}&filter=${filter}&search=${search}`
     );
   }
 

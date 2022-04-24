@@ -40,10 +40,29 @@
         <mat-form-field class="ml-5" style="width: 70%">
           <span matPrefix></span>
 
-          <input *ngIf="filter === 'PRICE'" type="text" mask="separator.2" [thousandSeparator]="'.'" [decimalMarker]="','" prefix="R$ " matInput placeholder="Buscar" name= "search" [(ngModel)]="search">
+          <input
+            (input)="find()"
+            *ngIf="filter === 'PRICE'"
+            type="text"
+            mask="separator.2"
+            [thousandSeparator]="'.'"
+            [decimalMarker]="','"
+            prefix="R$ "
+            matInput
+            placeholder="Buscar"
+            name= "search"
+            [(ngModel)]="search">
 
-          <input *ngIf="filter !== 'PRICE'" type="text" matInput placeholder="Buscar" name= "search" [(ngModel)]="search">
-          <button matSuffix mat-button><mat-icon >search</mat-icon></button>
+          <input
+            (input)="find()"
+            *ngIf="filter !== 'PRICE'"
+            type="text"
+            matInput
+            placeholder="Buscar"
+            name= "search"
+            [(ngModel)]="search">
+
+          <button (click)="find()" matSuffix mat-button><mat-icon >search</mat-icon></button>
         </mat-form-field>
       </div>
   </div>
@@ -66,9 +85,9 @@
   <div class="row">
     <div class="col-1"></div>
     <div class="col-md-10">
-      <div class="row row-cols-1 row-cols-md-2 mt-5">
-        <div class="col mb-4 center" *ngFor="let product of products" style="max-width: 320px">
-          <div class="card card-config" (click)="edit(product)">
+      <div class="row row-cols-1 row-cols-md-2 mt-5 center">
+        <div class="col mb-4 mx-3" *ngFor="let product of products" style="max-width: 300px;">
+          <div class="card card-config center" (click)="edit(product)">
 
             <img
               class="card-img-top"
@@ -86,6 +105,13 @@
 
           </div>
         </div>
+
+        <div *ngIf="loadMore" class="row justify-content-center">
+          <div class="col-lg-10 mt-5">
+            <mat-spinner class="mx-auto"></mat-spinner>
+          </div>
+        </div>
+
       </div>
     </div>
     <div class="col-1"></div>
@@ -94,7 +120,23 @@
   <div class="row">
     <div class="col-1"></div>
     <div class="col-lg-10 mt-3 mb-5 ml-4">
-      <button *ngIf="products.length < max" type="button" class="btn btn-primary see-more">Veja mais</button>
+
+      <button
+        (click)="load()"
+        *ngIf="products.length < max && products.length !== 0 && !search"
+        type="button"
+        class="btn btn-primary see-more">
+          Veja mais
+      </button>
+
+      <button
+        (click)="loadFind()"
+        *ngIf="products.length < max && products.length !== 0 && search"
+        type="button"
+        class="btn btn-primary see-more">
+          Veja mais
+      </button>
+
     </div>
   </div>
   <div class="row text-center" style="margin-top: -50px; margin-bottom: 100px;">

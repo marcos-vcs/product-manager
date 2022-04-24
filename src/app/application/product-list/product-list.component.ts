@@ -25,6 +25,7 @@ export class ProductListComponent implements OnInit {
   products: Product[] = [];
   notFoundMessage = false;
   loadState = false;
+  loadMore = false;
 
   constructor(
     private security: SecurityService,
@@ -38,6 +39,8 @@ export class ProductListComponent implements OnInit {
   }
 
   get(){
+    this.skip = 0;
+    this.limit = 10;
     this.products = [];
     this.notFoundMessage = false;
     this.loadState = true;
@@ -74,6 +77,92 @@ export class ProductListComponent implements OnInit {
         }
       );
     }, 1000);
+  }
+
+  load(){
+    this.skip += this.limit;
+    this.loadMore = true;
+    setTimeout(() => {
+      this.database.get(this.skip, this.limit).subscribe(
+        (data: Response) => {
+          data.response.forEach(element => {
+            this.products.push(element);
+          });
+          this.max = data.quantity;
+          this.loadMore = false;
+          this.snackbar.openSnackbarSuccess('Produtos carregados com sucesso.');
+        },
+        (error) => {
+          this.snackbar.openSnackbarAlert('Não foi possível carregar os produtos.');
+          console.log(error);
+          this.loadMore = false;
+        }
+      );
+    } , 1000);
+  }
+
+  find(){
+    this.skip = 0;
+    this.limit = 10;
+    this.max = 0;
+    this.loadState = true;
+    this.notFoundMessage = false;
+    this.products = [];
+
+
+    setTimeout(() => {
+
+      if(this.search === ''){
+        this.get();
+      }else{
+        this.database.search(this.skip, this.limit, this.filter, this.search).subscribe(
+          (data: Response) => {
+            this.products = [];
+            data.response.forEach(element => {
+              this.products.push(element);
+            });
+            this.max = data.quantity;
+
+            if(this.products.length === 0){
+              this.notFoundMessage = true;
+            }
+
+            this.loadState = false;
+          }, (error) => {
+            this.snackbar.openSnackbarAlert('Servidor não encontrado.');
+            console.log(error);
+            this.loadState = false;
+            this.notFoundMessage = true;
+          }
+        );
+      }
+
+    } , 1000);
+
+  }
+
+  loadFind(){
+
+    this.skip += this.limit;
+    this.loadMore = true;
+    setTimeout(() => {
+      this.database.search(this.skip, this.limit, this.filter, this.search).subscribe(
+        (data: Response) => {
+          data.response.forEach(element => {
+            this.products.push(element);
+          });
+          this.max = data.quantity;
+          this.loadMore = false;
+          this.snackbar.openSnackbarSuccess('Produtos carregados com sucesso.');
+        },
+        (error) => {
+          this.snackbar.openSnackbarAlert('Não foi possível carregar os produtos.');
+          console.log(error);
+          this.loadMore = false;
+        }
+      );
+    } , 1000);
+
   }
 
   logout(){
@@ -138,14 +227,17 @@ export class ProductListComponent implements OnInit {
 
   setFilterName(){
     this.search = '';
+    this.get();
     this.filter = 'NAME';
   }
   setFilterBrand(){
     this.search = '';
+    this.get();
     this.filter = 'BRAND';
   }
   setFilterPrice(){
     this.search = '';
+    this.get();
     this.filter = 'PRICE';
   }
 
