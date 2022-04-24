@@ -45,6 +45,7 @@ public class ProductManagerService implements CrudInterface<Product> {
             Query query = new Query(Criteria.where("code").is(obj.getCode()));
             Update update = new Update()
                     .set("name", obj.getName())
+                    .set("url", obj.getUrl())
                     .set("brand", obj.getBrand())
                     .set("price", obj.getPrice());
             long modifications = this.template.updateFirst(query, update, Product.class).getModifiedCount();

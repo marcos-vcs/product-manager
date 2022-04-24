@@ -18,12 +18,14 @@ public class Product {
 
     @Id
     private String code;
+    private String url;
     @NotBlank
     @NotNull
     private String name;
     @NotBlank
     @NotNull
     private String brand;
+    private String description;
     @Min(0)
     private double price;
 
