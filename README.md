@@ -5,19 +5,19 @@ ___
 #### Technologies used in development
 ###### Front-end
 
-Angular
-Typescript
-Angular material
-Bootstrap 4.5
-Google fonts
+* Angular
+* Typescript
+* Angular material
+* Bootstrap 4.5
+* Google fonts
 
 ###### Back-end
 
-Java 11
-Spring boot
-Spring data mongoDb
-Spring validation
-MongoDb atlas
+* Java 11
+* Spring boot
+* Spring data mongoDb
+* Spring validation
+* MongoDb atlas
 
 ---
 
