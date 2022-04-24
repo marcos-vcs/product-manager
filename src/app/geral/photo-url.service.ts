@@ -7,6 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 export class PhotoUrlService {
 
   photoUrl = new BehaviorSubject('');
+  deleteState = new BehaviorSubject(false);
 
   constructor() { }
 }

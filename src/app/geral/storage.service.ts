@@ -42,5 +42,10 @@ export class StorageService {
 
   }
 
+  delete(url: string){
+    this.storage.storage.refFromURL(url).delete();
+    this.photoUrl.deleteState.next(true);
+  }
+
 
 }

@@ -7,3 +7,11 @@ export class Response {
   message!: string;
 
 }
+
+export class ResponseCreate {
+
+  quantity!: number;
+  response!: Product;
+  message!: string;
+
+}

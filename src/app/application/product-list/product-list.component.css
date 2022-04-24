@@ -61,5 +61,9 @@
   font-weight: 600;
   font-size: 18px;
 }
-
+.text-config{
+  width: 100%;
+  bottom: 0;
+  position: absolute;
+}
 

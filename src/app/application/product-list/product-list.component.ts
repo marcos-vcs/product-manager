@@ -41,6 +41,7 @@ export class ProductListComponent implements OnInit {
     this.products = [];
     this.notFoundMessage = false;
     this.loadState = true;
+    this.max = 0;
 
     setTimeout(() => {
       this.database.get(this.skip, this.limit).subscribe(

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Product } from '../model/product';
-import { Response } from '../model/response';
+import { Response, ResponseCreate } from '../model/response';
 
 @Injectable({
   providedIn: 'root'
@@ -12,16 +12,16 @@ export class DatabaseService {
 
   constructor(private http: HttpClient) { }
 
-  create(product: Product): Observable<Response>{
-    return this.http.post<Response>(`${environment.api}`, product);
+  create(product: Product): Observable<ResponseCreate>{
+    return this.http.post<ResponseCreate>(`${environment.api}`, product);
   }
 
-  update(product: Product): Observable<Response>{
-    return this.http.put<Response>(`${environment.api}`, product);
+  update(product: Product): Observable<ResponseCreate>{
+    return this.http.put<ResponseCreate>(`${environment.api}`, product);
   }
 
-  delete(code: string): Observable<Response>{
-    return this.http.delete<Response>(`${environment.api}?code=${code}`);
+  delete(code: string): Observable<ResponseCreate>{
+    return this.http.delete<ResponseCreate>(`${environment.api}?code=${code}`);
   }
 
   get(skip: number, limit: Number): Observable<Response>{

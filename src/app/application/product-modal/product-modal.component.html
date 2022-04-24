@@ -14,19 +14,31 @@
     </div>
   </div>
 
-  <div class="row my-5">
+
+  <div class="row">
+    <mat-spinner class="mx-auto my-5" *ngIf="isSave"></mat-spinner>
+  </div>
+
+  <div class="row my-5" *ngIf="!isSave">
     <div class="col">
       <form class="form" ngNativeValidation>
 
         <div class="row mb-5">
           <div class="col-6">
             <mat-spinner *ngIf="!isPhoto" class="mx-auto"></mat-spinner>
-            <img *ngIf="isPhoto" class="card-img-top" src="{{this.data.product.url}}" onerror="this.onerror=null;this.src='../../../assets/not-found-product-image.png'" alt="imagem do produto">
+            <img
+            width="70%"
+            height="250px"
+            *ngIf="isPhoto"
+            class="card-img-top"
+            src="{{this.imgURL}}"
+            onerror="this.onerror=null;this.src='../../../assets/not-found-product-image.png'"
+            alt="imagem do produto">
           </div>
           <div class="col-6">
             <mat-form-field class="file-input">
               <ngx-mat-file-input
-                (change)="setPhoto()"
+                (change)="preview()"
                 [formControl]="fileControl"
                 placeholder="Selecione uma imagem"
                 [multiple]="false"
@@ -74,7 +86,7 @@
           </div>
         </div>
 
-        <button mat-raised-button class="button">
+        <button (click)="onSubmit()" mat-raised-button class="button">
           <span *ngIf="data.isNew">Salvar</span>
           <span *ngIf="!data.isNew">Editar</span>
         </button>
