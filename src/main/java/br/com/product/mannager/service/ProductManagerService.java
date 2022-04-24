@@ -106,7 +106,7 @@ public class ProductManagerService implements CrudInterface<Product> {
         try{
 
             Query query = new Query(Criteria.where(filter.getFilter()).regex(".*"+search+".*", "i"));
-            query.with(Sort.by(Sort.Direction.DESC, "code"));
+            query.with(Sort.by(Sort.Direction.ASC, "name"));
             if(limit > 100){
                 limit = 100;
             }
@@ -115,7 +115,7 @@ public class ProductManagerService implements CrudInterface<Product> {
             List<Product> products = new ArrayList<>(this.template.find(query, Product.class));
 
             response.setResponse(products);
-            response.setQuantity(getQuantity());
+            response.setQuantity(this.template.count(new Query(Criteria.where(filter.getFilter()).regex(".*"+search+".*", "i")), Product.class));
             response.setMessage("OK");
             return response;
 
