@@ -124,6 +124,14 @@
             <div class="card-body text-config">
               <h5 class="card-title">{{product.name | titlecase}}</h5>
               <p class="card-text">{{product.brand | titlecase}}</p>
+              <p class="card-text">
+                <span *ngIf="product.quantity > 0">
+                  {{product.quantity}} em Estoque
+                </span>
+                <span *ngIf="product.quantity <= 0">
+                  Nenhum em Estoque
+                </span>
+              </p>
               <p class="card-text">{{product.price | currency : 'BRL'}}</p>
             </div>
 
