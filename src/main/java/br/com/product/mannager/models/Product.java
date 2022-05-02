@@ -28,5 +28,7 @@ public class Product {
     private String description;
     @Min(0)
     private double price;
+    @Min(0)
+    private int quantity;
 
 }
