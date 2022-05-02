@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
+import { DatabaseService } from 'src/app/application/database.service';
 import { SnackbarService } from 'src/app/geral/snackbar.service';
+import { User } from 'src/app/model/user';
 import { SecurityService } from '../security.service';
 
 @Component({
@@ -18,6 +21,8 @@ export class CreateComponent implements OnInit {
   constructor(
     private router: Router,
     private snackbar: SnackbarService,
+    private auth: AngularFireAuth,
+    private database: DatabaseService,
     private security: SecurityService
   ) { }
 
@@ -31,11 +36,42 @@ export class CreateComponent implements OnInit {
        this.password1.length > 0 &&
        this.password2.length > 0 &&
        this.password1 === this.password2) {
-      this.security.createUser(this.name, this.email, this.password1);
-      this.snackbar.openSnackbarSuccess('Cadastro realizado com sucesso!');
-      setTimeout(() => {
-        this.router.navigate(['/login']);
-      } , 2000);
+          setTimeout(() => {
+
+
+            try{
+              this.auth.signInWithEmailAndPassword(this.email, this.password1).then((response) => {
+
+              });
+            }catch(error){
+              this.snackbar.openSnackbarAlert("Erro ao criar usuário");
+            }
+
+              this.auth.signInWithEmailAndPassword(this.email, this.password1).then(
+                (response) => {
+                  if(response.user) {
+
+                    let user = new User();
+                    user.name = this.name;
+                    user.email = this.email;
+                    user.uid = response.user.uid;
+
+                    this.database.createUser(user).subscribe(
+                      (responseUser) => {
+                        console.log(responseUser);
+                        this.security.login(this.email, this.password1);
+                        this.router.navigate(['/']);
+                      }
+                    );
+                  }
+
+                  this.snackbar.openSnackbarSuccess('Cadastro realizado com sucesso!');
+                }, (error) => {
+                  console.log(error);
+                  this.snackbar.openSnackbarAlert('Erro ao cadastrar usuário!');
+                }
+              );
+          } , 2000);
     }
   }
 

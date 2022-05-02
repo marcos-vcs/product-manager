@@ -63,19 +63,23 @@ export class ProductModalComponent implements OnInit {
   }
 
   private async setPhoto(code: string, product: Product){
-    const file = this.files[0];
-    await this.storage.upload(file, code);
-    this.photoUrl.photoUrl.subscribe(url => {
-      product.url = url;
-      console.log(product);
-      this.database.update(product).subscribe(() => {
-        setTimeout(() => {
-          this.isSave = false;
-          this.dialogRef.close(true);
-        }, 5000);
-      });
-    });
 
+    if(this.imgURL){
+      const file = this.files[0];
+      await this.storage.upload(file, code);
+      this.photoUrl.photoUrl.subscribe(url => {
+        product.url = url;
+        console.log(product);
+        this.database.update(product).subscribe(() => {
+          setTimeout(() => {
+            this.isSave = false;
+            this.dialogRef.close(true);
+          }, 5000);
+        });
+      });
+    }else{
+      this.dialogRef.close(true);
+    }
   }
 
   preview() {
@@ -96,10 +100,17 @@ export class ProductModalComponent implements OnInit {
   }
 
   onSubmit(){
-    if (this.data.isNew) {
-      this.save();
+    console.log(this.product);
+    if(this.product.name !== undefined && this.product.name !== '' ||
+    this.product.brand !== undefined && this.product.brand !== '' ||
+       this.product.price >= 0 ){
+      if (this.data.isNew) {
+        this.save();
+      }else{
+        this.update();
+      }
     }else{
-      this.update();
+      this.snackbar.openSnackbarAlert('Não foi possível salvar o produto, verifique os dados!');
     }
   }
 
@@ -115,7 +126,11 @@ export class ProductModalComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(dialogResult => {
-      if(dialogResult && code && url){
+      if(dialogResult && code){
+
+        if(url === undefined){
+          url = '';
+        }
         this.delete(code, url);
       }else if(!code){
         this.snackbar.openSnackbarAlert('Não foi possível excluir o produto, identificador não encontrado!');
@@ -129,9 +144,7 @@ export class ProductModalComponent implements OnInit {
   private delete(code: string, url: string){
     this.isSave = true;
 
-    try{
-      this.storage.delete(url);
-      this.snackbar.openSnackbarSuccess('Foto do produto excluída com sucesso!');
+    if(url === '' || url === null){
 
       this.database.delete(code).subscribe((response) => {
         this.snackbar.openSnackbarSuccess('Produto excluído com sucesso!');
@@ -143,26 +156,54 @@ export class ProductModalComponent implements OnInit {
         this.snackbar.openSnackbarAlert("Erro ao deletar produto!");
       });
 
-    }catch(error){
-      this.isSave = false;
-      this.snackbar.openSnackbarAlert("Erro ao excluir foto!");
-      console.log(error);
+    }else{
+
+      try{
+        this.storage.delete(url);
+        this.snackbar.openSnackbarSuccess('Foto do produto excluída com sucesso!');
+
+        this.database.delete(code).subscribe((response) => {
+          this.snackbar.openSnackbarSuccess('Produto excluído com sucesso!');
+          setTimeout(() => {
+            this.dialogRef.close(true);
+          } , 2000);
+        }, (error) => {
+          console.log(error);
+          this.snackbar.openSnackbarAlert("Erro ao deletar produto!");
+        });
+
+      }catch(error){
+        this.isSave = false;
+        this.snackbar.openSnackbarAlert("Erro ao excluir foto!");
+        console.log(error);
+      }
+
     }
 
   }
 
   private save(){
-    this.isSave = true;
-    this.database.create(this.product).subscribe((response) => {
-      if(response.response.code){
-        this.setPhoto(response.response.code, response.response);
-      }
-      this.snackbar.openSnackbarSuccess('Produto salvo com sucesso!');
 
-    }, (error) => {
-      this.snackbar.openSnackbarAlert(error.message);
-      console.log(error);
-    });
+    if(this.product){
+
+      this.isSave = true;
+      this.database.create(this.product).subscribe((response) => {
+        if(response.response.code){
+          this.setPhoto(response.response.code, response.response);
+        }
+
+        this.snackbar.openSnackbarSuccess('Produto salvo com sucesso!');
+
+      }, (error) => {
+
+        this.snackbar.openSnackbarAlert(error.message);
+        console.log(error);
+      });
+
+    }else{
+      this.snackbar.openSnackbarAlert('Não foi possível salvar o produto, verifique os dados!');
+    }
+
   }
 
   private update(){

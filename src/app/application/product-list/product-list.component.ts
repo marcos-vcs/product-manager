@@ -70,10 +70,6 @@ export class ProductListComponent implements OnInit {
 
           this.loadState = false;
 
-          setTimeout(() => {
-            this.get();
-          }, 3000);
-
         }
       );
     }, 1000);

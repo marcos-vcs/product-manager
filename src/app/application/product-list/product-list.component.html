@@ -30,11 +30,35 @@
 
   <div class="row justify-content-center">
     <div class="col-lg-8 mt-5 center">
-        <button mat-raised-button class="ml-3" style="border-radius: 100px; margin-right: -30px;" [matMenuTriggerFor]="beforeMenu"><mat-icon>filter_list</mat-icon></button>
+
+        <button
+        mat-raised-button
+        class="ml-3 filter-set"
+        [matMenuTriggerFor]="beforeMenu"
+          ><mat-icon>filter_list</mat-icon>
+        </button>
+
         <mat-menu #beforeMenu="matMenu" xPosition="before">
-          <button [ngClass]="{'active-filter': filter === 'NAME'}" (click)="setFilterName();" mat-menu-item>Nome (Padrão)</button>
-          <button [ngClass]="{'active-filter': filter === 'BRAND'}" (click)="setFilterBrand();" mat-menu-item>Marca</button>
-          <button [ngClass]="{'active-filter': filter === 'PRICE'}" (click)="setFilterPrice();" mat-menu-item>Preço</button>
+          <button
+          [ngClass]="{'active-filter': filter === 'NAME'}"
+          (click)="setFilterName();"
+          mat-menu-item>
+            Nome (Padrão)
+          </button>
+
+          <button
+          [ngClass]="{'active-filter': filter === 'BRAND'}"
+          (click)="setFilterBrand();"
+          mat-menu-item>
+            Marca
+          </button>
+
+          <button
+          [ngClass]="{'active-filter': filter === 'PRICE'}"
+          (click)="setFilterPrice();"
+          mat-menu-item>
+            Preço
+          </button>
         </mat-menu>
 
         <mat-form-field class="ml-5" style="width: 70%">

@@ -13,7 +13,8 @@ export const environment = {
     measurementId: 'G-M6GHH1D9H4',
   },
   production: false,
-  api: 'http://localhost:8080/api/product-manager'
+  api: 'http://localhost:8080/api/product-manager',
+  apiUser: 'http://localhost:8080/api/user'
 };
 
 /*
