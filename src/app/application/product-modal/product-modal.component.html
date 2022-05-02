@@ -65,7 +65,12 @@
           <div class="col text-center">
             <mat-form-field class="w-70" appearance="fill">
               <mat-label>Nome</mat-label>
-              <input [(ngModel)]="product.name" name="name" type="text" matInput placeholder="Informe o nome">
+              <input
+              [(ngModel)]="product.name"
+              name="name"
+              type="text"
+              matInput
+              placeholder="Informe o nome">
             </mat-form-field>
           </div>
         </div>
@@ -74,7 +79,27 @@
           <div class="col text-center">
             <mat-form-field class="w-70" appearance="fill">
               <mat-label>Marca</mat-label>
-              <input [(ngModel)]="product.brand" name="brand" type="text" matInput placeholder="Informe a marca">
+              <input
+              [(ngModel)]="product.brand"
+              name="brand"
+              type="text"
+              matInput
+              placeholder="Informe a marca">
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col text-center">
+            <mat-form-field class="w-70" appearance="fill">
+              <mat-label>Quantidade</mat-label>
+              <input
+              [(ngModel)]="product.quantity"
+              mask="9999999"
+              name="quantity"
+              type="text"
+              matInput
+              placeholder="Informe a quantidade">
             </mat-form-field>
           </div>
         </div>
@@ -83,7 +108,15 @@
           <div class="col text-center">
             <mat-form-field class="w-70" appearance="fill">
               <mat-label>Preço</mat-label>
-              <input [(ngModel)]="product.price" mask="separator.2" [thousandSeparator]="'.'" [decimalMarker]="','" name="price" type="text" matInput placeholder="Informe o preço">
+              <input
+              [(ngModel)]="product.price"
+              mask="separator.2"
+              [thousandSeparator]="'.'"
+              [decimalMarker]="','"
+              name="price"
+              type="text"
+              matInput
+              placeholder="Informe o preço">
             </mat-form-field>
           </div>
         </div>
@@ -92,7 +125,13 @@
           <div class="col text-center">
             <mat-form-field class="w-70" appearance="fill">
               <mat-label>Descrição</mat-label>
-              <textarea [(ngModel)]="product.description" name="description" type="text" matInput placeholder="Descreva o produto"></textarea>
+              <textarea
+                [(ngModel)]="product.description"
+                name="description"
+                type="text"
+                matInput
+                placeholder="Descreva o produto">
+              </textarea>
             </mat-form-field>
           </div>
         </div>
