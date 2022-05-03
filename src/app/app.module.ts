@@ -32,6 +32,7 @@ import ptBr from '@angular/common/locales/pt';
 import { registerLocaleData } from '@angular/common';
 import { AngularFireStorageModule, BUCKET } from '@angular/fire/compat/storage';
 import { NgxMatFileInputModule } from '@angular-material-components/file-input';
+import { AboutComponent } from './application/about/about.component';
 registerLocaleData(ptBr);
 
 @NgModule({
@@ -44,7 +45,8 @@ registerLocaleData(ptBr);
     ProductModalComponent,
     ConfirmDialogComponent,
     HomeComponent,
-    AuthenticationComponent
+    AuthenticationComponent,
+    AboutComponent
   ],
   imports: [
     ReactiveFormsModule,

@@ -5,6 +5,7 @@ import { SnackbarService } from 'src/app/geral/snackbar.service';
 import { Product } from 'src/app/model/product';
 import { Response } from 'src/app/model/response';
 import { SecurityService } from 'src/app/security/security.service';
+import { AboutComponent } from '../about/about.component';
 import { ConfirmDialogComponent, ConfirmDialogModel } from '../confirm-dialog/confirm-dialog.component';
 import { DatabaseService } from '../database.service';
 import { ProductModalComponent } from '../product-modal/product-modal.component';
@@ -36,6 +37,14 @@ export class ProductListComponent implements OnInit {
 
   ngOnInit(): void {
     this.get();
+  }
+
+  async openAbout(){
+    const dialogRef = this.dialog.open(AboutComponent, {
+      minWidth: "550px",
+      width: "900px",
+      maxHeight: "90vh"
+    });
   }
 
   get(){

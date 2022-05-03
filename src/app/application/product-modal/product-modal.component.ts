@@ -74,7 +74,7 @@ export class ProductModalComponent implements OnInit {
           setTimeout(() => {
             this.isSave = false;
             this.dialogRef.close(true);
-          }, 5000);
+          }, 2000);
         });
       });
     }else{
@@ -139,6 +139,11 @@ export class ProductModalComponent implements OnInit {
       }
     });
 
+  }
+
+  onDismiss(): void {
+    // Close the dialog, return false
+    this.dialogRef.close(false);
   }
 
   private delete(code: string, url: string){
@@ -223,11 +228,6 @@ export class ProductModalComponent implements OnInit {
       this.snackbar.openSnackbarAlert(error.message);
       console.log(error);
     });
-  }
-
-  onDismiss(): void {
-    // Close the dialog, return false
-    this.dialogRef.close(false);
   }
 
 }
