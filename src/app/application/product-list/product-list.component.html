@@ -3,7 +3,7 @@
     <div class="col">
       <nav class="navbar navbar-expand-lg navbar-dark navbar-bg">
         <a class="navbar-brand" [routerLink]="['']">
-          <img src="../../../assets/package-icon.png" alt="logo" width="70">
+          <img src="../../../assets/package-icon.png" loading="lazy" alt="logo" width="70">
           <span class="title">Gestor de produtos</span>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -100,7 +100,7 @@
   <div *ngIf="notFoundMessage" class="row justify-content-center">
     <div class="col-lg-10 mt-5 center text-center not-found">
       <div>
-        <img src="../../../assets/not-found-product-list.png" alt="nenhum produto encontrado!">
+        <img src="../../../assets/not-found-product-list.png" loading="lazy" alt="nenhum produto encontrado!">
       </div>
       Nenhum produto encontrado!
     </div>
@@ -114,6 +114,7 @@
           <div class="card card-config center" (click)="edit(product)">
 
             <img
+              loading="lazy"
               class="card-img-top"
               src="{{product.url}}"
               onerror="this.onerror=null;this.src='../../../assets/not-found-product-image.png'"

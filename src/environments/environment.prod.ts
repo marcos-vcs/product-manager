@@ -9,5 +9,6 @@ export const environment = {
     measurementId: 'G-M6GHH1D9H4',
   },
   production: true,
-  api: 'http://localhost:8080/api/product-manager'
+  api: 'https://app-product-manager.herokuapp.com/api/product-manager',
+  apiUser: 'https://app-product-manager.herokuapp.com/api/user'
 };

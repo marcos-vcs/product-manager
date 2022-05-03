@@ -28,6 +28,7 @@
             <mat-spinner *ngIf="!isPhoto" class="mx-auto"></mat-spinner>
 
             <img
+            loading="lazy"
             width="70%"
             height="250px"
             *ngIf="updatePhoto"
@@ -37,11 +38,12 @@
             alt="imagem do produto">
 
             <img
+            loading="lazy"
             width="70%"
             height="250px"
             *ngIf="!updatePhoto"
             class="card-img-top"
-            src="{{this.product.url}}"
+            src="{{this.data.product.url}}"
             onerror="this.onerror=null;this.src='../../../assets/not-found-product-image.png'"
             alt="imagem do produto">
 
@@ -66,7 +68,7 @@
             <mat-form-field class="w-70" appearance="fill">
               <mat-label>Nome</mat-label>
               <input
-              [(ngModel)]="product.name"
+              [(ngModel)]="data.product.name"
               name="name"
               type="text"
               matInput
@@ -80,7 +82,7 @@
             <mat-form-field class="w-70" appearance="fill">
               <mat-label>Marca</mat-label>
               <input
-              [(ngModel)]="product.brand"
+              [(ngModel)]="data.product.brand"
               name="brand"
               type="text"
               matInput
@@ -94,7 +96,7 @@
             <mat-form-field class="w-70" appearance="fill">
               <mat-label>Quantidade</mat-label>
               <input
-              [(ngModel)]="product.quantity"
+              [(ngModel)]="data.product.quantity"
               mask="9999999"
               name="quantity"
               type="text"
@@ -109,7 +111,7 @@
             <mat-form-field class="w-70" appearance="fill">
               <mat-label>Preço</mat-label>
               <input
-              [(ngModel)]="product.price"
+              [(ngModel)]="data.product.price"
               mask="separator.2"
               [thousandSeparator]="'.'"
               [decimalMarker]="','"
@@ -126,7 +128,7 @@
             <mat-form-field class="w-70" appearance="fill">
               <mat-label>Descrição</mat-label>
               <textarea
-                [(ngModel)]="product.description"
+                [(ngModel)]="data.product.description"
                 name="description"
                 type="text"
                 matInput
@@ -143,7 +145,7 @@
 
         <button
           *ngIf="!data.isNew"
-          (click)="onDelete(product.code, product.url)"
+          (click)="onDelete(data.product.code, data.product.url)"
           mat-raised-button
           class="button-delete">
           <span>Excluir</span>

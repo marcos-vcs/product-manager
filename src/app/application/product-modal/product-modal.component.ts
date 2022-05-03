@@ -22,7 +22,6 @@ export interface DialogData {
 })
 export class ProductModalComponent implements OnInit {
 
-  product: Product = new Product();
   public message!: string;
   imgURL: any;
   updatePhoto: boolean = false;
@@ -56,10 +55,7 @@ export class ProductModalComponent implements OnInit {
       } else {
         this.files = files;
       }
-    })
-
-    this.product = this.data.product;
-
+    });
   }
 
   private async setPhoto(code: string, product: Product){
@@ -100,10 +96,9 @@ export class ProductModalComponent implements OnInit {
   }
 
   onSubmit(){
-    console.log(this.product);
-    if(this.product.name !== undefined && this.product.name !== '' ||
-    this.product.brand !== undefined && this.product.brand !== '' ||
-       this.product.price >= 0 ){
+    if(this.data.product.name !== undefined && this.data.product.name !== '' ||
+    this.data.product.brand !== undefined && this.data.product.brand !== '' ||
+       this.data.product.price >= 0 ){
       if (this.data.isNew) {
         this.save();
       }else{
@@ -189,10 +184,10 @@ export class ProductModalComponent implements OnInit {
 
   private save(){
 
-    if(this.product){
+    if(this.data.product){
 
       this.isSave = true;
-      this.database.create(this.product).subscribe((response) => {
+      this.database.create(this.data.product).subscribe((response) => {
         if(response.response.code){
           this.setPhoto(response.response.code, response.response);
         }
@@ -212,10 +207,10 @@ export class ProductModalComponent implements OnInit {
   }
 
   private update(){
-    this.database.update(this.product).subscribe((response) => {
+    this.database.update(this.data.product).subscribe((response) => {
       try{
-        if(this.files[0] && this.product.code ){
-          this.setPhoto(this.product.code, this.product);
+        if(this.files[0] && this.data.product.code ){
+          this.setPhoto(this.data.product.code, this.data.product);
           console.log("Foto atualizada!");
         }
       }catch(error){
