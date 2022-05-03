@@ -49,11 +49,19 @@
   font-family: 'Open Sans', sans-serif;
   font-weight: 600;
   font-size: 18px;
+  max-width: 30ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .card-text{
   font-family: 'Open Sans', sans-serif;
   font-weight: 600;
   font-size: 16px;
+  max-width: 35ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .see-more{
   font-family: 'Open Sans', sans-serif;
