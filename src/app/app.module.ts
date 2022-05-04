@@ -32,7 +32,12 @@ import ptBr from '@angular/common/locales/pt';
 import { registerLocaleData } from '@angular/common';
 import { AngularFireStorageModule, BUCKET } from '@angular/fire/compat/storage';
 import { NgxMatFileInputModule } from '@angular-material-components/file-input';
+import { MatSliderModule } from '@angular/material/slider';
 import { AboutComponent } from './application/about/about.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatDividerModule } from '@angular/material/divider';
+
 registerLocaleData(ptBr);
 
 @NgModule({
@@ -49,6 +54,10 @@ registerLocaleData(ptBr);
     AboutComponent
   ],
   imports: [
+    MatDividerModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatSliderModule,
     ReactiveFormsModule,
     NgxMatFileInputModule,
     MatProgressSpinnerModule,

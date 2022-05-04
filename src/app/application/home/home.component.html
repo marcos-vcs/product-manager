@@ -1,1 +1,42 @@
-<router-outlet></router-outlet>
+<mat-toolbar class="mat-elevation-z8">
+  <button
+    mat-icon-button
+    *ngIf="sidenav.mode === 'over'"
+    (click)="sidenav.toggle()"
+  >
+    <mat-icon *ngIf="!sidenav.opened"> menu </mat-icon>
+    <mat-icon *ngIf="sidenav.opened"> close </mat-icon>
+  </button>
+
+  <a class="navbar-brand ml-3" [routerLink]="['']">
+    <img src="../../../assets/package-icon.png" loading="lazy" alt="logo" width="70">
+    <span class="title">Gestor de produtos</span>
+  </a>
+
+</mat-toolbar>
+
+<mat-sidenav-container>
+  <mat-sidenav #sidenav="matSidenav" class="mat-elevation-z8">
+
+    <button (click)="create()" mat-button class="menu-button" routerLink="/home">
+      <mat-icon>add</mat-icon>
+      <span>Novo produto</span>
+    </button>
+    <button (click)="openAbout()" mat-button class="menu-button" routerLink="/profile">
+      <mat-icon>info</mat-icon>
+      <span>Sobre</span>
+    </button>
+    <button (click)="logout();" mat-button class="menu-button" routerLink="/about">
+      <mat-icon>exit_to_app</mat-icon>
+      <span>Sair</span>
+    </button>
+
+    <mat-divider></mat-divider>
+
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="content mat-elevation-z8">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

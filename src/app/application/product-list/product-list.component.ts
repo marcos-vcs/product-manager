@@ -39,12 +39,12 @@ export class ProductListComponent implements OnInit {
     this.get();
   }
 
-  async openAbout(){
-    const dialogRef = this.dialog.open(AboutComponent, {
-      minWidth: "550px",
-      width: "900px",
-      maxHeight: "90vh"
-    });
+  formatLabel(value: number) {
+    if (value >= 1000) {
+      return Math.round(value / 1000) + 'k';
+    }
+
+    return value;
   }
 
   get(){
@@ -167,47 +167,6 @@ export class ProductListComponent implements OnInit {
         }
       );
     } , 1000);
-
-  }
-
-  logout(){
-
-    const title = 'Tem certeza que deseja sair?';
-    const message = 'Você será desconectado do sistema.';
-    const dialogData = new ConfirmDialogModel(title, message);
-
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      maxWidth: "500px",
-      data: dialogData
-    });
-
-    dialogRef.afterClosed().subscribe(dialogResult => {
-      if(dialogResult){
-        this.security.logout();
-        this.router.navigate(['/login']);
-      }
-    });
-
-  }
-
-  async create(){
-    const product = new Product();
-    const dialogRef = this.dialog.open(ProductModalComponent, {
-      minWidth: "550px",
-      width: "900px",
-      maxHeight: "90vh",
-      disableClose: true,
-      data: {
-        product: product,
-        isNew: true
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if(result){
-        this.get();
-      }
-    });
 
   }
 

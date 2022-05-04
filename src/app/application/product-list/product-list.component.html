@@ -1,32 +1,4 @@
 <div class="container-fluid">
-  <div class="row">
-    <div class="col">
-      <nav class="navbar navbar-expand-lg navbar-dark navbar-bg">
-        <a class="navbar-brand" [routerLink]="['']">
-          <img src="../../../assets/package-icon.png" loading="lazy" alt="logo" width="70">
-          <span class="title">Gestor de produtos</span>
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbar">
-          <ul class="navbar-nav ml-auto mt-2 mt-lg-0 ">
-            <li class="nav-item navbar-btn">
-              <button (click)="create();" type="button" class="btn btn-light btn-navbar-custom">Novo produto</button>
-            </li>
-            <li class="nav-item navbar-btn">
-              <button (click)="openAbout()" type="button" class="btn btn-light btn-navbar-custom">Sobre</button>
-            </li>
-            <li class="nav-item navbar-btn">
-              <button (click)="logout()" type="button" class="btn btn-light btn-navbar-custom">Sair</button>
-            </li>
-          </ul>
-        </div>
-      </nav>
-
-    </div>
-  </div>
 
   <div class="row justify-content-center">
     <div class="col-lg-8 mt-5 center">
@@ -60,26 +32,23 @@
             Preço
           </button>
         </mat-menu>
+          <mat-slider
+          *ngIf="filter === 'PRICE'"
+          class="ml-5"
+          [(ngModel)]="search"
+          placeholder=""
+          thumbLabel
+          [displayWith]="formatLabel"
+          tickInterval="100"
+          step="100"
+          min="0"
+          max="100000"
+          aria-label="units">
+          </mat-slider>
 
-        <mat-form-field class="ml-5" style="width: 70%">
-          <span matPrefix></span>
-
+        <mat-form-field *ngIf="filter !== 'PRICE'" class="ml-5" style="width: 70%">
           <input
             (input)="find()"
-            *ngIf="filter === 'PRICE'"
-            type="text"
-            mask="separator.2"
-            [thousandSeparator]="'.'"
-            [decimalMarker]="','"
-            prefix="R$ "
-            matInput
-            placeholder="Buscar"
-            name= "search"
-            [(ngModel)]="search">
-
-          <input
-            (input)="find()"
-            *ngIf="filter !== 'PRICE'"
             type="text"
             matInput
             placeholder="Buscar"
