@@ -25,7 +25,7 @@ mat-slider {
   text-align: center;
 }
 .card-config{
-  width: 19rem;
+  width: 300px;
   min-height: 320px;
   cursor: pointer;
   border-radius: 10px;
@@ -40,7 +40,7 @@ mat-slider {
 .card-title{
   font-family: 'Open Sans', sans-serif;
   font-weight: 600;
-  font-size: 18px;
+  font-size: 15px;
   max-width: 30ch;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -49,7 +49,7 @@ mat-slider {
 .card-text{
   font-family: 'Open Sans', sans-serif;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 13px;
   max-width: 35ch;
   overflow: hidden;
   text-overflow: ellipsis;
