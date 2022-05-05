@@ -2,18 +2,6 @@ mat-slider {
   width: 70%;
 }
 
-.title{
-  margin-left: 20px;
-  font-size: 24px;
-  font-family: 'Open Sans', sans-serif;
-  font-weight: 600;
-}
-.navbar-bg{
-  background-color: #4dbce9;
-}
-.navbar-btn{
-  padding: 10px;
-}
 .filter-set{
   border-radius: 100px;
   margin-right: -30px;

@@ -9,6 +9,7 @@ import { AboutComponent } from '../about/about.component';
 import { ConfirmDialogComponent, ConfirmDialogModel } from '../confirm-dialog/confirm-dialog.component';
 import { DatabaseService } from '../database.service';
 import { ProductModalComponent } from '../product-modal/product-modal.component';
+import { RefreshService } from './refresh.service';
 
 
 @Component({
@@ -33,10 +34,13 @@ export class ProductListComponent implements OnInit {
     private router: Router,
     public dialog: MatDialog,
     private snackbar: SnackbarService,
-    private database: DatabaseService) { }
+    private database: DatabaseService,
+    private refreshService: RefreshService) { }
 
   ngOnInit(): void {
-    this.get();
+    this.refreshService.isRefresh.subscribe(() => {
+      this.get();
+    });
   }
 
   formatLabel(value: number) {

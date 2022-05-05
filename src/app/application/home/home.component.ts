@@ -10,6 +10,7 @@ import { SecurityService } from 'src/app/security/security.service';
 import { AboutComponent } from '../about/about.component';
 import { Product } from 'src/app/model/product';
 import { ProductModalComponent } from '../product-modal/product-modal.component';
+import { RefreshService } from '../product-list/refresh.service';
 
 @UntilDestroy()
 @Component({
@@ -24,13 +25,14 @@ export class HomeComponent implements OnInit {
 
 
   constructor(
+    private refreshService: RefreshService,
     private observer: BreakpointObserver,
     private router: Router,
     private security: SecurityService,
     public dialog: MatDialog) {}
 
   ngOnInit(): void {
-
+    this.refreshService.isRefresh.next(true);
   }
 
   ngAfterViewInit() {
@@ -102,7 +104,11 @@ export class HomeComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
-        //this.get();
+        if(!this.refreshService.isRefresh.value){
+          this.refreshService.isRefresh.next(true);
+        }else{
+          this.refreshService.isRefresh.next(false);
+        }
       }
     });
 
