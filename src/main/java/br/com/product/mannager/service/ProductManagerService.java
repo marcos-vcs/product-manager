@@ -10,7 +10,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +18,7 @@ public class ProductManagerService implements CrudInterface<Product> {
 
     private final MongoTemplate template;
 
-    public ProductManagerService(MongoTemplate template){
+    public ProductManagerService(MongoTemplate template) {
         this.template = template;
     }
 
@@ -105,7 +104,9 @@ public class ProductManagerService implements CrudInterface<Product> {
         Response<List<Product>> response = new Response<>();
         try{
 
-            Query query = new Query(Criteria.where(filter.getFilter()).regex(".*"+search+".*", "i"));
+            Query query = new Query();
+            query.addCriteria(Criteria.where(filter.getFilter()).regex(search, "i"));
+
             query.with(Sort.by(Sort.Direction.ASC, "name"));
             if(limit > 100){
                 limit = 100;
