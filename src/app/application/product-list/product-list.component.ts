@@ -20,7 +20,7 @@ import { RefreshService } from './refresh.service';
 export class ProductListComponent implements OnInit {
 
   skip = 0;
-  limit = 10;
+  limit = 6;
   max = 0;
   filter = 'NAME';
   search = '';
@@ -53,7 +53,7 @@ export class ProductListComponent implements OnInit {
 
   get(){
     this.skip = 0;
-    this.limit = 10;
+    this.limit = 6;
     this.products = [];
     this.notFoundMessage = false;
     this.loadState = true;
@@ -85,7 +85,7 @@ export class ProductListComponent implements OnInit {
 
         }
       );
-    }, 1000);
+    }, 2000);
   }
 
   load(){
@@ -112,7 +112,7 @@ export class ProductListComponent implements OnInit {
 
   find(){
     this.skip = 0;
-    this.limit = 10;
+    this.limit = 6;
     this.max = 0;
     this.loadState = true;
     this.notFoundMessage = false;
@@ -146,7 +146,7 @@ export class ProductListComponent implements OnInit {
         );
       }
 
-    } , 1000);
+    } , 2000);
 
   }
 
