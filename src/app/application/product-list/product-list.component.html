@@ -77,14 +77,7 @@
 
 
   <div class="row mt-5 center">
-
-      <div *ngIf="loadMore" class="row justify-content-center">
-        <div class="col-lg-10 mt-5">
-          <mat-spinner class="mx-auto"></mat-spinner>
-        </div>
-      </div>
-
-      <div class="card card-config ml-4 mb-4" *ngFor="let product of products" (click)="edit(product)">
+    <div class="card card-config ml-4 mb-4" *ngFor="let product of products" (click)="edit(product)">
         <img
         loading="lazy"
         class="card-img-top"
@@ -107,6 +100,8 @@
               </p>
               <p class="card-text">{{product.price | currency : 'BRL'}}</p>
         </div>
+    </div>
+    <mat-spinner *ngIf="loadMore" class="mx-auto"></mat-spinner>
   </div>
 
   <div class="row">
