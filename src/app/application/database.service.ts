@@ -39,7 +39,7 @@ export class DatabaseService {
   }
 
   createUser(user: User):  Observable<Response<User>>{
-    return this.http.post<Response<User>>(`${environment.apiUser}`, user, {headers: this.getHeader()});
+    return this.http.post<Response<User>>(`${environment.apiUser}`, user);
   }
 
   tokenToUid(): Observable<Response<string>>{

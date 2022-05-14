@@ -21,8 +21,6 @@ export class CreateComponent implements OnInit {
   constructor(
     private router: Router,
     private snackbar: SnackbarService,
-    private auth: AngularFireAuth,
-    private database: DatabaseService,
     private security: SecurityService
   ) { }
 
@@ -31,7 +29,14 @@ export class CreateComponent implements OnInit {
 
   onSubmit(form: any) {
     if(this.verifiyInformations()){
-      
+      this.security.createUser(this.name, this.email, this.password1).then(
+        () => {
+          this.router.navigate(['/login']);
+        },
+        (error: any) => {
+          console.log(error);
+        }
+      );
     }else{
       this.snackbar.openSnackbarAlert('Preencha todos os campos corretamente.');
     }

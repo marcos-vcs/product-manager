@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { DatabaseService } from '../application/database.service';
+import { SnackbarService } from '../geral/snackbar.service';
 import { Response } from '../model/response';
 import { User } from '../model/user';
 
@@ -11,6 +12,7 @@ export class SecurityService {
 
 
   constructor(
+    private snackbar: SnackbarService,
     private database: DatabaseService,
     private auth: AngularFireAuth
     ) { }
@@ -36,8 +38,8 @@ export class SecurityService {
     localStorage.removeItem('Authorization');
   }
 
-  createUser(name: string, email: string, password: string){
-      this.auth.createUserWithEmailAndPassword(email, password).then((response) => {
+  public async createUser(name: string, email: string, password: string){
+      await this.auth.createUserWithEmailAndPassword(email, password).then((response) => {
 
         const user = new User();
         user.name = name;
@@ -46,9 +48,19 @@ export class SecurityService {
           user.uid = response.user.uid;
         }
 
+        this.database.createUser(user).subscribe(
+          (response: Response<User>) => {
+
+            this.snackbar.openSnackbarSuccess('Usuário criado com sucesso!');
+
+          },(error) => {
+            this.snackbar.openSnackbarAlert('Erro ao criar usuário!');
+          }
+        );
+
         },
         (error) => {
-          console.log(error);
+          this.snackbar.openSnackbarAlert('Erro ao criar usuário!');
         }
       );
   }
