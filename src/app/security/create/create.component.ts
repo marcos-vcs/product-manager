@@ -30,48 +30,10 @@ export class CreateComponent implements OnInit {
   }
 
   onSubmit(form: any) {
-    if(this.verifyPassword() &&
-       this.name.length > 0 &&
-       this.email.length > 0 &&
-       this.password1.length > 0 &&
-       this.password2.length > 0 &&
-       this.password1 === this.password2) {
-          setTimeout(() => {
-
-
-            try{
-              this.auth.signInWithEmailAndPassword(this.email, this.password1).then((response) => {
-
-              });
-            }catch(error){
-              this.snackbar.openSnackbarAlert("Erro ao criar usuário");
-            }
-
-              this.auth.signInWithEmailAndPassword(this.email, this.password1).then(
-                (response) => {
-                  if(response.user) {
-
-                    let user = new User();
-                    user.name = this.name;
-                    user.email = this.email;
-                    user.uid = response.user.uid;
-
-                    this.database.createUser(user).subscribe(
-                      (responseUser) => {
-                        console.log(responseUser);
-                        this.security.login(this.email, this.password1);
-                        this.router.navigate(['/']);
-                      }
-                    );
-                  }
-
-                  this.snackbar.openSnackbarSuccess('Cadastro realizado com sucesso!');
-                }, (error) => {
-                  console.log(error);
-                  this.snackbar.openSnackbarAlert('Erro ao cadastrar usuário!');
-                }
-              );
-          } , 2000);
+    if(this.verifiyInformations()){
+      
+    }else{
+      this.snackbar.openSnackbarAlert('Preencha todos os campos corretamente.');
     }
   }
 
@@ -80,6 +42,21 @@ export class CreateComponent implements OnInit {
       return true;
     } else {
       return false;
+    }
+  }
+
+  private verifiyInformations(): boolean {
+
+    const regex = RegExp('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$');
+
+    if (this.name === '' ||
+        this.email === '' ||
+        regex.test(this.email) === false ||
+        this.password1 === '' ||
+        this.password2 === '') {
+      return false;
+    } else {
+      return true;
     }
   }
 

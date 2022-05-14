@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { BehaviorSubject } from 'rxjs';
 import { DatabaseService } from '../application/database.service';
-import { ResponseUser } from '../model/response';
+import { Response } from '../model/response';
 import { User } from '../model/user';
 
 @Injectable({
@@ -20,7 +19,7 @@ export class SecurityService {
 
     this.auth.signInWithEmailAndPassword(email, password).then((response) => {
       localStorage.setItem('Authorization', `${response.user?.getIdToken()}`);
-      this.database.verifyUser().subscribe((responseUser: ResponseUser) => {
+      this.database.verifyUser().subscribe((response: Response<User>) => {
 
       }, (error) => {
         this.logout();
@@ -38,23 +37,20 @@ export class SecurityService {
   }
 
   createUser(name: string, email: string, password: string){
-    this.auth.createUserWithEmailAndPassword(email, password).then((response) => {
+      this.auth.createUserWithEmailAndPassword(email, password).then((response) => {
 
-      console.log(response);
+        const user = new User();
+        user.name = name;
+        user.email = email;
+        if(response.user){
+          user.uid = response.user.uid;
+        }
 
-    },
-    (error) => {
-      console.log(error);
-    });
-  }
-
-  resetPassword(email: string){
-    this.auth.sendPasswordResetEmail(email).then((response) => {
-      console.log(response);
-    },
-    (error) => {
-      console.log(error);
-    });
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 
 }

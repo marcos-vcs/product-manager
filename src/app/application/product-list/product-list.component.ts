@@ -61,7 +61,7 @@ export class ProductListComponent implements OnInit {
 
     setTimeout(() => {
       this.database.get(this.skip, this.limit).subscribe(
-        (data: Response) => {
+        (data: Response<Product[]>) => {
           data.response.forEach(element => {
             this.products.push(element);
           });
@@ -93,7 +93,7 @@ export class ProductListComponent implements OnInit {
     this.loadMore = true;
     setTimeout(() => {
       this.database.get(this.skip, this.limit).subscribe(
-        (data: Response) => {
+        (data: Response<Product[]>) => {
           data.response.forEach(element => {
             this.products.push(element);
           });
@@ -125,7 +125,7 @@ export class ProductListComponent implements OnInit {
         this.get();
       }else{
         this.database.search(this.skip, this.limit, this.filter, this.search).subscribe(
-          (data: Response) => {
+          (data: Response<Product[]>) => {
             this.products = [];
             data.response.forEach(element => {
               this.products.push(element);
@@ -156,7 +156,7 @@ export class ProductListComponent implements OnInit {
     this.loadMore = true;
     setTimeout(() => {
       this.database.search(this.skip, this.limit, this.filter, this.search).subscribe(
-        (data: Response) => {
+        (data: Response<Product[]>) => {
           data.response.forEach(element => {
             this.products.push(element);
           });
