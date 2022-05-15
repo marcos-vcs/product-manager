@@ -34,8 +34,9 @@ export class DatabaseService {
       `${environment.api}/search?skip=${skip}&limit=${limit}&filter=${filter}&search=${search}`, {headers: this.getHeader()});
   }
 
-  verifyUser(): Observable<Response<User>>{
-    return this.http.get<Response<User>>(`${environment.apiUser}`, {headers: this.getHeader()});
+  verifyUser(token: string): Observable<Response<User>>{
+    return this.http.get<Response<User>>(`${environment.apiUser}`,
+    {headers: this.getHeaderModifyAuthorization(token)});
   }
 
   createUser(user: User):  Observable<Response<User>>{
@@ -48,6 +49,14 @@ export class DatabaseService {
 
   private getHeader(): HttpHeaders{
     const token = localStorage.getItem('Authorization');
+    let headers = new HttpHeaders();
+    headers = headers
+      .set('Authorization', `Bearer ${token}`)
+      .set('Content-Type','application/json; charset=utf-8');
+    return headers;
+  }
+
+  private getHeaderModifyAuthorization(token: string): HttpHeaders{
     let headers = new HttpHeaders();
     headers = headers
       .set('Authorization', `Bearer ${token}`)

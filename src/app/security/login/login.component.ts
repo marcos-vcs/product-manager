@@ -12,6 +12,7 @@ export class LoginComponent implements OnInit {
 
   email = '';
   password = '';
+  loading = false;
 
   constructor(
     private security: SecurityService,
@@ -21,13 +22,20 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onSubmit(form: any) {
+  async onSubmit(form: any) {
+    this.loading = true;
     if (this.password.length >= 8) {
-      this.snackbar.openSnackbarSuccess('Login efetuado com sucesso!');
-      this.security.login(this.email, this.password);
-      this.router.navigate(['']);
+
+      await this.security.login(this.email, this.password);
+
+      setTimeout(() => {
+        this.loading = false;
+        this.router.navigate(['']);
+      } , 1000);
+
     } else {
       this.snackbar.openSnackbarAlert('A senha precisa de ter no mínimo 8 caracteres');
+      this.loading = false;
     }
   }
 

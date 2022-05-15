@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
+import { user } from '@angular/fire/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { Router } from '@angular/router';
 import { DatabaseService } from '../application/database.service';
 import { SnackbarService } from '../geral/snackbar.service';
 import { Response } from '../model/response';
@@ -12,23 +14,28 @@ export class SecurityService {
 
 
   constructor(
+    private router: Router,
     private snackbar: SnackbarService,
     private database: DatabaseService,
     private auth: AngularFireAuth
     ) { }
 
-  login(email: string, password: string){
+  async login(email: string, password: string){
 
-    this.auth.signInWithEmailAndPassword(email, password).then((response) => {
-      localStorage.setItem('Authorization', `${response.user?.getIdToken()}`);
-      this.database.verifyUser().subscribe((response: Response<User>) => {
+    await (await this.auth.signInWithEmailAndPassword(email, password)).user?.getIdToken(true).then((token) => {
 
+      this.database.verifyUser(token).subscribe((response: Response<User>) => {
+        localStorage.setItem('Authorization', `${token}`);
+        this.snackbar.openSnackbarSuccess('Login efetuado com sucesso!');
+        this.router.navigate(['']);
       }, (error) => {
-        this.logout();
+        localStorage.removeItem('Authorization');
+        this.snackbar.openSnackbarAlert('Erro ao efetuar login do lado do servidor!');
         console.log(error);
       });
     }, (error) => {
-      localStorage.setItem('Authorization', `Error ${error}`);
+      localStorage.removeItem('Authorization');
+      this.snackbar.openSnackbarAlert('Erro ao efetuar login!');
       console.log(error);
     });
 

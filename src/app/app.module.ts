@@ -37,6 +37,7 @@ import { AboutComponent } from './application/about/about.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatDividerModule } from '@angular/material/divider';
+import { NgxLoadingModule } from 'ngx-loading';
 
 registerLocaleData(ptBr);
 
@@ -54,6 +55,7 @@ registerLocaleData(ptBr);
     AboutComponent
   ],
   imports: [
+    NgxLoadingModule.forRoot({}),
     MatDividerModule,
     MatSidenavModule,
     MatToolbarModule,
