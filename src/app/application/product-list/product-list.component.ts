@@ -74,6 +74,11 @@ export class ProductListComponent implements OnInit {
         },
         (error) => {
 
+          if(error.status === 401){
+            this.security.logout();
+            this.router.navigate(['']);
+          }
+
           if(this.products.length === 0){
             this.notFoundMessage = true;
           }
@@ -102,6 +107,12 @@ export class ProductListComponent implements OnInit {
           this.snackbar.openSnackbarSuccess('Produtos carregados com sucesso.');
         },
         (error) => {
+
+          if(error.status === 401){
+            this.security.logout();
+            this.router.navigate(['']);
+          }
+
           this.snackbar.openSnackbarAlert('Não foi possível carregar os produtos.');
           console.log(error);
           this.loadMore = false;
@@ -138,6 +149,12 @@ export class ProductListComponent implements OnInit {
 
             this.loadState = false;
           }, (error) => {
+
+            if(error.status === 401){
+              this.security.logout();
+              this.router.navigate(['']);
+            }
+
             this.snackbar.openSnackbarAlert('Servidor não encontrado.');
             console.log(error);
             this.loadState = false;
@@ -165,6 +182,12 @@ export class ProductListComponent implements OnInit {
           this.snackbar.openSnackbarSuccess('Produtos carregados com sucesso.');
         },
         (error) => {
+
+          if(error.status === 401){
+            this.security.logout();
+            this.router.navigate(['']);
+          }
+
           this.snackbar.openSnackbarAlert('Não foi possível carregar os produtos.');
           console.log(error);
           this.loadMore = false;

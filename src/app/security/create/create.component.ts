@@ -17,6 +17,7 @@ export class CreateComponent implements OnInit {
   email = '';
   password1 = '';
   password2 = '';
+  loading = false;
 
   constructor(
     private router: Router,
@@ -28,16 +29,23 @@ export class CreateComponent implements OnInit {
   }
 
   onSubmit(form: any) {
+
+    this.loading = true;
+
     if(this.verifiyInformations()){
       this.security.createUser(this.name, this.email, this.password1).then(
         () => {
+          this.loading = false;
           this.router.navigate(['/login']);
         },
         (error: any) => {
+          this.loading = false;
           console.log(error);
+          this.snackbar.openSnackbarAlert(error.message);
         }
       );
     }else{
+      this.loading = false;
       this.snackbar.openSnackbarAlert('Preencha todos os campos corretamente.');
     }
   }

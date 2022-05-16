@@ -3,10 +3,12 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { PhotoUrlService } from 'src/app/geral/photo-url.service';
 import { SnackbarService } from 'src/app/geral/snackbar.service';
 import { StorageService } from 'src/app/geral/storage.service';
 import { Product } from 'src/app/model/product';
+import { SecurityService } from 'src/app/security/security.service';
 import { ConfirmDialogComponent, ConfirmDialogModel } from '../confirm-dialog/confirm-dialog.component';
 import { DatabaseService } from '../database.service';
 
@@ -34,6 +36,8 @@ export class ProductModalComponent implements OnInit {
   imagePath: any;
 
   constructor(
+    private security: SecurityService,
+    private router: Router,
     private snackbar: SnackbarService,
     private database: DatabaseService,
     private photoUrl: PhotoUrlService,
@@ -152,6 +156,12 @@ export class ProductModalComponent implements OnInit {
           this.dialogRef.close(true);
         } , 2000);
       }, (error) => {
+
+        if(error.status === 401){
+          this.security.logout();
+          this.router.navigate(['']);
+        }
+
         console.log(error);
         this.snackbar.openSnackbarAlert("Erro ao deletar produto!");
       });
@@ -168,6 +178,12 @@ export class ProductModalComponent implements OnInit {
             this.dialogRef.close(true);
           } , 2000);
         }, (error) => {
+
+          if(error.status === 401){
+            this.security.logout();
+            this.router.navigate(['']);
+          }
+
           console.log(error);
           this.snackbar.openSnackbarAlert("Erro ao deletar produto!");
         });
@@ -196,6 +212,11 @@ export class ProductModalComponent implements OnInit {
 
       }, (error) => {
 
+        if(error.status === 401){
+          this.security.logout();
+          this.router.navigate(['']);
+        }
+
         this.snackbar.openSnackbarAlert(error.message);
         console.log(error);
       });
@@ -220,6 +241,12 @@ export class ProductModalComponent implements OnInit {
       this.snackbar.openSnackbarSuccess('Produto atualizado com sucesso!');
       this.dialogRef.close();
     }, (error) => {
+
+      if(error.status === 401){
+        this.security.logout();
+        this.router.navigate(['']);
+      }
+
       this.snackbar.openSnackbarAlert(error.message);
       console.log(error);
     });

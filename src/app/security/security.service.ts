@@ -72,4 +72,14 @@ export class SecurityService {
       );
   }
 
+  public async recoveryPassword(email: string){
+    await this.auth.sendPasswordResetEmail(email).then(() => {
+      this.snackbar.openSnackbarSuccess('E-mail enviado com sucesso!');
+      this.router.navigate(['']);
+    }, (error) => {
+      console.log(error);
+      this.snackbar.openSnackbarAlert('Erro ao enviar e-mail!');
+    });
+  }
+
 }
