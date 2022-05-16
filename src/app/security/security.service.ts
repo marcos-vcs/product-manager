@@ -29,7 +29,6 @@ export class SecurityService {
         this.snackbar.openSnackbarSuccess('Login efetuado com sucesso!');
         this.router.navigate(['']);
       }, (error) => {
-        localStorage.removeItem('Authorization');
         this.snackbar.openSnackbarAlert('Erro ao efetuar login do lado do servidor!');
         console.log(error);
       });

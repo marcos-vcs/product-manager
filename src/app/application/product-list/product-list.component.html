@@ -66,7 +66,7 @@
     </div>
   </div>
 
-  <div *ngIf="notFoundMessage" class="row justify-content-center">
+  <div *ngIf="notFoundMessage && !loadState" class="row justify-content-center">
     <div class="col-lg-10 mt-5 center text-center not-found">
       <div>
         <img src="../../../assets/not-found-product-list.png" loading="lazy" alt="nenhum produto encontrado!">

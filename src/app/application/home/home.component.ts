@@ -32,6 +32,11 @@ export class HomeComponent implements OnInit {
     public dialog: MatDialog) {}
 
   ngOnInit(): void {
+
+    if(localStorage.getItem('Authorization') === null){
+      this.router.navigate(['']);
+    }
+
     this.refreshService.isRefresh.next(true);
   }
 

@@ -38,6 +38,11 @@ export class ProductListComponent implements OnInit {
     private refreshService: RefreshService) { }
 
   ngOnInit(): void {
+
+    if(localStorage.getItem("Authorization") === null){
+      this.router.navigate(['']);
+    }
+
     this.refreshService.isRefresh.subscribe(() => {
       this.get();
     });
@@ -58,39 +63,44 @@ export class ProductListComponent implements OnInit {
     this.notFoundMessage = false;
     this.loadState = true;
     this.max = 0;
+    try{
+      setTimeout(() => {
+        this.database.get(this.skip, this.limit).subscribe(
+          (data: Response<Product[]>) => {
+            data.response.forEach(element => {
+              this.products.push(element);
+            });
+            this.max = data.quantity;
 
-    setTimeout(() => {
-      this.database.get(this.skip, this.limit).subscribe(
-        (data: Response<Product[]>) => {
-          data.response.forEach(element => {
-            this.products.push(element);
-          });
-          this.max = data.quantity;
+            if(this.products.length === 0){
+              this.notFoundMessage = true;
+            }
+            this.loadState = false;
+          },
+          (error) => {
 
-          if(this.products.length === 0){
-            this.notFoundMessage = true;
+            if(error.status === 401){
+              this.security.logout();
+              this.router.navigate(['']);
+            }
+
+            if(this.products.length === 0){
+              this.notFoundMessage = true;
+            }
+
+            this.snackbar.openSnackbarAlert(error.error.message);
+            console.log(error);
+
+            this.loadState = false;
+
           }
-          this.loadState = false;
-        },
-        (error) => {
+        );
+      }, 2000);
+    }catch(error){
+      this.loadState = false;
+      this.snackbar.openSnackbarAlert('Erroao buscar produtos.');
+    }
 
-          if(error.status === 401){
-            this.security.logout();
-            this.router.navigate(['']);
-          }
-
-          if(this.products.length === 0){
-            this.notFoundMessage = true;
-          }
-
-          this.snackbar.openSnackbarAlert(error.error.message);
-          console.log(error);
-
-          this.loadState = false;
-
-        }
-      );
-    }, 2000);
   }
 
   load(){
