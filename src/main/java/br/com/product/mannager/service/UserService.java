@@ -12,10 +12,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
 
-    Firebase firebase;
+    private final FirebaseService firebaseService;
     private final MongoTemplate template;
 
-    public UserService(MongoTemplate template){
+    public UserService(MongoTemplate template, FirebaseService firebaseService){
+        this.firebaseService = firebaseService;
         this.template = template;
     }
 
@@ -41,9 +42,14 @@ public class UserService {
     public Response<User> verifyUser(String token) throws UserException {
         try{
 
+            if(token.contains("Bearer")){
+                token = token.split(" ")[1];
+            }
+
             Response<User> response = new Response<>();
             response.setMessage("OK");
-            response.setResponse(firebase.getUserByToken(token));
+            User user = firebaseService.getUserByToken(token);
+            response.setResponse(user);
             return response;
 
         }catch (Exception e){
@@ -56,7 +62,7 @@ public class UserService {
 
             Response<String> response = new Response<>();
             response.setMessage("OK");
-            response.setResponse(firebase.getUidByIdToken(token));
+            response.setResponse(firebaseService.getUidByIdToken(token));
             return response;
 
         }catch (Exception e){

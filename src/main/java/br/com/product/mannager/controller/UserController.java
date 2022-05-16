@@ -1,6 +1,5 @@
 package br.com.product.mannager.controller;
 
-import br.com.product.mannager.models.Product;
 import br.com.product.mannager.models.Response;
 import br.com.product.mannager.models.User;
 import br.com.product.mannager.service.UserService;
@@ -45,9 +44,10 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<Response<User>> create(@Valid User user, BindingResult validationResult){
+    public ResponseEntity<Response<User>> create(@Valid @RequestBody User user, BindingResult validationResult){
         Response<User> response = new Response<>();
         try{
+
             if(validationResult.hasErrors()){
                 response.setMessage(Objects.requireNonNull(validationResult.getFieldError()).toString());
                 return new ResponseEntity<>(response, HttpStatus.NOT_ACCEPTABLE);
