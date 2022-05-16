@@ -163,7 +163,7 @@ export class ProductModalComponent implements OnInit {
         }
 
         console.log(error);
-        this.snackbar.openSnackbarAlert("Erro ao deletar produto!");
+        this.snackbar.openSnackbarAlert("Erro ao deletar produto: "+ error.error.message);
       });
 
     }else{
@@ -185,7 +185,7 @@ export class ProductModalComponent implements OnInit {
           }
 
           console.log(error);
-          this.snackbar.openSnackbarAlert("Erro ao deletar produto!");
+          this.snackbar.openSnackbarAlert("Erro ao deletar produto: " + error.error.message);
         });
 
       }catch(error){

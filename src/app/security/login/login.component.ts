@@ -24,19 +24,29 @@ export class LoginComponent implements OnInit {
 
   async onSubmit(form: any) {
     this.loading = true;
-    if (this.password.length >= 8) {
 
-      await this.security.login(this.email, this.password);
+    try{
 
-      setTimeout(() => {
+      if (this.password.length >= 8) {
+
+        await this.security.login(this.email, this.password);
+
+        setTimeout(() => {
+          this.loading = false;
+          this.router.navigate(['']);
+        } , 1000);
+
+      } else {
+        this.snackbar.openSnackbarAlert('A senha precisa de ter no mínimo 8 caracteres');
         this.loading = false;
-        this.router.navigate(['']);
-      } , 1000);
+      }
 
-    } else {
-      this.snackbar.openSnackbarAlert('A senha precisa de ter no mínimo 8 caracteres');
+    }catch(e){
       this.loading = false;
+      console.log(e);
+      this.snackbar.openSnackbarAlert('Erro ao tentar efetuar login, usuário não encontrado!');
     }
+
   }
 
 }

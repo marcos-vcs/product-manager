@@ -83,7 +83,7 @@ export class ProductListComponent implements OnInit {
             this.notFoundMessage = true;
           }
 
-          this.snackbar.openSnackbarAlert('Servidor não encontrado.');
+          this.snackbar.openSnackbarAlert(error.error.message);
           console.log(error);
 
           this.loadState = false;
@@ -113,7 +113,7 @@ export class ProductListComponent implements OnInit {
             this.router.navigate(['']);
           }
 
-          this.snackbar.openSnackbarAlert('Não foi possível carregar os produtos.');
+          this.snackbar.openSnackbarAlert(error.error.message);
           console.log(error);
           this.loadMore = false;
         }
@@ -155,7 +155,7 @@ export class ProductListComponent implements OnInit {
               this.router.navigate(['']);
             }
 
-            this.snackbar.openSnackbarAlert('Servidor não encontrado.');
+            this.snackbar.openSnackbarAlert(error.error.message);
             console.log(error);
             this.loadState = false;
             this.notFoundMessage = true;
@@ -188,7 +188,7 @@ export class ProductListComponent implements OnInit {
             this.router.navigate(['']);
           }
 
-          this.snackbar.openSnackbarAlert('Não foi possível carregar os produtos.');
+          this.snackbar.openSnackbarAlert(error.error.message);
           console.log(error);
           this.loadMore = false;
         }
