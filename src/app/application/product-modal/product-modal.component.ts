@@ -183,15 +183,13 @@ export class ProductModalComponent implements OnInit {
             this.security.logout();
             this.router.navigate(['']);
           }
-
-          console.log(error);
-          this.snackbar.openSnackbarAlert("Erro ao deletar produto: " + error.error.message);
+          this.snackbar.openSnackbarAlert("Erro ao deletar produto: " + error.message);
+          this.dialogRef.close(true);
         });
 
       }catch(error){
         this.isSave = false;
         this.snackbar.openSnackbarAlert("Erro ao excluir foto!");
-        console.log(error);
       }
 
     }
@@ -216,9 +214,8 @@ export class ProductModalComponent implements OnInit {
           this.security.logout();
           this.router.navigate(['']);
         }
-
-        this.snackbar.openSnackbarAlert(error.message);
-        console.log(error);
+        this.snackbar.openSnackbarAlert("Não foi possível salvar o produto: " + error.status);
+        this.dialogRef.close(true);
       });
 
     }else{

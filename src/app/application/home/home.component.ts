@@ -11,6 +11,7 @@ import { AboutComponent } from '../about/about.component';
 import { Product } from 'src/app/model/product';
 import { ProductModalComponent } from '../product-modal/product-modal.component';
 import { RefreshService } from '../product-list/refresh.service';
+import { DatabaseService } from '../database.service';
 
 @UntilDestroy()
 @Component({
@@ -25,6 +26,7 @@ export class HomeComponent implements OnInit {
 
 
   constructor(
+    private database: DatabaseService,
     private refreshService: RefreshService,
     private observer: BreakpointObserver,
     private router: Router,
@@ -32,15 +34,11 @@ export class HomeComponent implements OnInit {
     public dialog: MatDialog) {}
 
   ngOnInit(): void {
-
-    if(localStorage.getItem('Authorization') === null){
-      this.router.navigate(['']);
-    }
-
     this.refreshService.isRefresh.next(true);
   }
 
   ngAfterViewInit() {
+
     this.observer
       .observe(['(max-width: 800px)'])
       .pipe(delay(1), untilDestroyed(this))

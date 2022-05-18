@@ -39,10 +39,6 @@ export class ProductListComponent implements OnInit {
 
   ngOnInit(): void {
 
-    if(localStorage.getItem("Authorization") === null){
-      this.router.navigate(['']);
-    }
-
     this.refreshService.isRefresh.subscribe(() => {
       this.get();
     });
@@ -79,26 +75,21 @@ export class ProductListComponent implements OnInit {
           },
           (error) => {
 
-            if(error.status === 401){
-              this.security.logout();
-              this.router.navigate(['']);
-            }
+            this.loadState = false;
 
             if(this.products.length === 0){
               this.notFoundMessage = true;
             }
 
-            this.snackbar.openSnackbarAlert(error.error.message);
-            console.log(error);
-
-            this.loadState = false;
-
+            this.snackbar.openSnackbarAlert("Erro ao carregar produtos: " + error.status);
           }
         );
-      }, 2000);
+      }, 1000);
     }catch(error){
       this.loadState = false;
-      this.snackbar.openSnackbarAlert('Erroao buscar produtos.');
+      if(this.products.length === 0){
+        this.notFoundMessage = true;
+      }
     }
 
   }
@@ -123,7 +114,7 @@ export class ProductListComponent implements OnInit {
             this.router.navigate(['']);
           }
 
-          this.snackbar.openSnackbarAlert(error.error.message);
+          this.snackbar.openSnackbarAlert(error.message);
           console.log(error);
           this.loadMore = false;
         }
@@ -165,7 +156,7 @@ export class ProductListComponent implements OnInit {
               this.router.navigate(['']);
             }
 
-            this.snackbar.openSnackbarAlert(error.error.message);
+            this.snackbar.openSnackbarAlert(error.message);
             console.log(error);
             this.loadState = false;
             this.notFoundMessage = true;
@@ -173,7 +164,7 @@ export class ProductListComponent implements OnInit {
         );
       }
 
-    } , 2000);
+    } , 1000);
 
   }
 
@@ -198,7 +189,7 @@ export class ProductListComponent implements OnInit {
             this.router.navigate(['']);
           }
 
-          this.snackbar.openSnackbarAlert(error.error.message);
+          this.snackbar.openSnackbarAlert(error.message);
           console.log(error);
           this.loadMore = false;
         }
