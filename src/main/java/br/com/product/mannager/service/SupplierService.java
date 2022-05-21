@@ -15,7 +15,7 @@ import java.util.List;
 @Service
 public class SupplierService implements CrudInterface<Supplier>{
 
-    MongoTemplate template;
+    private final MongoTemplate template;
 
     public SupplierService(MongoTemplate template){
         this.template = template;
@@ -41,7 +41,7 @@ public class SupplierService implements CrudInterface<Supplier>{
     }
 
     @Override
-    public Response<Long> update(Supplier obj) throws CrudErrorException {
+    public Response<String> update(Supplier obj) throws CrudErrorException {
         try{
             if(obj.getCode() == null || obj.getCode().equals("")){
                 throw new CrudErrorException("code informado é inválido!");
@@ -56,7 +56,7 @@ public class SupplierService implements CrudInterface<Supplier>{
             );
             return new Response<>(
                     this.getQuantity(),
-                    template.updateFirst(query, update, Supplier.class).getModifiedCount(),
+                    String.valueOf(template.updateFirst(query, update, Supplier.class).getModifiedCount()),
                     "OK"
             );
         }catch (Exception e){

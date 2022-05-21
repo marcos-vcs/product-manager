@@ -37,6 +37,8 @@ public class ProductManagerController {
 
         }catch (Exception e){
             response.setMessage(e.getMessage());
+            e.printStackTrace();
+            System.out.println(e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
