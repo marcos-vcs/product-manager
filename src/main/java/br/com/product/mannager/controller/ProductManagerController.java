@@ -63,15 +63,13 @@ public class ProductManagerController {
     }
 
     @DeleteMapping
-    public ResponseEntity<Response<Product>> delete(@RequestParam String code){
-        Response<Product> response = new Response<>();
+    public ResponseEntity<Response<Long>> delete(@RequestParam String code){
         try{
-
             return new ResponseEntity<>(this.service.delete(code), HttpStatus.OK);
-
         }catch (Exception e){
-            response.setMessage(e.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 

@@ -2,8 +2,8 @@ package br.com.product.mannager.service;
 
 import br.com.product.mannager.exceptions.CrudErrorException;
 import br.com.product.mannager.models.Filter;
-import br.com.product.mannager.models.Product;
 import br.com.product.mannager.models.Response;
+import br.com.product.mannager.models.Supplier;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -13,69 +13,80 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ProductManagerService implements CrudInterface<Product> {
+public class SupplierService implements CrudInterface<Supplier>{
 
-    private final MongoTemplate template;
+    MongoTemplate template;
 
-    public ProductManagerService(MongoTemplate template) {
+    public SupplierService(MongoTemplate template){
         this.template = template;
     }
 
     @Override
-    public Response<Product> create(Product obj) throws CrudErrorException {
+    public Response<Supplier> create(Supplier obj) throws CrudErrorException {
         try{
+            if(obj.getCode() != null){
+                throw new CrudErrorException("não informe code na criação de um novo fornecedor!");
+            }
+
             return new Response<>(
                     this.getQuantity(),
                     template.save(obj),
                     "OK"
             );
         }catch (Exception e){
+            e.printStackTrace();
             System.out.println(e.getMessage());
-            throw new CrudErrorException("Erro critico na criação do objeto");
+            throw new CrudErrorException("Erro crítico ao criar o fornecedor.");
         }
     }
 
     @Override
-    public Response<Product> update(Product obj) throws CrudErrorException {
-        Response<Product> response = new Response<>();
+    public Response<Long> update(Supplier obj) throws CrudErrorException {
         try{
+            if(obj.getCode() == null || obj.getCode().equals("")){
+                throw new CrudErrorException("code informado é inválido!");
+            }
 
             Query query = new Query(Criteria.where("code").is(obj.getCode()));
             Update update = new Update()
                     .set("name", obj.getName())
-                    .set("url", obj.getUrl())
-                    .set("brand", obj.getBrand())
-                    .set("price", obj.getPrice());
-            long modifications = this.template.updateFirst(query, update, Product.class).getModifiedCount();
-
-            response.setResponse(this.template.findOne(query, Product.class));
-            response.setQuantity(getQuantity());
-            response.setMessage("OK: MODIFICAÇÕES - " + modifications);
-            return response;
-
+                    .set("email", obj.getEmail())
+                    .set("phone", obj.getPhone())
+                    .set("observation", obj.getObservation()
+            );
+            return new Response<>(
+                    this.getQuantity(),
+                    template.updateFirst(query, update, Supplier.class).getModifiedCount(),
+                    "OK"
+            );
         }catch (Exception e){
-            throw new CrudErrorException("Erro critico na edição do objeto");
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+            throw new CrudErrorException("Erro crítico ao alterar o fornecedor.");
         }
     }
 
     @Override
-    public Response<Long> delete(String code) throws CrudErrorException{
+    public Response<Long> delete(String code) throws CrudErrorException {
         try{
             Query query = new Query(Criteria.where("code").is(code));
-            long deleteCount = this.template.remove(query, Product.class).getDeletedCount();
+            long deleteCount = template.remove(query, Supplier.class).getDeletedCount();
             return new Response<>(
                     this.getQuantity(),
                     deleteCount,
                     "OK"
             );
         }catch (Exception e){
-            throw new CrudErrorException("Erro critico na exclusão do objeto");
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+            throw new CrudErrorException("Erro crítico ao excluir o fornecedor.");
         }
     }
 
     @Override
-    public Response<List<Product>> read(int skip, int limit) throws CrudErrorException {
+    public Response<List<Supplier>> read(int skip, int limit) throws CrudErrorException {
         try{
+
             if(limit > 100){
                 limit = 100;
             }
@@ -85,18 +96,19 @@ public class ProductManagerService implements CrudInterface<Product> {
             query.skip(skip).limit(limit);
             return new Response<>(
                     this.getQuantity(),
-                    this.template.find(query, Product.class),
+                    this.template.find(query, Supplier.class),
                     "OK"
             );
 
         }catch (Exception e){
+            e.printStackTrace();
             System.out.println(e.getMessage());
-            throw new CrudErrorException("Erro critico ao obter registros");
+            throw new CrudErrorException("Erro crítico ao buscar o fornecedor.");
         }
     }
 
     @Override
-    public Response<List<Product>> read(int skip, int limit, Filter filter, String search) throws CrudErrorException {
+    public Response<List<Supplier>> read(int skip, int limit, Filter filter, String search) throws CrudErrorException {
         try{
 
             if(limit > 100){
@@ -104,22 +116,22 @@ public class ProductManagerService implements CrudInterface<Product> {
             }
 
             Query query = new Query(Criteria.where(filter.getFilter()).regex(search, "i"));
-            query.with(Sort.by(Sort.Direction.ASC, "name"));
+            query.with(Sort.by(Sort.Direction.DESC, "name"));
             query.skip(skip).limit(limit);
             return new Response<>(
                     this.getQuantity(),
-                    this.template.find(query, Product.class),
+                    template.find(query, Supplier.class),
                     "OK"
             );
-
         }catch (Exception e){
+            e.printStackTrace();
             System.out.println(e.getMessage());
-            throw new CrudErrorException("Erro critico ao obter registros");
+            throw new CrudErrorException("Erro crítico ao buscar o fornecedor.");
         }
     }
 
     private long getQuantity(){
-        return this.template.count(new Query(), Product.class);
+        return this.template.count(new Query(), Supplier.class);
     }
 
 }

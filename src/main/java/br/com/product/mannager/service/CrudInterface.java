@@ -1,10 +1,9 @@
 package br.com.product.mannager.service;
 
 import br.com.product.mannager.exceptions.CrudErrorException;
-import br.com.product.mannager.models.Filter;
-import br.com.product.mannager.models.Product;
-import br.com.product.mannager.models.Response;
-import br.com.product.mannager.models.User;
+import br.com.product.mannager.models.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 
 public interface CrudInterface<T> {
 
