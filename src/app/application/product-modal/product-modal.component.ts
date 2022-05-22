@@ -8,9 +8,9 @@ import { PhotoUrlService } from 'src/app/geral/photo-url.service';
 import { SnackbarService } from 'src/app/geral/snackbar.service';
 import { StorageService } from 'src/app/geral/storage.service';
 import { Product } from 'src/app/model/product';
+import { ProductService } from 'src/app/persistence/product.service';
 import { SecurityService } from 'src/app/security/security.service';
 import { ConfirmDialogComponent, ConfirmDialogModel } from '../confirm-dialog/confirm-dialog.component';
-import { DatabaseService } from '../database.service';
 
 export interface DialogData {
   product: Product;
@@ -39,7 +39,7 @@ export class ProductModalComponent implements OnInit {
     private security: SecurityService,
     private router: Router,
     private snackbar: SnackbarService,
-    private database: DatabaseService,
+    private database: ProductService,
     private photoUrl: PhotoUrlService,
     private storage: StorageService,
     public dialog: MatDialog,

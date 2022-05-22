@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
-import { DatabaseService } from 'src/app/application/database.service';
 import { SnackbarService } from 'src/app/geral/snackbar.service';
-import { User } from 'src/app/model/user';
 import { SecurityService } from '../security.service';
 
 @Component({

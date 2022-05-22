@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { user } from '@angular/fire/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
-import { DatabaseService } from '../application/database.service';
 import { SnackbarService } from '../geral/snackbar.service';
 import { Response } from '../model/response';
 import { User } from '../model/user';
+import { UserService } from '../persistence/user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +15,7 @@ export class SecurityService {
   constructor(
     private router: Router,
     private snackbar: SnackbarService,
-    private database: DatabaseService,
+    private database: UserService,
     private auth: AngularFireAuth
     ) { }
 

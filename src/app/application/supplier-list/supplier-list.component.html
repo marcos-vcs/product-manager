@@ -1,1 +1,97 @@
-<p>supplier-list works!</p>
+<div class="container-fluid">
+
+  <div class="row justify-content-center">
+    <div class="col-lg-8 mt-2 center">
+
+        <button
+        mat-raised-button
+        class="ml-3 filter-set"
+        [matMenuTriggerFor]="beforeMenu"
+          ><mat-icon>filter_list</mat-icon>
+        </button>
+
+        <mat-menu #beforeMenu="matMenu" xPosition="before">
+          <button
+          [ngClass]="{'active-filter': filter === 'NAME'}"
+          (click)="setFilterName();"
+          mat-menu-item>
+            Nome (Padrão)
+          </button>
+
+          <button
+          [ngClass]="{'active-filter': filter === 'PHONE'}"
+          (click)="setFilterPhone();"
+          mat-menu-item>
+            Telefone
+          </button>
+
+          <button
+          [ngClass]="{'active-filter': filter === 'EMAIL'}"
+          (click)="setFilterEmail();"
+          mat-menu-item>
+            E-mail
+          </button>
+        </mat-menu>
+
+        <mat-form-field *ngIf="filter !== 'PRICE'" class="ml-5" style="width: 70%">
+          <input
+            (input)="find()"
+            type="text"
+            matInput
+            placeholder="Buscar"
+            name= "search"
+            [(ngModel)]="search">
+
+          <button (click)="find()" matSuffix mat-button><mat-icon >search</mat-icon></button>
+        </mat-form-field>
+      </div>
+  </div>
+
+  <div *ngIf="loadState" class="row justify-content-center">
+    <div class="col-lg-10 mt-5">
+      <mat-spinner class="mx-auto"></mat-spinner>
+    </div>
+  </div>
+
+  <div *ngIf="notFoundMessage && !loadState" class="row justify-content-center">
+    <div class="col-lg-10 mt-5 center text-center not-found">
+      <div>
+        <img src="../../../assets/not-found-product.png" width="300" loading="lazy" alt="nenhum produto encontrado!">
+      </div>
+      Nenhum produto encontrado!
+    </div>
+  </div>
+
+
+  <div class="row mt-5 center">
+  </div>
+
+  <div class="row">
+    <div class="col mt-3 mb-5 ml-4">
+
+      <button
+        (click)="load()"
+        type="button"
+        class="btn btn-primary see-more">
+          Veja mais (load)
+      </button>
+
+      <button
+        (click)="loadFind()"
+        type="button"
+        class="btn btn-primary see-more">
+          Veja mais (load find)
+      </button>
+
+    </div>
+  </div>
+
+  <div class="row text-center w-100 mb-3 mt-4">
+    <div class="col">
+      <span class="allProducts">
+        Todos os produtos foram carregados!
+      </span>
+    </div>
+  </div>
+
+</div>

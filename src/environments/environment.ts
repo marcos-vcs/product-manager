@@ -13,10 +13,11 @@ export const environment = {
     measurementId: 'G-M6GHH1D9H4',
   },
   production: false,
-  //api: 'https://app-product-manager.herokuapp.com/api/product-manager',
-  //apiUser: 'https://app-product-manager.herokuapp.com/api/user'
-  api: 'http://localhost:8080/api/product-manager',
-  apiUser: 'http://localhost:8080/api/user'
+  //api: 'https://app-product-manager.herokuapp.com/api/',
+  api: 'http://localhost:8080/api/',
+  supplier: 'supplier-manager',
+  product: 'product-manager',
+  user: 'http://localhost:8080/api/user'
 };
 
 /*

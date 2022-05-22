@@ -11,7 +11,6 @@ import { AboutComponent } from '../about/about.component';
 import { Product } from 'src/app/model/product';
 import { ProductModalComponent } from '../product-modal/product-modal.component';
 import { RefreshService } from '../product-list/refresh.service';
-import { DatabaseService } from '../database.service';
 
 @UntilDestroy()
 @Component({
@@ -26,7 +25,6 @@ export class HomeComponent implements OnInit {
   panelOpenState = false;
 
   constructor(
-    private database: DatabaseService,
     private refreshService: RefreshService,
     private observer: BreakpointObserver,
     private router: Router,
@@ -92,7 +90,7 @@ export class HomeComponent implements OnInit {
 
   }
 
-  async create(){
+  async createProduct(){
     const product = new Product();
     const dialogRef = this.dialog.open(ProductModalComponent, {
       minWidth: "550px",

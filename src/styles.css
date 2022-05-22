@@ -26,6 +26,25 @@ body {
   background: #447d94;
 }
 
+.mat-focused .mat-form-field-label {
+  /*change color of label*/
+  color: #4dbce9 !important;
+ }
+
+ .mat-form-field-underline {
+  /*change color of underline*/
+  background-color: #4dbce9 !important;
+}
+
+.mat-form-field-ripple {
+ /*change color of underline when focused*/
+ background-color: #4dbce9 !important;;
+}
+
+.mat-progress-spinner circle, .mat-spinner circle {
+  stroke: #4dbce9!important;
+}
+
 .green-snackbar {
   font-weight: 500;
   font-family: 'IBM Plex Sans Arabic', sans-serif;

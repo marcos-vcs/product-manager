@@ -4,13 +4,10 @@ import { Router } from '@angular/router';
 import { SnackbarService } from 'src/app/geral/snackbar.service';
 import { Product } from 'src/app/model/product';
 import { Response } from 'src/app/model/response';
+import { ProductService } from 'src/app/persistence/product.service';
 import { SecurityService } from 'src/app/security/security.service';
-import { AboutComponent } from '../about/about.component';
-import { ConfirmDialogComponent, ConfirmDialogModel } from '../confirm-dialog/confirm-dialog.component';
-import { DatabaseService } from '../database.service';
 import { ProductModalComponent } from '../product-modal/product-modal.component';
 import { RefreshService } from './refresh.service';
-
 
 @Component({
   selector: 'app-product-list',
@@ -34,7 +31,7 @@ export class ProductListComponent implements OnInit {
     private router: Router,
     public dialog: MatDialog,
     private snackbar: SnackbarService,
-    private database: DatabaseService,
+    private database: ProductService,
     private refreshService: RefreshService) { }
 
   ngOnInit(): void {

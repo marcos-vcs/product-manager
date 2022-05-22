@@ -1,0 +1,22 @@
+.filter-set{
+  border-radius: 100px;
+  margin-right: -30px;
+}
+.btn-navbar-custom{
+  border-radius: 6px;
+  font-size: 18px;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+}
+.active-filter{
+  background-color: #4dbce9;
+  color: #fff;
+  transition: 0.3s;
+}
+.active-filter:hover{
+  background-color: #88ddff;
+}
+.center{
+  margin: auto;
+  text-align: center;
+}
