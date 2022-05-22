@@ -106,11 +106,6 @@ export class ProductListComponent implements OnInit {
         },
         (error) => {
 
-          if(error.status === 401){
-            this.security.logout();
-            this.router.navigate(['']);
-          }
-
           this.snackbar.openSnackbarAlert(error.message);
           console.log(error);
           this.loadMore = false;
@@ -148,11 +143,6 @@ export class ProductListComponent implements OnInit {
             this.loadState = false;
           }, (error) => {
 
-            if(error.status === 401){
-              this.security.logout();
-              this.router.navigate(['']);
-            }
-
             this.snackbar.openSnackbarAlert(error.message);
             console.log(error);
             this.loadState = false;
@@ -180,11 +170,6 @@ export class ProductListComponent implements OnInit {
           this.snackbar.openSnackbarSuccess('Produtos carregados com sucesso.');
         },
         (error) => {
-
-          if(error.status === 401){
-            this.security.logout();
-            this.router.navigate(['']);
-          }
 
           this.snackbar.openSnackbarAlert(error.message);
           console.log(error);

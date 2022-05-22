@@ -154,13 +154,8 @@ export class ProductModalComponent implements OnInit {
         this.snackbar.openSnackbarSuccess('Produto excluído com sucesso!');
         setTimeout(() => {
           this.dialogRef.close(true);
-        } , 2000);
+        } , 1000);
       }, (error) => {
-
-        if(error.status === 401){
-          this.security.logout();
-          this.router.navigate(['']);
-        }
 
         console.log(error);
         this.snackbar.openSnackbarAlert("Erro ao deletar produto: "+ error.error.message);
@@ -176,13 +171,9 @@ export class ProductModalComponent implements OnInit {
           this.snackbar.openSnackbarSuccess('Produto excluído com sucesso!');
           setTimeout(() => {
             this.dialogRef.close(true);
-          } , 2000);
+          } , 1000);
         }, (error) => {
 
-          if(error.status === 401){
-            this.security.logout();
-            this.router.navigate(['']);
-          }
           this.snackbar.openSnackbarAlert("Erro ao deletar produto: " + error.message);
           this.dialogRef.close(true);
         });
@@ -209,11 +200,6 @@ export class ProductModalComponent implements OnInit {
         this.snackbar.openSnackbarSuccess('Produto salvo com sucesso!');
 
       }, (error) => {
-
-        if(error.status === 401){
-          this.security.logout();
-          this.router.navigate(['']);
-        }
         this.snackbar.openSnackbarAlert("Não foi possível salvar o produto: " + error.status);
         this.dialogRef.close(true);
       });
@@ -238,12 +224,6 @@ export class ProductModalComponent implements OnInit {
       this.snackbar.openSnackbarSuccess('Produto atualizado com sucesso!');
       this.dialogRef.close();
     }, (error) => {
-
-      if(error.status === 401){
-        this.security.logout();
-        this.router.navigate(['']);
-      }
-
       this.snackbar.openSnackbarAlert(error.message);
       console.log(error);
     });

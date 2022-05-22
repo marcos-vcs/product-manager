@@ -11,7 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { rootRouterConfig } from './app.routes';
 import { APP_BASE_HREF } from '@angular/common';
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideAuth,getAuth } from '@angular/fire/auth';
@@ -43,6 +43,7 @@ import { ProductTrashComponent } from './application/product-trash/product-trash
 import { SupplierListComponent } from './application/supplier-list/supplier-list.component';
 import { SupplierTrashComponent } from './application/supplier-trash/supplier-trash.component';
 import { SupplierModalComponent } from './application/supplier-modal/supplier-modal.component';
+import { UnauthorizedHandlerService } from './persistence/unauthorized-handler.service';
 
 registerLocaleData(ptBr);
 
@@ -92,6 +93,8 @@ registerLocaleData(ptBr);
     BrowserAnimationsModule
   ],
   providers: [
+    UnauthorizedHandlerService,
+    { provide: HTTP_INTERCEPTORS, useClass: UnauthorizedHandlerService, multi: true },
     { provide: LOCALE_ID, useValue: 'pt' },
     { provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' },
     { provide: APP_BASE_HREF,  useValue: '/' },
