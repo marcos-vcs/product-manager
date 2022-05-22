@@ -4,6 +4,7 @@ import br.com.product.mannager.exceptions.PaginationException;
 import br.com.product.mannager.models.Filter;
 import br.com.product.mannager.models.Response;
 import br.com.product.mannager.models.Supplier;
+import br.com.product.mannager.models.User;
 import br.com.product.mannager.service.SupplierService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class SupplierController {
     }
 
     @PostMapping
-    public ResponseEntity<Response<Supplier>> create(@Valid @RequestBody Supplier supplier, BindingResult validationResult){
+    public ResponseEntity<Response<Supplier>> create(@RequestAttribute("user") User user, @Valid @RequestBody Supplier supplier, BindingResult validationResult){
         try{
             if(validationResult.hasErrors()){
                 Response<Supplier> response = new Response<>();
@@ -32,7 +33,7 @@ public class SupplierController {
                 return new ResponseEntity<>(response,HttpStatus.NOT_ACCEPTABLE);
             }
 
-            return new ResponseEntity<>(this.service.create(supplier), HttpStatus.OK);
+            return new ResponseEntity<>(this.service.create(user, supplier), HttpStatus.OK);
 
         }catch (Exception e){
             e.printStackTrace();
@@ -42,7 +43,7 @@ public class SupplierController {
     }
 
     @PutMapping
-    public ResponseEntity<Response<String>> update(@Valid @RequestBody Supplier supplier, BindingResult validationResult){
+    public ResponseEntity<Response<String>> update(@RequestAttribute("user") User user, @Valid @RequestBody Supplier supplier, BindingResult validationResult){
         try{
             if(validationResult.hasErrors()){
                 Response<String> response = new Response<>();
@@ -50,7 +51,7 @@ public class SupplierController {
                 return new ResponseEntity<>(response,HttpStatus.NOT_ACCEPTABLE);
             }
 
-            return new ResponseEntity<>(this.service.update(supplier), HttpStatus.OK);
+            return new ResponseEntity<>(this.service.update(user, supplier), HttpStatus.OK);
 
         }catch (Exception e){
             e.printStackTrace();
@@ -60,9 +61,9 @@ public class SupplierController {
     }
 
     @DeleteMapping
-    public ResponseEntity<Response<Long>> delete(@RequestParam String code){
+    public ResponseEntity<Response<Long>> delete(@RequestAttribute("user") User user, @RequestParam String code){
         try{
-            return new ResponseEntity<>(service.delete(code), HttpStatus.OK);
+            return new ResponseEntity<>(service.delete(user, code), HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
             System.out.println(e.getMessage());
@@ -76,7 +77,7 @@ public class SupplierController {
             if(skip < 0 || limit < 0){
                 throw new PaginationException("Erro, parametro skip ou limit e menor que 0, verifique!");
             }
-            return new ResponseEntity<>(service.read(skip, limit), HttpStatus.OK);
+            return new ResponseEntity<>(service.read(skip, limit, false), HttpStatus.OK);
 
         }catch (Exception e){
             e.printStackTrace();
@@ -91,7 +92,7 @@ public class SupplierController {
             if(skip < 0 || limit < 0){
                 throw new PaginationException("Erro, parametro skip ou limit e menor que 0, verifique!");
             }
-            return new ResponseEntity<>(service.read(skip, limit, filter, search), HttpStatus.OK);
+            return new ResponseEntity<>(service.read(skip, limit, filter, search, false), HttpStatus.OK);
 
         }catch (Exception e){
             e.printStackTrace();
@@ -99,4 +100,36 @@ public class SupplierController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping("/trash")
+    public ResponseEntity<Response<List<Supplier>>> readTrash(@RequestParam int skip, @RequestParam int limit){
+        try{
+            if(skip < 0 || limit < 0){
+                throw new PaginationException("Erro, parametro skip ou limit e menor que 0, verifique!");
+            }
+            return new ResponseEntity<>(service.read(skip, limit, false), HttpStatus.OK);
+
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/trash/search")
+    public ResponseEntity<Response<List<Supplier>>> readTrash(@RequestParam int skip, @RequestParam int limit, @RequestParam Filter filter, @RequestParam String search){
+        try{
+            if(skip < 0 || limit < 0){
+                throw new PaginationException("Erro, parametro skip ou limit e menor que 0, verifique!");
+            }
+            return new ResponseEntity<>(service.read(skip, limit, filter, search, false), HttpStatus.OK);
+
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
 }

@@ -3,7 +3,6 @@ package br.com.product.mannager.service;
 import br.com.product.mannager.exceptions.UserException;
 import br.com.product.mannager.models.Response;
 import br.com.product.mannager.models.User;
-import br.com.product.mannager.provider.Firebase;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -68,6 +67,10 @@ public class UserService {
         }catch (Exception e){
             throw new UserException("Erro ao converter token em uid!");
         }
+    }
+
+    public User getUserByUid(String uid){
+        return template.findOne(new Query(Criteria.where("uid").is(uid)), User.class);
     }
 
 }

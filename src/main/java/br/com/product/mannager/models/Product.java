@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Document("products")
 @Getter
@@ -30,6 +31,8 @@ public class Product {
     private double price;
     @Min(0)
     private int quantity;
-    private String howCreate;
+    private List<History> history;
+    private boolean deleted;
+
 
 }

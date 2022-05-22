@@ -1,9 +1,8 @@
 package br.com.product.mannager.service;
 
 import br.com.product.mannager.exceptions.CrudErrorException;
-import br.com.product.mannager.models.Filter;
-import br.com.product.mannager.models.Product;
-import br.com.product.mannager.models.Response;
+import br.com.product.mannager.models.*;
+import br.com.product.mannager.utils.DateService;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -22,8 +21,15 @@ public class ProductManagerService implements CrudInterface<Product> {
     }
 
     @Override
-    public Response<Product> create(Product obj) throws CrudErrorException {
+    public Response<Product> create(User user, Product obj) throws CrudErrorException {
         try{
+            obj.setHistory(
+                    List.of(new History(
+                                    DateService.getDate(),
+                                    Messages.HISTORY_CREATED_SUCCESSFULLY.getMsg().replace("@USER", user.getCode())
+                            )
+            ));
+
             return new Response<>(
                     this.getQuantity(),
                     template.save(obj),
@@ -36,12 +42,14 @@ public class ProductManagerService implements CrudInterface<Product> {
     }
 
     @Override
-    public Response<Product> update(Product obj) throws CrudErrorException {
+    public Response<Product> update(User user, Product obj) throws CrudErrorException {
         Response<Product> response = new Response<>();
         try{
-
             Query query = new Query(Criteria.where("code").is(obj.getCode()));
             Update update = new Update()
+                    .push("history",
+                            new History(DateService.getDate(),
+                            Messages.HISTORY_UPDATED_SUCCESSFULLY.getMsg().replace("@USER",user.getCode())))
                     .set("name", obj.getName())
                     .set("url", obj.getUrl())
                     .set("brand", obj.getBrand())
@@ -59,10 +67,16 @@ public class ProductManagerService implements CrudInterface<Product> {
     }
 
     @Override
-    public Response<Long> delete(String code) throws CrudErrorException{
+    public Response<Long> delete(User user, String code) throws CrudErrorException{
         try{
             Query query = new Query(Criteria.where("code").is(code));
-            long deleteCount = this.template.remove(query, Product.class).getDeletedCount();
+            Update update = new Update()
+                    .push("history",
+                            new History(DateService.getDate(),
+                                    Messages.HISTORY_DELETED_SUCCESSFULLY.getMsg().replace("@USER",user.getCode())))
+                    .set("deleted", true);
+
+            long deleteCount = template.updateFirst(query, update, Product.class).getModifiedCount();
             return new Response<>(
                     this.getQuantity(),
                     deleteCount,
@@ -74,13 +88,12 @@ public class ProductManagerService implements CrudInterface<Product> {
     }
 
     @Override
-    public Response<List<Product>> read(int skip, int limit) throws CrudErrorException {
+    public Response<List<Product>> read(int skip, int limit, boolean deleted) throws CrudErrorException {
         try{
             if(limit > 100){
                 limit = 100;
             }
-
-            Query query = new Query();
+            Query query = new Query(Criteria.where("deleted").is(deleted));
             query.with(Sort.by(Sort.Direction.DESC, "name"));
             query.skip(skip).limit(limit);
             return new Response<>(
@@ -96,14 +109,14 @@ public class ProductManagerService implements CrudInterface<Product> {
     }
 
     @Override
-    public Response<List<Product>> read(int skip, int limit, Filter filter, String search) throws CrudErrorException {
+    public Response<List<Product>> read(int skip, int limit, Filter filter, String search, boolean deleted) throws CrudErrorException {
         try{
-
             if(limit > 100){
                 limit = 100;
             }
 
             Query query = new Query(Criteria.where(filter.getFilter()).regex(search, "i"));
+            query.addCriteria(Criteria.where("deleted").is(deleted));
             query.with(Sort.by(Sort.Direction.ASC, "name"));
             query.skip(skip).limit(limit);
             return new Response<>(

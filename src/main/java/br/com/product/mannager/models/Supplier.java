@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Document("supplier")
 @Getter
@@ -25,5 +26,6 @@ public class Supplier {
     private String phone;
     private String email;
     private String observation;
-
+    private List<History> history;
+    private boolean deleted;
 }

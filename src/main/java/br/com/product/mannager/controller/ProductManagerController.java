@@ -4,6 +4,7 @@ import br.com.product.mannager.exceptions.PaginationException;
 import br.com.product.mannager.models.Filter;
 import br.com.product.mannager.models.Product;
 import br.com.product.mannager.models.Response;
+import br.com.product.mannager.models.User;
 import br.com.product.mannager.service.ProductManagerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,7 @@ public class ProductManagerController {
     }
 
     @PostMapping
-    public ResponseEntity<Response<Product>> create(@Valid @RequestBody Product product, BindingResult validationResult){
+    public ResponseEntity<Response<Product>> create(@RequestAttribute("user") User user, @Valid @RequestBody Product product, BindingResult validationResult){
         Response<Product> response = new Response<>();
         try{
             if(validationResult.hasErrors()){
@@ -33,7 +34,7 @@ public class ProductManagerController {
                 return new ResponseEntity<>(response, HttpStatus.NOT_ACCEPTABLE);
             }
 
-            return new ResponseEntity<>(this.service.create(product), HttpStatus.OK);
+            return new ResponseEntity<>(this.service.create(user, product), HttpStatus.OK);
 
         }catch (Exception e){
             response.setMessage(e.getMessage());
@@ -44,7 +45,7 @@ public class ProductManagerController {
     }
 
     @PutMapping
-    public ResponseEntity<Response<Product>> update(@Valid @RequestBody Product product, BindingResult validationResult){
+    public ResponseEntity<Response<Product>> update(@RequestAttribute("user") User user, @Valid @RequestBody Product product, BindingResult validationResult){
         Response<Product> response = new Response<>();
         try{
 
@@ -56,7 +57,7 @@ public class ProductManagerController {
                 return new ResponseEntity<>(response, HttpStatus.NOT_ACCEPTABLE);
             }
 
-            return new ResponseEntity<>(this.service.update(product), HttpStatus.OK);
+            return new ResponseEntity<>(this.service.update(user, product), HttpStatus.OK);
 
         }catch (Exception e){
             response.setMessage(e.getMessage());
@@ -65,9 +66,9 @@ public class ProductManagerController {
     }
 
     @DeleteMapping
-    public ResponseEntity<Response<Long>> delete(@RequestParam String code){
+    public ResponseEntity<Response<Long>> delete(@RequestAttribute("user") User user, @RequestParam String code){
         try{
-            return new ResponseEntity<>(this.service.delete(code), HttpStatus.OK);
+            return new ResponseEntity<>(this.service.delete(user, code), HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
             System.out.println(e.getMessage());
@@ -83,7 +84,7 @@ public class ProductManagerController {
                 throw new PaginationException("Erro, parametro skip ou limit e menor que 0, verifique!");
             }
 
-            return new ResponseEntity<>(this.service.read(skip, limit), HttpStatus.OK);
+            return new ResponseEntity<>(this.service.read(skip, limit, false), HttpStatus.OK);
 
         }catch (Exception e){
             response.setMessage(e.getMessage());
@@ -92,19 +93,52 @@ public class ProductManagerController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<Response<List<Product>>> search(@RequestParam int skip, @RequestParam int limit, @RequestParam Filter filter, @RequestParam String search){
+    public ResponseEntity<Response<List<Product>>> read(@RequestParam int skip, @RequestParam int limit, @RequestParam Filter filter, @RequestParam String search){
         Response<List<Product>> response = new Response<>();
         try{
             if(skip < 0 || limit < 0){
                 throw new PaginationException("Erro, parametro skip ou limit e menor que 0, verifique!");
             }
 
-            return new ResponseEntity<>(this.service.read(skip, limit, filter, search), HttpStatus.OK);
+            return new ResponseEntity<>(this.service.read(skip, limit, filter, search, false), HttpStatus.OK);
 
         }catch (Exception e){
             response.setMessage(e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping("/trash")
+    public ResponseEntity<Response<List<Product>>> readTrash(@RequestParam int skip, @RequestParam int limit){
+        Response<List<Product>> response = new Response<>();
+        try{
+            if(skip < 0 || limit < 0){
+                throw new PaginationException("Erro, parametro skip ou limit e menor que 0, verifique!");
+            }
+
+            return new ResponseEntity<>(this.service.read(skip, limit, true), HttpStatus.OK);
+
+        }catch (Exception e){
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/trash/search")
+    public ResponseEntity<Response<List<Product>>> readTrash(@RequestParam int skip, @RequestParam int limit, @RequestParam Filter filter, @RequestParam String search){
+        Response<List<Product>> response = new Response<>();
+        try{
+            if(skip < 0 || limit < 0){
+                throw new PaginationException("Erro, parametro skip ou limit e menor que 0, verifique!");
+            }
+
+            return new ResponseEntity<>(this.service.read(skip, limit, filter, search, true), HttpStatus.OK);
+
+        }catch (Exception e){
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+
 
 }

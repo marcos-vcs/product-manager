@@ -7,11 +7,11 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 
 public interface CrudInterface<T> {
 
-    Response create(T obj) throws CrudErrorException;
-    Response update(T obj) throws CrudErrorException;
-    Response delete(String code) throws CrudErrorException;
-    Response read(int skip, int limit) throws CrudErrorException;
-    Response read(int skip, int limit, Filter filter, String search) throws CrudErrorException;
+    Response create(User user, T obj) throws CrudErrorException;
+    Response update(User user, T obj) throws CrudErrorException;
+    Response delete(User user, String code) throws CrudErrorException;
+    Response read(int skip, int limit, boolean deleted) throws CrudErrorException;
+    Response read(int skip, int limit, Filter filter, String search, boolean deleted) throws CrudErrorException;
 
 
 }

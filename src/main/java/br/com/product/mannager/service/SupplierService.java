@@ -1,9 +1,8 @@
 package br.com.product.mannager.service;
 
 import br.com.product.mannager.exceptions.CrudErrorException;
-import br.com.product.mannager.models.Filter;
-import br.com.product.mannager.models.Response;
-import br.com.product.mannager.models.Supplier;
+import br.com.product.mannager.models.*;
+import br.com.product.mannager.utils.DateService;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -22,11 +21,14 @@ public class SupplierService implements CrudInterface<Supplier>{
     }
 
     @Override
-    public Response<Supplier> create(Supplier obj) throws CrudErrorException {
+    public Response<Supplier> create(User user, Supplier obj) throws CrudErrorException {
         try{
-            if(obj.getCode() != null){
-                throw new CrudErrorException("não informe code na criação de um novo fornecedor!");
-            }
+            obj.setHistory(
+                    List.of(new History(
+                                    DateService.getDate(),
+                                    Messages.HISTORY_CREATED_SUCCESSFULLY.getMsg().replace("@USER", user.getCode())
+                    )
+            ));
 
             return new Response<>(
                     this.getQuantity(),
@@ -41,14 +43,13 @@ public class SupplierService implements CrudInterface<Supplier>{
     }
 
     @Override
-    public Response<String> update(Supplier obj) throws CrudErrorException {
+    public Response<String> update(User user, Supplier obj) throws CrudErrorException {
         try{
-            if(obj.getCode() == null || obj.getCode().equals("")){
-                throw new CrudErrorException("code informado é inválido!");
-            }
-
             Query query = new Query(Criteria.where("code").is(obj.getCode()));
             Update update = new Update()
+                    .push("history",
+                            new History(DateService.getDate(),
+                            Messages.HISTORY_UPDATED_SUCCESSFULLY.getMsg().replace("@USER",user.getCode())))
                     .set("name", obj.getName())
                     .set("email", obj.getEmail())
                     .set("phone", obj.getPhone())
@@ -67,10 +68,16 @@ public class SupplierService implements CrudInterface<Supplier>{
     }
 
     @Override
-    public Response<Long> delete(String code) throws CrudErrorException {
+    public Response<Long> delete(User user, String code) throws CrudErrorException {
         try{
             Query query = new Query(Criteria.where("code").is(code));
-            long deleteCount = template.remove(query, Supplier.class).getDeletedCount();
+            Update update = new Update()
+                    .push("history",
+                            new History(DateService.getDate(),
+                            Messages.HISTORY_DELETED_SUCCESSFULLY.getMsg().replace("@USER",user.getCode())))
+                    .set("deleted", true);
+
+            long deleteCount = template.updateFirst(query, update, Supplier.class).getModifiedCount();
             return new Response<>(
                     this.getQuantity(),
                     deleteCount,
@@ -84,14 +91,13 @@ public class SupplierService implements CrudInterface<Supplier>{
     }
 
     @Override
-    public Response<List<Supplier>> read(int skip, int limit) throws CrudErrorException {
+    public Response<List<Supplier>> read(int skip, int limit, boolean deleted) throws CrudErrorException {
         try{
-
             if(limit > 100){
                 limit = 100;
             }
 
-            Query query = new Query();
+            Query query = new Query(Criteria.where("deleted").is(deleted));
             query.with(Sort.by(Sort.Direction.DESC, "name"));
             query.skip(skip).limit(limit);
             return new Response<>(
@@ -108,14 +114,14 @@ public class SupplierService implements CrudInterface<Supplier>{
     }
 
     @Override
-    public Response<List<Supplier>> read(int skip, int limit, Filter filter, String search) throws CrudErrorException {
+    public Response<List<Supplier>> read(int skip, int limit, Filter filter, String search, boolean deleted) throws CrudErrorException {
         try{
-
             if(limit > 100){
                 limit = 100;
             }
 
             Query query = new Query(Criteria.where(filter.getFilter()).regex(search, "i"));
+            query.addCriteria(Criteria.where("deleted").is(deleted));
             query.with(Sort.by(Sort.Direction.DESC, "name"));
             query.skip(skip).limit(limit);
             return new Response<>(
