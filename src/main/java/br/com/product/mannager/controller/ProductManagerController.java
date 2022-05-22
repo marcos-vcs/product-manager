@@ -1,10 +1,10 @@
 package br.com.product.mannager.controller;
 
 import br.com.product.mannager.exceptions.PaginationException;
-import br.com.product.mannager.models.Filter;
 import br.com.product.mannager.models.Product;
 import br.com.product.mannager.models.Response;
 import br.com.product.mannager.models.User;
+import br.com.product.mannager.models.enums.ProductFilter;
 import br.com.product.mannager.service.ProductManagerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -93,7 +93,7 @@ public class ProductManagerController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<Response<List<Product>>> read(@RequestParam int skip, @RequestParam int limit, @RequestParam Filter filter, @RequestParam String search){
+    public ResponseEntity<Response<List<Product>>> read(@RequestParam int skip, @RequestParam int limit, @RequestParam ProductFilter filter, @RequestParam String search){
         Response<List<Product>> response = new Response<>();
         try{
             if(skip < 0 || limit < 0){
@@ -125,7 +125,7 @@ public class ProductManagerController {
     }
 
     @GetMapping("/trash/search")
-    public ResponseEntity<Response<List<Product>>> readTrash(@RequestParam int skip, @RequestParam int limit, @RequestParam Filter filter, @RequestParam String search){
+    public ResponseEntity<Response<List<Product>>> readTrash(@RequestParam int skip, @RequestParam int limit, @RequestParam ProductFilter filter, @RequestParam String search){
         Response<List<Product>> response = new Response<>();
         try{
             if(skip < 0 || limit < 0){

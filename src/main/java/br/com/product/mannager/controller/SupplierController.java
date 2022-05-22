@@ -1,10 +1,10 @@
 package br.com.product.mannager.controller;
 
 import br.com.product.mannager.exceptions.PaginationException;
-import br.com.product.mannager.models.Filter;
 import br.com.product.mannager.models.Response;
 import br.com.product.mannager.models.Supplier;
 import br.com.product.mannager.models.User;
+import br.com.product.mannager.models.enums.SupplierFilter;
 import br.com.product.mannager.service.SupplierService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -87,7 +87,7 @@ public class SupplierController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<Response<List<Supplier>>> read(@RequestParam int skip, @RequestParam int limit, @RequestParam Filter filter, @RequestParam String search){
+    public ResponseEntity<Response<List<Supplier>>> read(@RequestParam int skip, @RequestParam int limit, @RequestParam SupplierFilter filter, @RequestParam String search){
         try{
             if(skip < 0 || limit < 0){
                 throw new PaginationException("Erro, parametro skip ou limit e menor que 0, verifique!");
@@ -117,7 +117,7 @@ public class SupplierController {
     }
 
     @GetMapping("/trash/search")
-    public ResponseEntity<Response<List<Supplier>>> readTrash(@RequestParam int skip, @RequestParam int limit, @RequestParam Filter filter, @RequestParam String search){
+    public ResponseEntity<Response<List<Supplier>>> readTrash(@RequestParam int skip, @RequestParam int limit, @RequestParam SupplierFilter filter, @RequestParam String search){
         try{
             if(skip < 0 || limit < 0){
                 throw new PaginationException("Erro, parametro skip ou limit e menor que 0, verifique!");

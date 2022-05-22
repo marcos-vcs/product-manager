@@ -2,6 +2,8 @@ package br.com.product.mannager.service;
 
 import br.com.product.mannager.exceptions.CrudErrorException;
 import br.com.product.mannager.models.*;
+import br.com.product.mannager.models.enums.Messages;
+import br.com.product.mannager.models.enums.ProductFilter;
 import br.com.product.mannager.utils.DateService;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -12,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ProductManagerService implements CrudInterface<Product> {
+public class ProductManagerService implements CrudInterface<Product, ProductFilter> {
 
     private final MongoTemplate template;
 
@@ -109,7 +111,7 @@ public class ProductManagerService implements CrudInterface<Product> {
     }
 
     @Override
-    public Response<List<Product>> read(int skip, int limit, Filter filter, String search, boolean deleted) throws CrudErrorException {
+    public Response<List<Product>> read(int skip, int limit, ProductFilter filter, String search, boolean deleted) throws CrudErrorException {
         try{
             if(limit > 100){
                 limit = 100;

@@ -2,6 +2,8 @@ package br.com.product.mannager.service;
 
 import br.com.product.mannager.exceptions.CrudErrorException;
 import br.com.product.mannager.models.*;
+import br.com.product.mannager.models.enums.Messages;
+import br.com.product.mannager.models.enums.SupplierFilter;
 import br.com.product.mannager.utils.DateService;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -12,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class SupplierService implements CrudInterface<Supplier>{
+public class SupplierService implements CrudInterface<Supplier, SupplierFilter>{
 
     private final MongoTemplate template;
 
@@ -114,7 +116,7 @@ public class SupplierService implements CrudInterface<Supplier>{
     }
 
     @Override
-    public Response<List<Supplier>> read(int skip, int limit, Filter filter, String search, boolean deleted) throws CrudErrorException {
+    public Response<List<Supplier>> read(int skip, int limit, SupplierFilter filter, String search, boolean deleted) throws CrudErrorException {
         try{
             if(limit > 100){
                 limit = 100;
