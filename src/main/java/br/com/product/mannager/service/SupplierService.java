@@ -127,7 +127,7 @@ public class SupplierService implements CrudInterface<Supplier, SupplierFilter>{
             query.with(Sort.by(Sort.Direction.DESC, "name"));
             query.skip(skip).limit(limit);
             return new Response<>(
-                    this.getQuantity(),
+                    deleted ? getQuantityTrash() : getQuantity(),
                     template.find(query, Supplier.class),
                     "OK"
             );
@@ -139,7 +139,11 @@ public class SupplierService implements CrudInterface<Supplier, SupplierFilter>{
     }
 
     private long getQuantity(){
-        return this.template.count(new Query(), Supplier.class);
+        return this.template.count(new Query(Criteria.where("deleted").is(false)), Supplier.class);
+    }
+
+    private long getQuantityTrash(){
+        return this.template.count(new Query(Criteria.where("deleted").is(true)), Product.class);
     }
 
 }
