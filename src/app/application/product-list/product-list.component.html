@@ -101,9 +101,13 @@
               <p class="card-text">{{product.price | currency : 'BRL'}}</p>
         </div>
     </div>
-    <mat-spinner *ngIf="loadMore" class="mx-auto"></mat-spinner>
   </div>
 
+  <div class="row" *ngIf="loadMore">
+    <div class="col-12">
+      <mat-spinner class="mx-auto"></mat-spinner>
+    </div>
+  </div>
   <div class="row">
     <div class="col mt-3 mb-5 ml-4">
 

@@ -6,7 +6,8 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class RefreshService {
 
-  isRefresh = new BehaviorSubject(false);
+  isRefreshProduct = new BehaviorSubject(false);
+  isRefreshSupplier = new BehaviorSubject(false);
 
   constructor() { }
 }

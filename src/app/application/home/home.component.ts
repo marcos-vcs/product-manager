@@ -11,6 +11,8 @@ import { AboutComponent } from '../about/about.component';
 import { Product } from 'src/app/model/product';
 import { ProductModalComponent } from '../product-modal/product-modal.component';
 import { RefreshService } from '../product-list/refresh.service';
+import { SupplierModalComponent } from '../supplier-modal/supplier-modal.component';
+import { Supplier } from 'src/app/model/supplier';
 
 @UntilDestroy()
 @Component({
@@ -32,7 +34,7 @@ export class HomeComponent implements OnInit {
     public dialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.refreshService.isRefresh.next(true);
+    this.refreshService.isRefreshProduct.next(true);
   }
 
   ngAfterViewInit() {
@@ -91,24 +93,47 @@ export class HomeComponent implements OnInit {
   }
 
   async createProduct(){
-    const product = new Product();
     const dialogRef = this.dialog.open(ProductModalComponent, {
       minWidth: "550px",
       width: "900px",
       maxHeight: "90vh",
       disableClose: true,
       data: {
-        product: product,
+        product: new Product(),
         isNew: true
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
-        if(!this.refreshService.isRefresh.value){
-          this.refreshService.isRefresh.next(true);
+        if(!this.refreshService.isRefreshProduct.value){
+          this.refreshService.isRefreshProduct.next(true);
         }else{
-          this.refreshService.isRefresh.next(false);
+          this.refreshService.isRefreshProduct.next(false);
+        }
+      }
+    });
+
+  }
+
+  async createSupplier(){
+    const dialogRef = this.dialog.open(SupplierModalComponent, {
+      minWidth: "550px",
+      width: "900px",
+      maxHeight: "90vh",
+      disableClose: true,
+      data: {
+        supplier: new Supplier(),
+        isNew: true
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        if(!this.refreshService.isRefreshSupplier.value){
+          this.refreshService.isRefreshSupplier.next(true);
+        }else{
+          this.refreshService.isRefreshSupplier.next(false);
         }
       }
     });

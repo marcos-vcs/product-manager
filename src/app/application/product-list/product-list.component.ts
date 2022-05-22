@@ -36,7 +36,7 @@ export class ProductListComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.refreshService.isRefresh.subscribe(() => {
+    this.refreshService.isRefreshProduct.subscribe(() => {
       this.get();
     });
   }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RefreshService } from '../product-list/refresh.service';
 
 @Component({
   selector: 'app-supplier-list',
@@ -13,9 +14,14 @@ export class SupplierListComponent implements OnInit {
   filter = 'NAME';
   max = 10;
 
-  constructor() { }
+  constructor(
+    private refreshService: RefreshService
+  ) { }
 
   ngOnInit(): void {
+    this.refreshService.isRefreshProduct.subscribe(() => {
+      this.get();
+    });
   }
 
   get(){

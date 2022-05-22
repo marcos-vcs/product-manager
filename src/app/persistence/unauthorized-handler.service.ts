@@ -18,8 +18,6 @@ export class UnauthorizedHandlerService implements HttpInterceptor {
 
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log('intercepted request ... ');
-    console.log(req);
     return next.handle(req).pipe(
       tap(event => {}),
       catchError((err: any) => {

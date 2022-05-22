@@ -53,6 +53,27 @@ export class ProductService {
     );
   }
 
+  getTrash(skip: number, limit: Number): Observable<Response<Product[]>> {
+    return this.http.get<Response<Product[]>>(
+      `${environment.api}${environment.product}/trash?skip=${skip}&limit=${limit}`,
+      { headers: this.getHeader() }
+    );
+  }
+
+  searchTrash(
+    skip: number,
+    limit: number,
+    filter: string,
+    search: string
+  ): Observable<Response<Product[]>> {
+    return this.http.get<Response<Product[]>>(
+      `${environment.api}${environment.product}/trash/search?skip=${skip}&limit=${limit}&filter=${filter}&search=${search}`,
+      { headers: this.getHeader() }
+    );
+  }
+
+
+
   private getHeader(): HttpHeaders {
     const token = localStorage.getItem('Authorization');
     let headers = new HttpHeaders();

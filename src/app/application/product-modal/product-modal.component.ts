@@ -9,7 +9,6 @@ import { SnackbarService } from 'src/app/geral/snackbar.service';
 import { StorageService } from 'src/app/geral/storage.service';
 import { Product } from 'src/app/model/product';
 import { ProductService } from 'src/app/persistence/product.service';
-import { SecurityService } from 'src/app/security/security.service';
 import { ConfirmDialogComponent, ConfirmDialogModel } from '../confirm-dialog/confirm-dialog.component';
 
 export interface DialogData {
@@ -36,8 +35,6 @@ export class ProductModalComponent implements OnInit {
   imagePath: any;
 
   constructor(
-    private security: SecurityService,
-    private router: Router,
     private snackbar: SnackbarService,
     private database: ProductService,
     private photoUrl: PhotoUrlService,
@@ -74,7 +71,7 @@ export class ProductModalComponent implements OnInit {
           setTimeout(() => {
             this.isSave = false;
             this.dialogRef.close(true);
-          }, 2000);
+          }, 1000);
         });
       });
     }else{
