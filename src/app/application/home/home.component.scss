@@ -53,25 +53,26 @@ mat-sidenav-container {
 .menu-button {
   margin-top: -10px;
   margin-bottom: -10px;
+  padding: 3px 5px 3px 5px;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   font-size: 0.7rem;
-
 }
 
-.avatar {
-  margin-top: 16px;
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
+.menu-button-out-of-structure {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 1rem;
+
+  mat-icon {
+      margin-right: 8px;
+  }
 }
 
-.name {
-  margin-top: 8px;
-  font-weight: normal;
-}
 
 .designation {
   margin-top: 2px;

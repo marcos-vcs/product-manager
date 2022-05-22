@@ -12,6 +12,19 @@ body {
 .mat-expansion-indicator::after {
     color: white;
 }
+.mat-drawer-inner-container::-webkit-scrollbar {
+  width: 8px;
+}
+.mat-drawer-inner-container::-webkit-scrollbar-track {
+  border: none;
+}
+.mat-drawer-inner-container::-webkit-scrollbar-thumb {
+  background: #44a5ccde;
+  border-radius: 10px;
+}
+.mat-drawer-inner-container::-webkit-scrollbar-thumb:hover {
+  background: #447d94;
+}
 
 .green-snackbar {
   font-weight: 500;

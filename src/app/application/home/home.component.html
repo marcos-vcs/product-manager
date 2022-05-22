@@ -26,29 +26,58 @@
             <span>Gestor de produtos</span>
         </mat-expansion-panel-header>
         <mat-divider></mat-divider>
-        <p>Lista de produtos</p>
+          <button mat-button class="menu-button" routerLink="/product-manager">
+            <mat-icon> list_alt</mat-icon>&nbsp;
+            <span>Produtos</span>
+          </button>
         <mat-divider></mat-divider>
-          <button (click)="create()" mat-button class="menu-button" routerLink="/home">
+          <button (click)="create()" mat-button class="menu-button" routerLink="/product-manager">
             <mat-icon>add</mat-icon>
             <span>Novo produto</span>
           </button>
         <mat-divider></mat-divider>
-        <button (click)="create()" mat-button class="menu-button" routerLink="/home">
-          <mat-icon>delete</mat-icon> &nbsp;
-          <span>Lixeira</span>
-        </button>
+          <button mat-button class="menu-button" routerLink="/product-trash">
+            <mat-icon>delete</mat-icon> &nbsp;
+            <span>Lixeira</span>
+          </button>
       </mat-expansion-panel>
     </mat-accordion>
-    <button (click)="openAbout()" mat-button class="menu-button" routerLink="/profile">
+
+    <mat-accordion>
+      <mat-expansion-panel (opened)="panelOpenState = true"
+                           (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+            <img src="../../../assets/supplier.png" width="40" alt="Delivery icon">
+            <span>Gestor de Fornecedores</span>
+        </mat-expansion-panel-header>
+        <mat-divider></mat-divider>
+          <button mat-button class="menu-button" routerLink="/supplier-manager">
+            <mat-icon> contacts</mat-icon>&nbsp;
+            <span>Fornecedores</span>
+          </button>
+        <mat-divider></mat-divider>
+          <button mat-button class="menu-button" routerLink="/supplier-manager">
+            <mat-icon>add</mat-icon>
+            <span>Novo Fornecedor</span>
+          </button>
+        <mat-divider></mat-divider>
+          <button mat-button class="menu-button" routerLink="/supplier-trash">
+            <mat-icon>delete</mat-icon> &nbsp;
+            <span>Lixeira</span>
+          </button>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <mat-divider></mat-divider>
+
+    <button (click)="openAbout()" mat-button class="menu-button-out-of-structure">
       <mat-icon>info</mat-icon>
       <span>Sobre</span>
     </button>
-    <button (click)="logout();" mat-button class="menu-button" routerLink="/about">
+    <button (click)="logout();" mat-button class="menu-button-out-of-structure">
       <mat-icon>exit_to_app</mat-icon>
       <span>Sair</span>
     </button>
-
-    <mat-divider></mat-divider>
 
   </mat-sidenav>
   <mat-sidenav-content>
