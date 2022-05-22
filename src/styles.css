@@ -8,6 +8,10 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+.mat-expansion-panel-header-description,
+.mat-expansion-indicator::after {
+    color: white;
+}
 
 .green-snackbar {
   font-weight: 500;

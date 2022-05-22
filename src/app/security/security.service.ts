@@ -29,7 +29,7 @@ export class SecurityService {
         this.snackbar.openSnackbarSuccess('Login efetuado com sucesso!');
         this.router.navigate(['']);
       }, (error) => {
-        this.snackbar.openSnackbarAlert('Erro ao efetuar login do lado do servidor!');
+        this.snackbar.openSnackbarAlert('Erro ao efetuar login, não foi possível entrar em contato com o servidor!');
         console.log(error);
       });
     }, (error) => {

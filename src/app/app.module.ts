@@ -38,6 +38,11 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatDividerModule } from '@angular/material/divider';
 import { NgxLoadingModule } from 'ngx-loading';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { ProductTrashComponent } from './application/product-trash/product-trash.component';
+import { SupplierListComponent } from './application/supplier-list/supplier-list.component';
+import { SupplierTrashComponent } from './application/supplier-trash/supplier-trash.component';
+import { SupplierModalComponent } from './application/supplier-modal/supplier-modal.component';
 
 registerLocaleData(ptBr);
 
@@ -52,10 +57,15 @@ registerLocaleData(ptBr);
     ConfirmDialogComponent,
     HomeComponent,
     AuthenticationComponent,
-    AboutComponent
+    AboutComponent,
+    ProductTrashComponent,
+    SupplierListComponent,
+    SupplierTrashComponent,
+    SupplierModalComponent
   ],
   imports: [
     NgxLoadingModule.forRoot({}),
+    MatExpansionModule,
     MatDividerModule,
     MatSidenavModule,
     MatToolbarModule,

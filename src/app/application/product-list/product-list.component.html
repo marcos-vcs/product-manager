@@ -79,9 +79,9 @@
   <div class="row mt-5 center">
     <div class="card card-config ml-4 mb-4" *ngFor="let product of products" (click)="edit(product)">
         <img
-        loading="lazy"
+
         class="card-img-top"
-        src="{{product.url}}"
+        [src]="product.url"
         onerror="this.onerror=null;this.src='../../../assets/not-found-product-image.png'"
         width="100%"
         height="150px"

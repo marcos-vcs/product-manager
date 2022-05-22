@@ -1,3 +1,17 @@
+.mat-expansion-panel{
+  font-family: 'Open Sans', sans-serif !important;
+  text-decoration: none !important;
+  color: #fff !important;
+  box-shadow: none !important;
+  background-color: #4dbce9 !important;
+  font-weight: bolder !important;
+}
+.mat-expansion-panel-header, .mat-accordion{
+  margin: 0%;
+  padding: 10px;
+  font-size: 14px;
+}
+
 mat-toolbar {
   padding:40px 5px;
   background: #4dbce9;
@@ -37,15 +51,14 @@ mat-sidenav-container {
 }
 
 .menu-button {
+  margin-top: -10px;
+  margin-bottom: -10px;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  font-size: 1rem;
+  font-size: 0.7rem;
 
-  mat-icon {
-    margin-right: 8px;
-  }
 }
 
 .avatar {

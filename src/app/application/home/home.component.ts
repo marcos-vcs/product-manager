@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
 
   @ViewChild(MatSidenav)
   sidenav!: MatSidenav;
-
+  panelOpenState = false;
 
   constructor(
     private database: DatabaseService,

@@ -16,12 +16,29 @@
 </mat-toolbar>
 
 <mat-sidenav-container>
-  <mat-sidenav #sidenav="matSidenav" class="mat-elevation-z8">
+  <mat-sidenav #sidenav="matSidenav">
 
-    <button (click)="create()" mat-button class="menu-button" routerLink="/home">
-      <mat-icon>add</mat-icon>
-      <span>Novo produto</span>
-    </button>
+    <mat-accordion>
+      <mat-expansion-panel (opened)="panelOpenState = true"
+                           (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+            <img src="../../../assets/delivery.png" width="40" alt="Delivery icon">
+            <span>Gestor de produtos</span>
+        </mat-expansion-panel-header>
+        <mat-divider></mat-divider>
+        <p>Lista de produtos</p>
+        <mat-divider></mat-divider>
+          <button (click)="create()" mat-button class="menu-button" routerLink="/home">
+            <mat-icon>add</mat-icon>
+            <span>Novo produto</span>
+          </button>
+        <mat-divider></mat-divider>
+        <button (click)="create()" mat-button class="menu-button" routerLink="/home">
+          <mat-icon>delete</mat-icon> &nbsp;
+          <span>Lixeira</span>
+        </button>
+      </mat-expansion-panel>
+    </mat-accordion>
     <button (click)="openAbout()" mat-button class="menu-button" routerLink="/profile">
       <mat-icon>info</mat-icon>
       <span>Sobre</span>
