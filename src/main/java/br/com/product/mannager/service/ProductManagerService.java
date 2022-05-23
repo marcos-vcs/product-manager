@@ -99,7 +99,7 @@ public class ProductManagerService implements CrudInterface<Product, ProductFilt
             query.with(Sort.by(Sort.Direction.DESC, "name"));
             query.skip(skip).limit(limit);
             return new Response<>(
-                    this.getQuantity(),
+                    deleted ? getQuantityTrash() : getQuantity(),
                     this.template.find(query, Product.class),
                     "OK"
             );
@@ -122,7 +122,7 @@ public class ProductManagerService implements CrudInterface<Product, ProductFilt
             query.with(Sort.by(Sort.Direction.ASC, "name"));
             query.skip(skip).limit(limit);
             return new Response<>(
-                    deleted ? getQuantityTrash() : getQuantity(),
+                    deleted ? getQuantityTrash(filter, search) : getQuantity(filter, search),
                     this.template.find(query, Product.class),
                     "OK"
             );
@@ -137,8 +137,16 @@ public class ProductManagerService implements CrudInterface<Product, ProductFilt
         return this.template.count(new Query(Criteria.where("deleted").is(false)), Product.class);
     }
 
+    private long getQuantity(ProductFilter filter, String search){
+        return this.template.count(new Query(Criteria.where("deleted").is(false).and(filter.getFilter()).is(search)), Supplier.class);
+    }
+
     private long getQuantityTrash(){
         return this.template.count(new Query(Criteria.where("deleted").is(true)), Product.class);
+    }
+
+    private long getQuantityTrash(ProductFilter filter, String search){
+        return this.template.count(new Query(Criteria.where("deleted").is(true).and(filter.getFilter()).is(search)), Supplier.class);
     }
 
 }
