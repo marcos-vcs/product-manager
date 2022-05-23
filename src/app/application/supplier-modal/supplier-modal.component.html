@@ -8,13 +8,92 @@
   </div>
 
   <div class="row">
+    <div class="col title text-center">
+      <span *ngIf="data.isNew">Cadastre um novo fornecedor</span>
+      <span *ngIf="!data.isNew">Editar fornecedor</span>
+    </div>
+  </div>
+
+  <div class="row">
     <mat-spinner class="mx-auto my-5" *ngIf="isSave"></mat-spinner>
   </div>
 
-  <div class="row" *ngIf="!isSave">
+  <div class="row mt-5" *ngIf="!isSave">
     <div class="col-12">
-      <form >
+      <form ngNativeValidation>
 
+        <div class="row">
+          <div class="col text-center">
+            <mat-form-field class="w-70" appearance="fill">
+              <mat-label>Nome</mat-label>
+              <input
+              [(ngModel)]="data.supplier.name"
+              name="name"
+              type="text"
+              matInput
+              required
+              placeholder="Informe o nome">
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col text-center">
+            <mat-form-field class="w-70" appearance="fill">
+              <mat-label>Telefone</mat-label>
+              <input
+              [(ngModel)]="data.supplier.phone"
+              mask="(00) 00000-0000"
+              name="phone"
+              maxlength="15"
+              type="text"
+              matInput
+              required
+              placeholder="Informe o número de telefone">
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col text-center">
+            <mat-form-field class="w-70" appearance="fill">
+              <mat-label>E-mail</mat-label>
+              <input
+              [(ngModel)]="data.supplier.email"
+              name="email"
+              type="email"
+              matInput
+              placeholder="Informe o email">
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col text-center">
+            <mat-form-field class="w-70" appearance="fill">
+              <mat-label>Observação</mat-label>
+              <input
+              [(ngModel)]="data.supplier.observation"
+              name="observation"
+              type="text"
+              matInput
+              placeholder="Informe a observação">
+            </mat-form-field>
+          </div>
+        </div>
+
+        <button (click)="onSubmit()" mat-raised-button class="button">
+          <span *ngIf="data.isNew">Salvar</span>
+          <span *ngIf="!data.isNew">Editar</span>
+        </button>
+
+        <button
+          *ngIf="!data.isNew"
+          (click)="onDelete(data.supplier.code)"
+          mat-raised-button
+          class="button-delete">
+          <span>Excluir</span>
+        </button>
       </form>
     </div>
   </div>

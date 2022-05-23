@@ -1,6 +1,6 @@
 <div class="container-fluid">
 
-  <div class="row justify-content-center">
+  <div class="row justify-content-center" *ngIf="products.length > 0">
     <div class="col-lg-8 mt-2 center">
 
         <button
@@ -76,7 +76,7 @@
   </div>
 
 
-  <div class="row mt-5 center">
+  <div class="row mt-5 center" *ngIf="products.length > 0">
     <div class="card card-config ml-4 mb-4" *ngFor="let product of products" (click)="edit(product)">
         <img
 
@@ -108,7 +108,7 @@
       <mat-spinner class="mx-auto"></mat-spinner>
     </div>
   </div>
-  <div class="row">
+  <div class="row" *ngIf="products.length > 0">
     <div class="col mt-3 mb-5 ml-4">
 
       <button

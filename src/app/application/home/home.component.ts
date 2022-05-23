@@ -35,6 +35,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.refreshService.isRefreshProduct.next(true);
+    this.refreshService.isRefreshSupplier.next(true);
   }
 
   ngAfterViewInit() {

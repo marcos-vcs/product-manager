@@ -44,6 +44,10 @@ import { SupplierListComponent } from './application/supplier-list/supplier-list
 import { SupplierTrashComponent } from './application/supplier-trash/supplier-trash.component';
 import { SupplierModalComponent } from './application/supplier-modal/supplier-modal.component';
 import { UnauthorizedHandlerService } from './persistence/unauthorized-handler.service';
+import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { getDutchPaginatorIntl } from './dutch-paginator-intl';
+
 
 registerLocaleData(ptBr);
 
@@ -66,7 +70,9 @@ registerLocaleData(ptBr);
   ],
   imports: [
     NgxLoadingModule.forRoot({}),
+    MatPaginatorModule,
     MatExpansionModule,
+    MatTableModule,
     MatDividerModule,
     MatSidenavModule,
     MatToolbarModule,
@@ -98,7 +104,8 @@ registerLocaleData(ptBr);
     { provide: LOCALE_ID, useValue: 'pt' },
     { provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' },
     { provide: APP_BASE_HREF,  useValue: '/' },
-    { provide: BUCKET, useValue: 'gs://product-manager-dbb81.appspot.com' }
+    { provide: BUCKET, useValue: 'gs://product-manager-dbb81.appspot.com' },
+    { provide: MatPaginatorIntl, useValue: getDutchPaginatorIntl() },
   ],
   bootstrap: [AppComponent]
 })
