@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ProductManagerService implements CrudInterface<Product, ProductFilter> {
@@ -76,7 +77,7 @@ public class ProductManagerService implements CrudInterface<Product, ProductFilt
                     .push("history",
                             new History(DateService.getDate(),
                                     Messages.HISTORY_DELETED_SUCCESSFULLY.getMsg().replace("@USER",user.getCode())))
-                    .set("deleted", true);
+                    .set("deleted", !Objects.requireNonNull(template.findOne(query, Product.class)).isDeleted());
 
             long deleteCount = template.updateFirst(query, update, Product.class).getModifiedCount();
             return new Response<>(
@@ -85,7 +86,29 @@ public class ProductManagerService implements CrudInterface<Product, ProductFilt
                     "OK"
             );
         }catch (Exception e){
-            throw new CrudErrorException("Erro critico na exclusão do objeto");
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+            throw new CrudErrorException("Erro critico na exclusão do objeto.");
+        }
+    }
+
+    @Override
+    public Response<Long> cleanTrash(String code) throws CrudErrorException {
+        try{
+
+            Query query = new Query(Criteria.where("deleted").is(true));
+            query.addCriteria(code != null ? Criteria.where("code").is(code) : Criteria.where(""));
+
+            return new Response<>(
+                    getQuantityTrash(),
+                    template.remove(query, Product.class).getDeletedCount(),
+                    "OK"
+            );
+
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+            throw new CrudErrorException("Erro critico ao limpar lixeira.");
         }
     }
 

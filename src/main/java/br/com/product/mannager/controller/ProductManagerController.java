@@ -140,5 +140,15 @@ public class ProductManagerController {
         }
     }
 
+    @DeleteMapping("/trash")
+    public ResponseEntity<Response<Long>> deleteTrash(@RequestParam String code){
+        try{
+            return new ResponseEntity<>(service.cleanTrash(code), HttpStatus.OK);
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 
 }

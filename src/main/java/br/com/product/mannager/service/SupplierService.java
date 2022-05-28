@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class SupplierService implements CrudInterface<Supplier, SupplierFilter>{
@@ -77,7 +78,7 @@ public class SupplierService implements CrudInterface<Supplier, SupplierFilter>{
                     .push("history",
                             new History(DateService.getDate(),
                             Messages.HISTORY_DELETED_SUCCESSFULLY.getMsg().replace("@USER",user.getCode())))
-                    .set("deleted", true);
+                    .set("deleted", !Objects.requireNonNull(template.findOne(query, Supplier.class)).isDeleted());
 
             long deleteCount = template.updateFirst(query, update, Supplier.class).getModifiedCount();
             return new Response<>(
@@ -89,6 +90,26 @@ public class SupplierService implements CrudInterface<Supplier, SupplierFilter>{
             e.printStackTrace();
             System.out.println(e.getMessage());
             throw new CrudErrorException("Erro crítico ao excluir o fornecedor.");
+        }
+    }
+
+    @Override
+    public Response<Long> cleanTrash(String code) throws CrudErrorException {
+        try{
+
+            Query query = new Query(Criteria.where("deleted").is(true));
+            query.addCriteria(code != null ? Criteria.where("code").is(code) : Criteria.where(""));
+
+            return new Response<>(
+                    getQuantityTrash(),
+                    template.remove(query, Supplier.class).getDeletedCount(),
+                    "OK"
+            );
+
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+            throw new CrudErrorException("Erro critico ao limpar lixeira.");
         }
     }
 
