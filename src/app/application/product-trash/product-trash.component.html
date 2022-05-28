@@ -1,13 +1,77 @@
 <div class="container-fluid">
-  <div class="row">
-    <div class="col-12 center">
-      <img src="../../../assets/page-not-found.png" width="300" alt="not found icon">
+  <div *ngIf="loadState" class="row justify-content-center">
+    <div class="col-lg-10 mt-5">
+      <mat-spinner class="mx-auto"></mat-spinner>
     </div>
   </div>
-  <div class="row center">
-    <div class="col-12 mt-3">
-      <span class="not-implemented-title">
-        Ainda estamos trabalhando nisso!
+
+  <div *ngIf="notFoundMessage && !loadState" class="row justify-content-center">
+    <div class="col-lg-10 mt-5 center text-center not-found">
+      <div>
+        <img src="../../../assets/not-found-product.png" width="300" loading="lazy" alt="nenhum produto encontrado!">
+      </div>
+      Nenhum produto encontrado!
+    </div>
+  </div>
+
+
+  <div class="row mt-5 center" *ngIf="products.length > 0">
+    <div class="card card-config ml-4 mb-4" *ngFor="let product of products" (click)="confirmDelete(product)">
+        <img
+        class="card-img-top"
+        [src]="product.url"
+        onerror="this.onerror=null;this.src='../../../assets/not-found-product-image.png'"
+        width="100%"
+        height="150px"
+        alt="imagem do card">
+
+        <div class="card-body text-config">
+          <h5 class="card-title">{{product.name | titlecase}}</h5>
+              <p class="card-text">{{product.brand | titlecase}}</p>
+              <p class="card-text">
+                <span *ngIf="product.quantity > 0">
+                  {{product.quantity}} em Estoque
+                </span>
+                <span *ngIf="product.quantity <= 0">
+                  Nenhum em Estoque
+                </span>
+              </p>
+              <p class="card-text">{{product.price | currency : 'BRL'}}</p>
+        </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="loadMore">
+    <div class="col-12">
+      <mat-spinner class="mx-auto"></mat-spinner>
+    </div>
+  </div>
+  <div class="row" *ngIf="products.length > 0">
+    <div class="col mt-3 mb-5 ml-4">
+
+      <button
+        (click)="load()"
+        *ngIf="products.length < max && products.length !== 0 && !search"
+        type="button"
+        class="btn btn-primary see-more">
+          Veja mais
+      </button>
+
+      <button
+        (click)="loadFind()"
+        *ngIf="products.length < max && products.length !== 0 && search"
+        type="button"
+        class="btn btn-primary see-more">
+          Veja mais
+      </button>
+
+    </div>
+  </div>
+
+  <div class="row text-center w-100 mb-3 mt-4">
+    <div class="col">
+      <span *ngIf="products.length === max && !loadState && !notFoundMessage" class="allProducts">
+        Todos os produtos foram carregados!
       </span>
     </div>
   </div>

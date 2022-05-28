@@ -161,8 +161,6 @@ export class ProductModalComponent implements OnInit {
     }else{
 
       try{
-        this.storage.delete(url);
-        this.snackbar.openSnackbarSuccess('Foto do produto excluída com sucesso!');
 
         this.database.delete(code).subscribe((response) => {
           this.snackbar.openSnackbarSuccess('Produto excluído com sucesso!');
