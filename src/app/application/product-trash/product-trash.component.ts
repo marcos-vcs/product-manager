@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { SnackbarService } from 'src/app/geral/snackbar.service';
 import { StorageService } from 'src/app/geral/storage.service';
@@ -6,7 +7,7 @@ import { Product } from 'src/app/model/product';
 import { Response } from 'src/app/model/response';
 import { ProductService } from 'src/app/persistence/product.service';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
-import { ProductModalComponent } from '../product-modal/product-modal.component';
+import { BottomSheetComponent } from './bottom-sheet/bottom-sheet.component';
 
 @Component({
   selector: 'app-product-trash',
@@ -29,7 +30,8 @@ export class ProductTrashComponent implements OnInit {
     public dialog: MatDialog,
     private snackbar: SnackbarService,
     private database: ProductService,
-    private storage: StorageService
+    private storage: StorageService,
+    private _bottomSheet: MatBottomSheet
   ) { }
 
   ngOnInit(): void {
@@ -51,7 +53,6 @@ export class ProductTrashComponent implements OnInit {
               this.products.push(element);
             });
             this.max = data.quantity;
-            console.log(data);
 
             if(this.products.length === 0){
               this.notFoundMessage = true;
@@ -168,24 +169,14 @@ export class ProductTrashComponent implements OnInit {
 
   }
 
-  confirmDelete(product: Product){
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      maxWidth: '90%',
-      minWidth: '60%',
-      data: {
-        title: 'Apagar produto',
-        message: 'Tem certeza que deseja apagar o produto? Esta ação não poderá ser desfeita.'
-      }
-    });
+  openBottomSheet(product: Product){
+    const bottomSheet = this._bottomSheet.open(BottomSheetComponent, {data: product});
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
-      console.log(product);
+    bottomSheet.afterDismissed().subscribe(result => {
       if(result){
-        this.delete(product);
+        this.get();
       }
     });
-
   }
 
   confirmDeleteAll(){
@@ -205,20 +196,27 @@ export class ProductTrashComponent implements OnInit {
     });
   }
 
-  private restore(product: Product){
-    this.database.delete(product.code??'').subscribe(
-      (data) => {
-        this.snackbar.openSnackbarSuccess('Produto apagado com sucesso.');
-        this.get();
-      },
-      (error) => {
-        this.snackbar.openSnackbarAlert(error.message);
-        console.log(error);
+  confirmRestoreAll(){
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: '90%',
+      minWidth: '60%',
+      data: {
+        title: 'Restaurar produtos',
+        message: 'Tem certeza que deseja restaurar todos os produtos?'
       }
-    );
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.restoreAll(this.products);
+      }
+    });
   }
 
   private restoreAll(products: Product[]){
+
+    this.loadState = true;
+
     products.forEach(e => {
       if(e.code){
         this.database.delete(e.code).subscribe(
@@ -234,29 +232,6 @@ export class ProductTrashComponent implements OnInit {
     });
 
     this.get();
-  }
-
-  private delete(product: Product){
-    this.loadState = true;
-    this.database.deleteTrash(product.code??'').subscribe(
-      (data) => {
-
-        try{
-          if(product.url != null || product.url != '' || product.url != undefined){
-            this.storage.delete(product.url);
-          }
-        }catch(error){
-          this.snackbar.openSnackbarAlert("Erro ao deletar imagem!");
-        }
-
-        this.snackbar.openSnackbarSuccess('Produto apagado com sucesso.');
-        this.get();
-      },
-      (error) => {
-        this.snackbar.openSnackbarAlert(error.message);
-        console.log(error);
-      }
-    );
   }
 
   private deleteAll(products: Product[]){

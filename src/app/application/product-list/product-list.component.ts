@@ -209,10 +209,4 @@ export class ProductListComponent implements OnInit {
     this.get();
     this.filter = 'BRAND';
   }
-  setFilterPrice(){
-    this.search = '';
-    this.get();
-    this.filter = 'PRICE';
-  }
-
 }

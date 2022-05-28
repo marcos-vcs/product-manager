@@ -24,13 +24,7 @@
           mat-menu-item>
             Marca
           </button>
-
-          <button
-          [ngClass]="{'active-filter': filter === 'PRICE'}"
-          (click)="setFilterPrice();"
-          mat-menu-item>
-            Preço
-          </button>
+          
         </mat-menu>
           <mat-slider
           *ngIf="filter === 'PRICE'"
@@ -76,7 +70,7 @@
   </div>
 
 
-  <div class="row mt-5 center" *ngIf="products.length > 0">
+  <div class="row mt-5 center" *ngIf="products.length > 0 && !loadState">
     <div class="card card-config ml-4 mb-4" *ngFor="let product of products" (click)="edit(product)">
         <img
 

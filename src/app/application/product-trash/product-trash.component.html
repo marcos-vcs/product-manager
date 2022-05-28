@@ -1,5 +1,19 @@
 <div class="container-fluid">
-  <div *ngIf="loadState" class="row justify-content-center">
+
+  <div class="row" *ngIf="!notFoundMessage && !loadState">
+    <div class="col-12">
+      <button (click)="confirmDeleteAll()" mat-flat-button class="bg-delete-all py-2 px-2 float-right">
+        <img src="../../../assets/delete.png" class="mr-2" alt="delete all image" width="30">
+        <span class="allProducts">Limpar lixeira</span>
+      </button>
+      <button (click)="confirmRestoreAll()" mat-flat-button class="bg-restore-all py-2 px-2 mr-2 float-right">
+        <img src="../../../assets/restore.png" class="mr-2" alt="restore all image" width="30">
+        <span class="allProducts">Restaurar todos</span>
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="loadState" class="row justify-content-center mt-5">
     <div class="col-lg-10 mt-5">
       <mat-spinner class="mx-auto"></mat-spinner>
     </div>
@@ -8,15 +22,15 @@
   <div *ngIf="notFoundMessage && !loadState" class="row justify-content-center">
     <div class="col-lg-10 mt-5 center text-center not-found">
       <div>
-        <img src="../../../assets/not-found-product.png" width="300" loading="lazy" alt="nenhum produto encontrado!">
+        <img src="../../../assets/empty-trash.png" width="300" loading="lazy" alt="nenhum produto encontrado!">
       </div>
-      Nenhum produto encontrado!
+      Lixeira vazia!
     </div>
   </div>
 
 
-  <div class="row mt-5 center" *ngIf="products.length > 0">
-    <div class="card card-config ml-4 mb-4" *ngFor="let product of products" (click)="confirmDelete(product)">
+  <div class="row mt-4 center" *ngIf="products.length > 0 && !loadState">
+    <div class="card card-config ml-4 mb-4" *ngFor="let product of products" (click)="openBottomSheet(product)">
         <img
         class="card-img-top"
         [src]="product.url"
@@ -68,7 +82,7 @@
     </div>
   </div>
 
-  <div class="row text-center w-100 mb-3 mt-4">
+  <div class="row text-center w-100 mb-3">
     <div class="col">
       <span *ngIf="products.length === max && !loadState && !notFoundMessage" class="allProducts">
         Todos os produtos foram carregados!

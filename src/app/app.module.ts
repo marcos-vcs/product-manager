@@ -48,7 +48,9 @@ import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginato
 import { MatTableModule } from '@angular/material/table';
 import { getDutchPaginatorIntl } from './dutch-paginator-intl';
 import { OfflineDialogComponent } from './application/offline-dialog/offline-dialog.component';
-
+import { BottomSheetComponent } from './application/product-trash/bottom-sheet/bottom-sheet.component';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { MatListModule } from '@angular/material/list';
 
 registerLocaleData(ptBr);
 
@@ -68,13 +70,16 @@ registerLocaleData(ptBr);
     SupplierListComponent,
     SupplierTrashComponent,
     SupplierModalComponent,
-    OfflineDialogComponent
+    OfflineDialogComponent,
+    BottomSheetComponent
   ],
   imports: [
     NgxLoadingModule.forRoot({}),
     MatPaginatorModule,
+    MatBottomSheetModule,
     MatExpansionModule,
     MatTableModule,
+    MatListModule,
     MatDividerModule,
     MatSidenavModule,
     MatToolbarModule,

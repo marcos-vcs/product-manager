@@ -129,7 +129,7 @@ export class ProductModalComponent implements OnInit {
         }
         this.delete(code, url);
       }else if(!code){
-        this.snackbar.openSnackbarAlert('Não foi possível excluir o produto, identificador não encontrado!');
+        this.snackbar.openSnackbarAlert('Não foi possível mover o produto para a lixeira, identificador não encontrado!');
       }else{
         this.snackbar.openSnackbarAlert('Operação cancelada!');
       }
@@ -148,14 +148,14 @@ export class ProductModalComponent implements OnInit {
     if(url === '' || url === null){
 
       this.database.delete(code).subscribe((response) => {
-        this.snackbar.openSnackbarSuccess('Produto excluído com sucesso!');
+        this.snackbar.openSnackbarSuccess('Produto movido para a lixeira com sucesso!');
         setTimeout(() => {
           this.dialogRef.close(true);
         } , 1000);
       }, (error) => {
 
         console.log(error);
-        this.snackbar.openSnackbarAlert("Erro ao deletar produto: "+ error.error.message);
+        this.snackbar.openSnackbarAlert("Erro ao mover produto para a lixeira: "+ error.error.message);
       });
 
     }else{
@@ -163,7 +163,7 @@ export class ProductModalComponent implements OnInit {
       try{
 
         this.database.delete(code).subscribe((response) => {
-          this.snackbar.openSnackbarSuccess('Produto excluído com sucesso!');
+          this.snackbar.openSnackbarSuccess('Produto movido para a lixeira com sucesso!');
           setTimeout(() => {
             this.dialogRef.close(true);
           } , 1000);

@@ -91,4 +91,11 @@ mat-slider {
   position: absolute;
 }
 
-
+.bg-delete-all{
+  background-color:#4dbde9dc;
+  color: #fff;
+}
+.bg-restore-all{
+  background-color:#4de993d8;
+  color: #fff;
+}
