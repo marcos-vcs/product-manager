@@ -25,7 +25,7 @@ export class SupplierListComponent implements OnInit {
   loadState = false;
   search = '';
   filter = 'NAME';
-  max = 10;
+  max = 0;
   dataSource = new MatTableDataSource<Supplier>(ELEMENT_DATA);
   displayedColumns: string[] = ['name', 'phone', 'email', 'observation', 'actions'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -41,6 +41,14 @@ export class SupplierListComponent implements OnInit {
     this.refreshService.isRefreshSupplier.subscribe(() => {
       this.get();
     });
+  }
+
+  onChangePage(event: any){
+    this.limit = event.pageSize;
+    this.skip = event.pageIndex * event.pageSize;
+    if(event.pageSize !== this.limit){
+      this.get();
+    }
   }
 
   get(){

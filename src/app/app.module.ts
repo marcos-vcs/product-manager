@@ -47,6 +47,7 @@ import { UnauthorizedHandlerService } from './persistence/unauthorized-handler.s
 import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { getDutchPaginatorIntl } from './dutch-paginator-intl';
+import { OfflineDialogComponent } from './application/offline-dialog/offline-dialog.component';
 
 
 registerLocaleData(ptBr);
@@ -66,7 +67,8 @@ registerLocaleData(ptBr);
     ProductTrashComponent,
     SupplierListComponent,
     SupplierTrashComponent,
-    SupplierModalComponent
+    SupplierModalComponent,
+    OfflineDialogComponent
   ],
   imports: [
     NgxLoadingModule.forRoot({}),

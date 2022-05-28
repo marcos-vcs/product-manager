@@ -120,10 +120,14 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
-
-      <mat-paginator [pageSizeOptions]="[5, 10, 20]"
-              showFirstLastButtons
-              aria-label="Selecionar página de elementos periódicos">
+      <div>skip: {{skip}}</div>
+      <div>limit: {{limit}}</div>
+      <mat-paginator
+        [length]="max"
+        (page)="onChangePage($event)"
+        [pageSize]="10"
+        [pageSizeOptions]="[5, 10, 25, 100]"
+        aria-label="Selecione a página">
       </mat-paginator>
     </div>
   </div>
