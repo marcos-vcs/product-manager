@@ -82,4 +82,12 @@ export class SupplierService {
     return headers;
   }
 
+  deleteTrash(code?: string): Observable<Response<number>> {
+    return this.http.delete<Response<number>>(
+      `${environment.api}${environment.supplier}/trash?code=${code}`,
+      { headers: this.getHeader() }
+    );
+  }
+
+
 }

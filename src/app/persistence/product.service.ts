@@ -72,6 +72,13 @@ export class ProductService {
     );
   }
 
+  deleteTrash(code?: string): Observable<Response<number>> {
+    return this.http.delete<Response<number>>(
+      `${environment.api}${environment.product}/trash?code=${code}`,
+      { headers: this.getHeader() }
+    );
+  }
+
 
 
   private getHeader(): HttpHeaders {

@@ -13,7 +13,6 @@ export const environment = {
     measurementId: 'G-M6GHH1D9H4',
   },
   production: false,
-  //api: 'https://app-product-manager.herokuapp.com/api/',
   api: 'http://localhost:8080/api/',
   supplier: 'supplier-manager',
   product: 'product-manager',
