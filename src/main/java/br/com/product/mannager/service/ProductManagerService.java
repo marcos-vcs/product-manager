@@ -45,8 +45,7 @@ public class ProductManagerService implements CrudInterface<Product, ProductFilt
     }
 
     @Override
-    public Response<Product> update(User user, Product obj) throws CrudErrorException {
-        Response<Product> response = new Response<>();
+    public Response<Long> update(User user, Product obj) throws CrudErrorException {
         try{
             Query query = new Query(Criteria.where("code").is(obj.getCode()));
             Update update = new Update()
@@ -56,13 +55,15 @@ public class ProductManagerService implements CrudInterface<Product, ProductFilt
                     .set("name", obj.getName())
                     .set("url", obj.getUrl())
                     .set("brand", obj.getBrand())
+                    .set("description", obj.getDescription())
+                    .set("quantity", obj.getQuantity())
                     .set("price", obj.getPrice());
-            long modifications = this.template.updateFirst(query, update, Product.class).getModifiedCount();
 
-            response.setResponse(this.template.findOne(query, Product.class));
-            response.setQuantity(getQuantity());
-            response.setMessage("OK: MODIFICAÇÕES - " + modifications);
-            return response;
+            return new Response<>(
+                    getQuantity(),
+                    this.template.updateFirst(query, update, Product.class).getModifiedCount(),
+                    "OK"
+            );
 
         }catch (Exception e){
             throw new CrudErrorException("Erro critico na edição do objeto");
@@ -97,7 +98,9 @@ public class ProductManagerService implements CrudInterface<Product, ProductFilt
         try{
 
             Query query = new Query(Criteria.where("deleted").is(true));
-            query.addCriteria(code != null ? Criteria.where("code").is(code) : Criteria.where(""));
+            if(code != null){
+                query.addCriteria(Criteria.where("code").is(code));
+            }
 
             return new Response<>(
                     getQuantityTrash(),

@@ -2,8 +2,11 @@ package br.com.product.mannager.service;
 
 import br.com.product.mannager.exceptions.UserException;
 import br.com.product.mannager.models.User;
-import com.google.firebase.FirebaseException;
+import com.google.cloud.storage.Blob;
+import com.google.cloud.storage.Bucket;
+import com.google.cloud.storage.StorageOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.cloud.StorageClient;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;

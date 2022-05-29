@@ -45,8 +45,8 @@ public class ProductManagerController {
     }
 
     @PutMapping
-    public ResponseEntity<Response<Product>> update(@RequestAttribute("user") User user, @Valid @RequestBody Product product, BindingResult validationResult){
-        Response<Product> response = new Response<>();
+    public ResponseEntity<Response<Long>> update(@RequestAttribute("user") User user, @Valid @RequestBody Product product, BindingResult validationResult){
+        Response<Long> response = new Response<>();
         try{
 
             if(validationResult.hasErrors()){
