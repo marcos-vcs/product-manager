@@ -35,18 +35,9 @@ export class ProductListComponent implements OnInit {
     private refreshService: RefreshService) { }
 
   ngOnInit(): void {
-
     this.refreshService.isRefreshProduct.subscribe(() => {
       this.get();
     });
-  }
-
-  formatLabel(value: number) {
-    if (value >= 1000) {
-      return Math.round(value / 1000) + 'k';
-    }
-
-    return value;
   }
 
   get(){
@@ -81,7 +72,7 @@ export class ProductListComponent implements OnInit {
             this.snackbar.openSnackbarAlert("Erro ao carregar produtos: " + error.status);
           }
         );
-      }, 1000);
+      }, 2000);
     }catch(error){
       this.loadState = false;
       if(this.products.length === 0){
@@ -111,7 +102,7 @@ export class ProductListComponent implements OnInit {
           this.loadMore = false;
         }
       );
-    } , 1000);
+    } , 2000);
   }
 
   find(){

@@ -51,6 +51,7 @@ import { OfflineDialogComponent } from './application/offline-dialog/offline-dia
 import { BottomSheetComponent } from './application/product-trash/bottom-sheet/bottom-sheet.component';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatListModule } from '@angular/material/list';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 registerLocaleData(ptBr);
 
@@ -78,6 +79,7 @@ registerLocaleData(ptBr);
     MatPaginatorModule,
     MatBottomSheetModule,
     MatExpansionModule,
+    MatProgressBarModule,
     MatTableModule,
     MatListModule,
     MatDividerModule,

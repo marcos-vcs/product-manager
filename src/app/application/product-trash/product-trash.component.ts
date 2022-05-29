@@ -236,27 +236,22 @@ export class ProductTrashComponent implements OnInit {
 
   private deleteAll(products: Product[]){
     this.loadState = true;
-    this.database.deleteTrash().subscribe(
-      (data) => {
 
-        products.forEach(e => {
-          try{
-            if(e.url != null || e.url != '' || e.url != undefined){
-              this.storage.delete(e.url);
-            }
-          }catch(error){
-            this.snackbar.openSnackbarAlert("Erro ao deletar imagem!");
+    products.forEach(e => {
+      this.database.deleteTrash(e.code).subscribe(
+        () => {
+          if(e.code){
+            this.storage.delete(e.code);
           }
-        });
+        }, (error) => {
+          this.snackbar.openSnackbarAlert(error.message);
+          console.log(error);
+        }
+      );
+    } );
 
-        this.snackbar.openSnackbarSuccess('Produtos apagados com sucesso.');
-        this.get();
-      },
-      (error) => {
-        this.snackbar.openSnackbarAlert(error.message);
-        console.log(error);
-      }
-    );
+    this.get();
+
   }
 
 }

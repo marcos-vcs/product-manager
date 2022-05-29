@@ -24,21 +24,8 @@
           mat-menu-item>
             Marca
           </button>
-          
+
         </mat-menu>
-          <mat-slider
-          *ngIf="filter === 'PRICE'"
-          class="ml-5"
-          [(ngModel)]="search"
-          placeholder=""
-          thumbLabel
-          [displayWith]="formatLabel"
-          tickInterval="100"
-          step="100"
-          min="0"
-          max="100000"
-          aria-label="units">
-          </mat-slider>
 
         <mat-form-field *ngIf="filter !== 'PRICE'" class="ml-5" style="width: 70%">
           <input
@@ -72,11 +59,17 @@
 
   <div class="row mt-5 center" *ngIf="products.length > 0 && !loadState">
     <div class="card card-config ml-4 mb-4" *ngFor="let product of products" (click)="edit(product)">
-        <img
 
+        <img *ngIf="product.url"
         class="card-img-top"
         [src]="product.url"
-        onerror="this.onerror=null;this.src='../../../assets/not-found-product-image.png'"
+        width="100%"
+        height="150px"
+        alt="imagem do card">
+
+        <img *ngIf="!product.url"
+        class="card-img-top"
+        src="../../../assets/not-found-product-image.png"
         width="100%"
         height="150px"
         alt="imagem do card">

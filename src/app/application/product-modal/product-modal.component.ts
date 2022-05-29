@@ -3,8 +3,6 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { PhotoUrlService } from 'src/app/geral/photo-url.service';
 import { SnackbarService } from 'src/app/geral/snackbar.service';
 import { StorageService } from 'src/app/geral/storage.service';
 import { Product } from 'src/app/model/product';
@@ -33,11 +31,11 @@ export class ProductModalComponent implements OnInit {
   isPhoto : boolean = true;
   isSave: boolean = false;
   imagePath: any;
+  savePhoto = false;
 
   constructor(
     private snackbar: SnackbarService,
     private database: ProductService,
-    private photoUrl: PhotoUrlService,
     private storage: StorageService,
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<ProductModalComponent>,
@@ -57,26 +55,6 @@ export class ProductModalComponent implements OnInit {
         this.files = files;
       }
     });
-  }
-
-  private async setPhoto(code: string, product: Product){
-
-    if(this.imgURL){
-      const file = this.files[0];
-      await this.storage.upload(file, code);
-      this.photoUrl.photoUrl.subscribe(url => {
-        product.url = url;
-        console.log(product);
-        this.database.update(product).subscribe(() => {
-          setTimeout(() => {
-            this.isSave = false;
-            this.dialogRef.close(true);
-          }, 1000);
-        });
-      });
-    }else{
-      this.dialogRef.close(true);
-    }
   }
 
   preview() {
@@ -112,8 +90,8 @@ export class ProductModalComponent implements OnInit {
 
   onDelete(code: string | undefined, url : string | undefined){
 
-    const title = 'Excluir produto';
-    const message = 'Deseja realmente excluir o produto?';
+    const title = 'Mover para a lixeira';
+    const message = 'Deseja realmente mover o produto para a lixeira?';
     const dialogData = new ConfirmDialogModel(title, message);
 
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
@@ -148,12 +126,16 @@ export class ProductModalComponent implements OnInit {
     if(url === '' || url === null){
 
       this.database.delete(code).subscribe((response) => {
-        this.snackbar.openSnackbarSuccess('Produto movido para a lixeira com sucesso!');
-        setTimeout(() => {
-          this.dialogRef.close(true);
-        } , 1000);
-      }, (error) => {
 
+        try{
+          this.storage.delete(url);
+        }catch(error){
+          console.log(error);
+        }
+
+        this.snackbar.openSnackbarSuccess('Produto movido para a lixeira com sucesso!');
+        this.dialogRef.close(true);
+      }, (error) => {
         console.log(error);
         this.snackbar.openSnackbarAlert("Erro ao mover produto para a lixeira: "+ error.error.message);
       });
@@ -174,6 +156,7 @@ export class ProductModalComponent implements OnInit {
         });
 
       }catch(error){
+        this.dialogRef.close(true);
         this.isSave = false;
         this.snackbar.openSnackbarAlert("Erro ao excluir foto!");
       }
@@ -184,44 +167,76 @@ export class ProductModalComponent implements OnInit {
 
   private save(){
 
-    if(this.data.product){
-
+    try{
       this.isSave = true;
+
       this.database.create(this.data.product).subscribe((response) => {
         if(response.response.code){
-          this.setPhoto(response.response.code, response.response);
+          this.setPhoto(response.response);
         }
-
         this.snackbar.openSnackbarSuccess('Produto salvo com sucesso!');
 
       }, (error) => {
         this.snackbar.openSnackbarAlert("Não foi possível salvar o produto: " + error.status);
         this.dialogRef.close(true);
       });
-
-    }else{
-      this.snackbar.openSnackbarAlert('Não foi possível salvar o produto, verifique os dados!');
+    }catch(error){
+      this.isSave = false;
+      this.snackbar.openSnackbarAlert("Erro ao salvar produto!");
     }
 
   }
 
   private update(){
-    this.database.update(this.data.product).subscribe((response) => {
-      try{
-        if(this.files[0] && this.data.product.code ){
-          this.setPhoto(this.data.product.code, this.data.product);
-          console.log("Foto atualizada!");
-        }
-      }catch(error){
-        this.snackbar.openSnackbarAlert("Erro ao atualizar foto!");
+
+    try{
+      this.isSave = true;
+
+      this.database.update(this.data.product).subscribe(
+        () => {
+          if(this.files  && this.data.product.code ){
+            this.setPhoto(this.data.product);
+          }
+        this.snackbar.openSnackbarSuccess('Produto atualizado com sucesso!');
+        this.dialogRef.close(true);
+      }, (error) => {
+        this.snackbar.openSnackbarAlert(error.message);
         console.log(error);
-      }
-      this.snackbar.openSnackbarSuccess('Produto atualizado com sucesso!');
-      this.dialogRef.close();
-    }, (error) => {
-      this.snackbar.openSnackbarAlert(error.message);
+      });
+
+    }catch(error){
       console.log(error);
-    });
+      this.snackbar.openSnackbarAlert("Erro ao atualizar produto!");
+      this.dialogRef.close(true);
+    }
+
+  }
+
+  private async setPhoto(product: Product){
+    if(this.imgURL){
+      debugger;
+      if(!product.code){
+        this.snackbar.openSnackbarAlert('Não foi possível salvar a foto, identificador não encontrado!');
+        this.dialogRef.close(false);
+      }
+
+      (await this.storage.upload(this.files[0], product.code??'')).subscribe((response: any) => {
+        if(response === 100){
+          this.storage.downloadURL.subscribe((url: string) => {
+            product.url = url;
+            this.database.update(product).subscribe((response) => {
+              this.dialogRef.close(true);
+            });
+          });
+        }
+      }, (error: any) => {
+        console.log(error);
+        this.snackbar.openSnackbarAlert('Não foi possível salvar a foto!');
+      });
+
+    }else{
+      this.dialogRef.close(true);
+    }
   }
 
 }

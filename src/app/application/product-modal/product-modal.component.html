@@ -15,8 +15,8 @@
   </div>
 
 
-  <div class="row">
-    <mat-spinner class="mx-auto my-5" *ngIf="isSave"></mat-spinner>
+  <div class="row" *ngIf="isSave">
+    <mat-spinner class="mx-auto my-5"></mat-spinner>
   </div>
 
   <div class="row my-5" *ngIf="!isSave">
