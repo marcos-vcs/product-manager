@@ -19,10 +19,12 @@ const ELEMENT_DATA: Supplier[] = [];
 })
 export class SupplierListComponent implements OnInit {
 
+  limitValue = 2;
+  limit = this.limitValue;
   skip = 0;
-  limit = 10;
   notFoundMessage = false;
   loadState = false;
+  loadMore = false;
   search = '';
   filter = 'NAME';
   max = 0;
@@ -43,16 +45,10 @@ export class SupplierListComponent implements OnInit {
     });
   }
 
-  onChangePage(event: any){
-    this.limit = event.pageSize;
-    this.skip = event.pageIndex * event.pageSize;
-    if(event.pageSize !== this.limit){
-      this.get();
-    }
-  }
-
   get(){
     this.dataSource.data = [];
+    this.skip = 0;
+    this.limit = this.limitValue;
     this.loadState = true;
     setTimeout(() => {
       this.database.get(this.skip, this.limit).subscribe(
@@ -71,14 +67,87 @@ export class SupplierListComponent implements OnInit {
   }
 
   load(){
+    this.skip += this.limit;
+    this.loadMore = true;
+    setTimeout(() => {
+      this.database.get(this.skip, this.limit).subscribe(
+        (data: Response<Supplier[]>) => {
+          data.response.forEach(element => {
+            this.dataSource.data.push(element);
+          });
+          this.max = data.quantity;
+          this.loadMore = false;
+          this.snackbar.openSnackbarSuccess('Produtos carregados com sucesso.');
+        },
+        (error) => {
 
+          this.snackbar.openSnackbarAlert(error.message);
+          console.log(error);
+          this.loadMore = false;
+        }
+      );
+    } , 2000);
   }
 
   find(){
 
+    this.skip = 0;
+    this.limit = this.limitValue;
+    this.max = 0;
+    this.loadState = true;
+    this.notFoundMessage = false;
+
+    setTimeout(() => {
+
+      if(this.search === ''){
+        this.get();
+      }else{
+        this.database.search(this.skip, this.limit, this.filter, this.search).subscribe(
+          (data: Response<Supplier[]>) => {
+
+            this.dataSource.data = [];
+            this.dataSource.data = data.response;
+            this.max = data.quantity;
+            this.notFoundMessage = this.dataSource.data.length === 0;
+            this.loadState = false;
+
+          }, (error) => {
+
+            this.snackbar.openSnackbarAlert(error.message);
+            console.log(error);
+            this.loadState = false;
+            this.notFoundMessage = true;
+          }
+        );
+      }
+
+    } , 1000);
+
   }
 
   loadFind(){
+
+    this.skip += this.limit;
+    this.loadMore = true;
+    setTimeout(() => {
+      this.database.search(this.skip, this.limit, this.filter, this.search).subscribe(
+        (data: Response<Supplier[]>) => {
+          data.response.forEach(element => {
+            this.dataSource.data.push(element);
+          });
+          this.max = data.quantity;
+          this.loadMore = false;
+          this.snackbar.openSnackbarSuccess('Produtos carregados com sucesso.');
+        },
+        (error) => {
+
+          this.snackbar.openSnackbarAlert(error.message);
+          console.log(error);
+          this.loadMore = false;
+        }
+      );
+    } , 1000);
+
 
   }
 

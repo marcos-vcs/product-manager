@@ -74,11 +74,10 @@
     </div>
   </div>
 
-
   <div class="row mt-5 center" *ngIf="dataSource.data.length > 0">
     <div class="col" class="mat-elevation-z8 w-100">
 
-      <table mat-table [dataSource]="dataSource">
+      <table mat-table [dataSource]="dataSource"  *ngIf="!loadMore">
 
         <!-- Name Column -->
         <ng-container class="tr" matColumnDef="name">
@@ -120,15 +119,44 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
-      <div>skip: {{skip}}</div>
-      <div>limit: {{limit}}</div>
-      <mat-paginator
-        [length]="max"
-        (page)="onChangePage($event)"
-        [pageSize]="10"
-        [pageSizeOptions]="[5, 10, 25, 100]"
-        aria-label="Selecione a página">
-      </mat-paginator>
+
+      <div class="row my-3" *ngIf="loadMore">
+        <div class="col-12">
+          <mat-spinner class="mx-auto"></mat-spinner>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col mt-3 mb-5">
+
+      <button
+        (click)="load()"
+        *ngIf="dataSource.data.length < max && dataSource.data.length !== 0 && !search"
+        type="button"
+        [disabled]="loadState"
+        class="btn btn-primary see-more">
+          Veja mais
+      </button>
+
+      <button
+        (click)="loadFind()"
+        *ngIf="dataSource.data.length < max && dataSource.data.length !== 0 && search"
+        type="button"
+        class="btn btn-primary see-more">
+          Veja mais
+      </button>
+
+    </div>
+  </div>
+
+  <div class="row text-center w-100 mb-3">
+    <div class="col">
+      <span *ngIf="dataSource.data.length === max && !loadState && !notFoundMessage" class="allSuppliers">
+        Todos os fornecedores foram carregados!
+      </span>
     </div>
   </div>
 

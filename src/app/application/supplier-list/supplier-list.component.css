@@ -37,7 +37,16 @@ table tr:hover{
   width: 15%;
   text-align: center;
 }
-
+.see-more{
+  border: #4dbce9 solid 1px;
+  background-color: #4dbce9;
+  color: #fff;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  border-radius: 20px;
+  padding: 10px 20px;
+}
 .filter-set{
   border-radius: 100px;
   margin-right: -30px;
@@ -68,4 +77,9 @@ table tr:hover{
 .not-found img{
   margin: auto;
   max-width: 600px;
+}
+.allSuppliers{
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+  font-size: 18px;
 }
