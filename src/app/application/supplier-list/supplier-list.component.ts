@@ -19,7 +19,7 @@ const ELEMENT_DATA: Supplier[] = [];
 })
 export class SupplierListComponent implements OnInit {
 
-  limitValue = 2;
+  limitValue = 10;
   limit = this.limitValue;
   skip = 0;
   notFoundMessage = false;
@@ -46,7 +46,6 @@ export class SupplierListComponent implements OnInit {
   }
 
   get(){
-    this.dataSource.data = [];
     this.skip = 0;
     this.limit = this.limitValue;
     this.loadState = true;

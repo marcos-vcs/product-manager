@@ -43,7 +43,6 @@ export class ProductListComponent implements OnInit {
   get(){
     this.skip = 0;
     this.limit = 6;
-    this.products = [];
     this.notFoundMessage = false;
     this.loadState = true;
     this.max = 0;
@@ -51,14 +50,10 @@ export class ProductListComponent implements OnInit {
       setTimeout(() => {
         this.database.get(this.skip, this.limit).subscribe(
           (data: Response<Product[]>) => {
-            data.response.forEach(element => {
-              this.products.push(element);
-            });
-            this.max = data.quantity;
 
-            if(this.products.length === 0){
-              this.notFoundMessage = true;
-            }
+            this.products  = data.response;
+            this.max = data.quantity;
+            this.notFoundMessage = this.products.length === 0;
             this.loadState = false;
           },
           (error) => {
