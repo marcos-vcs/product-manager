@@ -56,7 +56,7 @@ export class SupplierService {
 
   getTrash(skip: number, limit: Number): Observable<Response<Supplier[]>> {
     return this.http.get<Response<Supplier[]>>(
-      `${environment.api}${environment.product}/trash?skip=${skip}&limit=${limit}`,
+      `${environment.api}${environment.supplier}/trash?skip=${skip}&limit=${limit}`,
       { headers: this.getHeader() }
     );
   }
@@ -68,7 +68,7 @@ export class SupplierService {
     search: string
   ): Observable<Response<Supplier[]>> {
     return this.http.get<Response<Supplier[]>>(
-      `${environment.api}${environment.product}/trash/search?skip=${skip}&limit=${limit}&filter=${filter}&search=${search}`,
+      `${environment.api}${environment.supplier}/trash/search?skip=${skip}&limit=${limit}&filter=${filter}&search=${search}`,
       { headers: this.getHeader() }
     );
   }

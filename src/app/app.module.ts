@@ -52,6 +52,7 @@ import { BottomSheetComponent } from './application/product-trash/bottom-sheet/b
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSelectModule } from '@angular/material/select';
 
 registerLocaleData(ptBr);
 
@@ -77,6 +78,7 @@ registerLocaleData(ptBr);
   imports: [
     NgxLoadingModule.forRoot({}),
     MatPaginatorModule,
+    MatSelectModule,
     MatBottomSheetModule,
     MatExpansionModule,
     MatProgressBarModule,

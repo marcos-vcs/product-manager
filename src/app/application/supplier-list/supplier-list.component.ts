@@ -1,6 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SnackbarService } from 'src/app/geral/snackbar.service';
 import { Response } from 'src/app/model/response';
@@ -30,7 +29,6 @@ export class SupplierListComponent implements OnInit {
   max = 0;
   dataSource = new MatTableDataSource<Supplier>(ELEMENT_DATA);
   displayedColumns: string[] = ['name', 'phone', 'email', 'observation', 'actions'];
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
     public dialog: MatDialog,
@@ -76,7 +74,7 @@ export class SupplierListComponent implements OnInit {
           });
           this.max = data.quantity;
           this.loadMore = false;
-          this.snackbar.openSnackbarSuccess('Produtos carregados com sucesso.');
+          this.snackbar.openSnackbarSuccess('Fornecedores carregados com sucesso.');
         },
         (error) => {
 
@@ -136,7 +134,7 @@ export class SupplierListComponent implements OnInit {
           });
           this.max = data.quantity;
           this.loadMore = false;
-          this.snackbar.openSnackbarSuccess('Produtos carregados com sucesso.');
+          this.snackbar.openSnackbarSuccess('Fornecedores carregados com sucesso.');
         },
         (error) => {
 
@@ -175,8 +173,8 @@ export class SupplierListComponent implements OnInit {
   }
 
   deleteVerify(code: string){
-    const title = 'Excluir produto';
-    const message = 'Deseja realmente excluir o produto?';
+    const title = 'Mover para a lixeira';
+    const message = 'Deseja realmente mover fornecedor para a lixeira?';
     const dialogData = new ConfirmDialogModel(title, message);
 
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
@@ -188,7 +186,7 @@ export class SupplierListComponent implements OnInit {
       if(dialogResult && code){
         this.delete(code);
       }else if(!code){
-        this.snackbar.openSnackbarAlert('Não foi possível excluir o produto, identificador não encontrado!');
+        this.snackbar.openSnackbarAlert('Não foi possível mover fornecedor, identificador não encontrado!');
       }else{
         this.snackbar.openSnackbarAlert('Operação cancelada!');
       }
@@ -214,12 +212,12 @@ export class SupplierListComponent implements OnInit {
   private async delete(code: string){
     setTimeout(() => {
       this.database.delete(code).subscribe(
-        (data) => {
-          this.snackbar.openSnackbarSuccess('Fornecedor excluído com sucesso!');
+        () => {
+          this.snackbar.openSnackbarSuccess('Fornecedor movido para a lixeira com sucesso!');
           this.get();
         },
         (error) => {
-          this.snackbar.openSnackbarAlert("Erro ao excluir fornecedor: " + error.message);
+          this.snackbar.openSnackbarAlert("Erro ao mover fornecedor para a lixeira: " + error.message);
           console.log(error);
         }
       );
