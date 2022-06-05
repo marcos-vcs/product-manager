@@ -6,7 +6,9 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { SnackbarService } from 'src/app/geral/snackbar.service';
 import { StorageService } from 'src/app/geral/storage.service';
 import { Product } from 'src/app/model/product';
+import { SelectModel } from 'src/app/model/select';
 import { ProductService } from 'src/app/persistence/product.service';
+import { SupplierService } from 'src/app/persistence/supplier.service';
 import { ConfirmDialogComponent, ConfirmDialogModel } from '../confirm-dialog/confirm-dialog.component';
 
 export interface DialogData {
@@ -32,10 +34,13 @@ export class ProductModalComponent implements OnInit {
   isSave: boolean = false;
   imagePath: any;
   savePhoto = false;
+  select!: SelectModel[];
+  selected = new FormControl(this.data.product.supplier.code);
 
   constructor(
     private snackbar: SnackbarService,
     private database: ProductService,
+    private getSelect: SupplierService,
     private storage: StorageService,
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<ProductModalComponent>,
@@ -48,6 +53,7 @@ export class ProductModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getSelectSupplier();
     this.fileControl.valueChanges.subscribe((files: any) => {
       if (!Array.isArray(files)) {
         this.files = [files];
@@ -75,8 +81,9 @@ export class ProductModalComponent implements OnInit {
   }
 
   onSubmit(){
-    if(this.data.product.name !== undefined && this.data.product.name !== '' ||
-    this.data.product.brand !== undefined && this.data.product.brand !== '' ||
+    if(this.data.product.name !== undefined &&
+       this.data.product.name !== '' ||
+       this.data.product.supplier !== undefined &&
        this.data.product.price >= 0 ){
       if (this.data.isNew) {
         this.save();
@@ -169,7 +176,6 @@ export class ProductModalComponent implements OnInit {
 
     try{
       this.isSave = true;
-
       this.database.create(this.data.product).subscribe((response) => {
         if(response.response.code){
           this.setPhoto(response.response);
@@ -182,6 +188,7 @@ export class ProductModalComponent implements OnInit {
       });
     }catch(error){
       this.isSave = false;
+      this.dialogRef.close(true);
       this.snackbar.openSnackbarAlert("Erro ao salvar produto!");
     }
 
@@ -191,6 +198,7 @@ export class ProductModalComponent implements OnInit {
 
     try{
       this.isSave = true;
+      this.data.product.supplier = this.select.filter(item => item.code === this.selected.value)[0];
 
       this.database.update(this.data.product).subscribe(
         () => {
@@ -237,6 +245,17 @@ export class ProductModalComponent implements OnInit {
     }else{
       this.dialogRef.close(true);
     }
+  }
+
+  private getSelectSupplier(){
+    this.getSelect.getSelect().subscribe(
+      (response) => {
+        this.select = response.response;
+        this.snackbar.openSnackbarSuccess('Fornecedores carregados com sucesso!');
+      }, (error) => {
+        console.log(error);
+        this.snackbar.openSnackbarAlert('Erro ao buscar fornecedores!');
+    });
   }
 
 }

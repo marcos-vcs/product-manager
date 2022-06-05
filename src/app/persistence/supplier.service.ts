@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Response } from '../model/response';
+import { SelectModel } from '../model/select';
 import { Supplier } from '../model/supplier';
 
 @Injectable({
@@ -38,6 +39,13 @@ export class SupplierService {
   get(skip: number, limit: Number): Observable<Response<Supplier[]>> {
     return this.http.get<Response<Supplier[]>>(
       `${environment.api}${environment.supplier}?skip=${skip}&limit=${limit}`,
+      { headers: this.getHeader() }
+    );
+  }
+
+  getSelect(): Observable<Response<SelectModel[]>> {
+    return this.http.get<Response<SelectModel[]>>(
+      `${environment.api}${environment.supplier}/select`,
       { headers: this.getHeader() }
     );
   }

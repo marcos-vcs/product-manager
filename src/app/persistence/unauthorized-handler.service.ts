@@ -43,6 +43,7 @@ export class UnauthorizedHandlerService implements HttpInterceptor {
         }else{
 
           this.snackbar.openSnackbarAlert('Não foi possível realizar a operação!');
+          this.dialog.closeAll();
 
         }
         return of(err);
