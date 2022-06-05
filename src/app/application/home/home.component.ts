@@ -13,6 +13,8 @@ import { ProductModalComponent } from '../product-modal/product-modal.component'
 import { RefreshService } from '../product-list/refresh.service';
 import { SupplierModalComponent } from '../supplier-modal/supplier-modal.component';
 import { Supplier } from 'src/app/model/supplier';
+import { ClientModalComponent } from '../client-modal/client-modal.component';
+import { Client } from 'src/app/model/client';
 
 @UntilDestroy()
 @Component({
@@ -141,5 +143,28 @@ export class HomeComponent implements OnInit {
 
   }
 
+  async createClient(){
+    const dialogRef = this.dialog.open(ClientModalComponent, {
+      minWidth: "550px",
+      width: "900px",
+      maxHeight: "80vh",
+      disableClose: true,
+      data: {
+        client: new Client(),
+        isNew: true
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        if(!this.refreshService.isRefreshSupplier.value){
+          this.refreshService.isRefreshSupplier.next(true);
+        }else{
+          this.refreshService.isRefreshSupplier.next(false);
+        }
+      }
+    });
+
+  }
 
 }

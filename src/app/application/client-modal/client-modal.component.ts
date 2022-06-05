@@ -1,4 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { SnackbarService } from 'src/app/geral/snackbar.service';
+import { Client } from 'src/app/model/client';
+import { ClientService } from 'src/app/persistence/client.service';
+
+export interface DialogData {
+  client: Client;
+  isNew: boolean;
+}
 
 @Component({
   selector: 'app-client-modal',
@@ -7,9 +16,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ClientModalComponent implements OnInit {
 
-  constructor() { }
+  isSave: boolean = false;
+
+  constructor(
+    private snackbar: SnackbarService,
+    private database: ClientService,
+    public dialog: MatDialog,
+    public dialogRef: MatDialogRef<ClientModalComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData
+  ) { }
 
   ngOnInit(): void {
+  }
+
+  onDismiss(): void {
+    // Close the dialog, return false
+    this.dialogRef.close(false);
   }
 
 }

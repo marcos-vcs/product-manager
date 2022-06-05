@@ -1,1 +1,18 @@
-<p>client-modal works!</p>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <button *ngIf="!isSave" (click)="onDismiss();" class="float-right" mat-icon-button aria-label="Fechar">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col title text-center">
+      <span *ngIf="data.isNew">Cadastre um novo cliente</span>
+      <span *ngIf="!data.isNew">Editar cliente</span>
+    </div>
+  </div>
+
+
+</div>

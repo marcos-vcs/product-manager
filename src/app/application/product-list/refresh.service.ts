@@ -8,6 +8,7 @@ export class RefreshService {
 
   isRefreshProduct = new BehaviorSubject(false);
   isRefreshSupplier = new BehaviorSubject(false);
+  isRefreshClient = new BehaviorSubject(false);
 
   constructor() { }
 }
