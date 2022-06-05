@@ -20,6 +20,9 @@ public class Client {
     @NotBlank
     @NotNull
     private String name;
+    @NotBlank
+    @NotNull
+    private String address;
     private List<History> history;
     private boolean deleted;
 

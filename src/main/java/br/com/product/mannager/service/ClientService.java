@@ -56,7 +56,8 @@ public class ClientService implements CrudInterface<Client, String>{
                     new History(DateService.getDate(),
                             Messages.HISTORY_UPDATED_SUCCESSFULLY.getMsg().replace("@USER",user.getCode()))
                     )
-                    .set("name", obj.getName());
+                    .set("name", obj.getName())
+                    .set("address", obj.getAddress());
 
             return new Response<>(
                     getQuantity(),
