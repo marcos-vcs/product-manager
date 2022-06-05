@@ -25,7 +25,9 @@ public class RequestFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try{
 
-            if(request.getRequestURI().contains("/api/product-manager") || !(request.getRequestURI().contains("/api/user")) ){
+            if(request.getRequestURI().contains("/api/product-manager") ||
+               request.getRequestURI().contains("/api/client-manager") ||
+               request.getRequestURI().contains("/api/supplier-manager")){
 
                 String uid = FirebaseAuth.getInstance().verifyIdToken(request.getHeader("Authorization").split(" ")[1]).getUid();
                 User user = userService.getUserByUid(uid);
