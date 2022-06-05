@@ -68,6 +68,31 @@
       </mat-expansion-panel>
     </mat-accordion>
 
+    <mat-accordion>
+      <mat-expansion-panel (opened)="panelOpenState = true"
+                           (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+            <img src="../../../assets/client-navbar-icon.png" width="40" alt="Client icon">
+            <span>Gestor de Clientes</span>
+        </mat-expansion-panel-header>
+        <mat-divider></mat-divider>
+          <button mat-button class="menu-button" routerLink="/client-manager">
+            <mat-icon>supervisor_account</mat-icon>&nbsp;
+            <span>Clientes</span>
+          </button>
+        <mat-divider></mat-divider>
+          <button mat-button class="menu-button" routerLink="/client-manager">
+            <mat-icon>add</mat-icon>
+            <span>Novo Cliente</span>
+          </button>
+        <mat-divider></mat-divider>
+          <button mat-button class="menu-button" routerLink="/client-trash">
+            <mat-icon>delete</mat-icon> &nbsp;
+            <span>Lixeira</span>
+          </button>
+      </mat-expansion-panel>
+    </mat-accordion>
+
     <mat-divider></mat-divider>
 
     <button (click)="openAbout()" mat-button class="menu-button-out-of-structure">
