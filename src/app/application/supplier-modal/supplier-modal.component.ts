@@ -43,8 +43,8 @@ export class SupplierModalComponent implements OnInit {
 
   onDelete(code: string | undefined){
 
-    const title = 'Excluir produto';
-    const message = 'Deseja realmente excluir o produto?';
+    const title = 'Mover fornecedor para a lixeira';
+    const message = 'Deseja realmente mover este fornecedor para a lixeira?';
     const dialogData = new ConfirmDialogModel(title, message);
 
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
@@ -56,7 +56,7 @@ export class SupplierModalComponent implements OnInit {
       if(dialogResult && code){
         this.delete(code);
       }else if(!code){
-        this.snackbar.openSnackbarAlert('Não foi possível excluir o produto, identificador não encontrado!');
+        this.snackbar.openSnackbarAlert('Não foi possível excluir o cliente, identificador não encontrado!');
       }else{
         this.snackbar.openSnackbarAlert('Operação cancelada!');
       }

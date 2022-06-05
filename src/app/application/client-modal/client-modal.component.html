@@ -1,4 +1,5 @@
 <div class="container-fluid">
+
   <div class="row">
     <div class="col">
       <button *ngIf="!isSave" (click)="onDismiss();" class="float-right" mat-icon-button aria-label="Fechar">
@@ -13,6 +14,61 @@
       <span *ngIf="!data.isNew">Editar cliente</span>
     </div>
   </div>
+
+  <div class="row">
+    <mat-spinner class="mx-auto my-5" *ngIf="isSave"></mat-spinner>
+  </div>
+
+  <div class="row mt-5" *ngIf="!isSave">
+    <div class="col-12">
+      <form ngNativeValidation>
+
+        <div class="row">
+          <div class="col text-center">
+            <mat-form-field class="w-70" appearance="fill">
+              <mat-label>Nome</mat-label>
+              <input
+              [(ngModel)]="data.client.name"
+              name="name"
+              type="text"
+              matInput
+              required
+              placeholder="Informe o nome">
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col text-center">
+            <mat-form-field class="w-70" appearance="fill">
+              <mat-label>Endereço</mat-label>
+              <input
+              [(ngModel)]="data.client.address"
+              name="address"
+              type="text"
+              matInput
+              required
+              placeholder="Informe o endereço">
+            </mat-form-field>
+          </div>
+        </div>
+
+        <button (click)="onSubmit()" mat-raised-button class="button">
+          <span *ngIf="data.isNew">Salvar</span>
+          <span *ngIf="!data.isNew">Editar</span>
+        </button>
+
+        <button
+          *ngIf="!data.isNew"
+          (click)="onDelete(data.client.code)"
+          mat-raised-button
+          class="button-delete">
+          <span>Excluir</span>
+        </button>
+
+      </form>
+  </div>
+
 
 
 </div>
