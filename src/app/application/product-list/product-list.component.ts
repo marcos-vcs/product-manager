@@ -170,7 +170,7 @@ export class ProductListComponent implements OnInit {
     const dialogRef = this.dialog.open(ProductModalComponent, {
       minWidth: "550px",
       width: "900px",
-      maxHeight: "90vh",
+      maxHeight: "80vh",
       disableClose: true,
       data: {
         product: product,

@@ -69,7 +69,7 @@ export class HomeComponent implements OnInit {
     this.dialog.open(AboutComponent, {
       minWidth: "550px",
       width: "900px",
-      maxHeight: "90vh"
+      maxHeight: "80vh"
     });
   }
 
@@ -97,7 +97,7 @@ export class HomeComponent implements OnInit {
     const dialogRef = this.dialog.open(ProductModalComponent, {
       minWidth: "550px",
       width: "900px",
-      maxHeight: "90vh",
+      maxHeight: "80vh",
       disableClose: true,
       data: {
         product: new Product(),
@@ -121,7 +121,7 @@ export class HomeComponent implements OnInit {
     const dialogRef = this.dialog.open(SupplierModalComponent, {
       minWidth: "550px",
       width: "900px",
-      maxHeight: "90vh",
+      maxHeight: "80vh",
       disableClose: true,
       data: {
         supplier: new Supplier(),

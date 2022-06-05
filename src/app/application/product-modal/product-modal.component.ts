@@ -35,7 +35,7 @@ export class ProductModalComponent implements OnInit {
   imagePath: any;
   savePhoto = false;
   select!: SelectModel[];
-  selected = new FormControl(this.data.product.supplier.code);
+  selected = new FormControl();
 
   constructor(
     private snackbar: SnackbarService,
@@ -54,6 +54,12 @@ export class ProductModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.getSelectSupplier();
+
+    if(!this.data.isNew){
+      this.selected = new FormControl(new FormControl(this.data.product.supplier.code));
+    }
+
+
     this.fileControl.valueChanges.subscribe((files: any) => {
       if (!Array.isArray(files)) {
         this.files = [files];
