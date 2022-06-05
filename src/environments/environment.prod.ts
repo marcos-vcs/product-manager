@@ -12,5 +12,6 @@ export const environment = {
   api: 'https://app-product-manager.herokuapp.com/api/',
   supplier: 'supplier-manager',
   product: 'product-manager',
+  client: 'client-manager',
   user: 'user'
 };

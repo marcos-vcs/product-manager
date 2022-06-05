@@ -16,6 +16,7 @@ export const environment = {
   api: 'http://localhost:8080/api/',
   supplier: 'supplier-manager',
   product: 'product-manager',
+  client: 'client-manager',
   user: 'user'
 };
 
