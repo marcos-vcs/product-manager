@@ -11,6 +11,8 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -147,6 +149,7 @@ public class SupplierService implements CrudInterface<Supplier, SupplierFilter>{
             query.addCriteria(Criteria.where("deleted").is(deleted));
             query.with(Sort.by(Sort.Direction.DESC, "name"));
             query.skip(skip).limit(limit);
+
             return new Response<>(
                     deleted ? getQuantityTrash(filter, search) : getQuantity(filter, search),
                     template.find(query, Supplier.class),
@@ -159,6 +162,24 @@ public class SupplierService implements CrudInterface<Supplier, SupplierFilter>{
         }
     }
 
+    public Response<List<SupplierSelect>> readSelect() throws CrudErrorException {
+        try{
+            List<Supplier> suppliers = template.find(new Query(), Supplier.class);
+            List<SupplierSelect> response = new ArrayList<>();
+            suppliers.forEach(e -> response.add(new SupplierSelect(e.getCode(), e.getName())));
+            return new Response<>(
+                    this.getQuantity(),
+                    response,
+                    "OK"
+            );
+
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+            throw new CrudErrorException("Erro ao buscar registros no select");
+        }
+    }
+
     private long getQuantity(){
         return this.template.count(new Query(Criteria.where("deleted").is(false)), Supplier.class);
     }
@@ -168,7 +189,7 @@ public class SupplierService implements CrudInterface<Supplier, SupplierFilter>{
     }
 
     private long getQuantityTrash(){
-        return this.template.count(new Query(Criteria.where("deleted").is(true)), Product.class);
+        return this.template.count(new Query(Criteria.where("deleted").is(true)), Supplier.class);
     }
 
     private long getQuantityTrash(SupplierFilter filter, String search){

@@ -54,7 +54,7 @@ public class ProductManagerService implements CrudInterface<Product, ProductFilt
                             Messages.HISTORY_UPDATED_SUCCESSFULLY.getMsg().replace("@USER",user.getCode())))
                     .set("name", obj.getName())
                     .set("url", obj.getUrl())
-                    .set("brand", obj.getBrand())
+                    .set("supplier", obj.getSupplier())
                     .set("description", obj.getDescription())
                     .set("quantity", obj.getQuantity())
                     .set("price", obj.getPrice());

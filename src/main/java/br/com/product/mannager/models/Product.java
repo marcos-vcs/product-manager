@@ -23,12 +23,11 @@ public class Product {
     @NotBlank
     @NotNull
     private String name;
-    @NotBlank
-    @NotNull
-    private String brand;
     private String description;
     @Min(0)
     private double price;
+    @NotNull
+    private SupplierSelect supplier;
     @Min(0)
     private int quantity;
     private List<History> history;

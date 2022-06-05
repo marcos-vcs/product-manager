@@ -3,6 +3,7 @@ package br.com.product.mannager.controller;
 import br.com.product.mannager.exceptions.PaginationException;
 import br.com.product.mannager.models.Response;
 import br.com.product.mannager.models.Supplier;
+import br.com.product.mannager.models.SupplierSelect;
 import br.com.product.mannager.models.User;
 import br.com.product.mannager.models.enums.SupplierFilter;
 import br.com.product.mannager.service.SupplierService;
@@ -86,6 +87,19 @@ public class SupplierController {
         }
     }
 
+    @GetMapping("/select")
+    public ResponseEntity<Response<List<SupplierSelect>>> read(){
+        try{
+            return new ResponseEntity<>(service.readSelect(), HttpStatus.OK);
+
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
     @GetMapping("/search")
     public ResponseEntity<Response<List<Supplier>>> read(@RequestParam int skip, @RequestParam int limit, @RequestParam SupplierFilter filter, @RequestParam String search){
         try{
@@ -107,7 +121,7 @@ public class SupplierController {
             if(skip < 0 || limit < 0){
                 throw new PaginationException("Erro, parametro skip ou limit e menor que 0, verifique!");
             }
-            return new ResponseEntity<>(service.read(skip, limit, false), HttpStatus.OK);
+            return new ResponseEntity<>(service.read(skip, limit, true), HttpStatus.OK);
 
         }catch (Exception e){
             e.printStackTrace();
@@ -122,7 +136,7 @@ public class SupplierController {
             if(skip < 0 || limit < 0){
                 throw new PaginationException("Erro, parametro skip ou limit e menor que 0, verifique!");
             }
-            return new ResponseEntity<>(service.read(skip, limit, filter, search, false), HttpStatus.OK);
+            return new ResponseEntity<>(service.read(skip, limit, filter, search, true), HttpStatus.OK);
 
         }catch (Exception e){
             e.printStackTrace();
