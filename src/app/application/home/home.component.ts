@@ -157,10 +157,10 @@ export class HomeComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
-        if(!this.refreshService.isRefreshSupplier.value){
-          this.refreshService.isRefreshSupplier.next(true);
+        if(!this.refreshService.isRefreshClient.value){
+          this.refreshService.isRefreshClient.next(true);
         }else{
-          this.refreshService.isRefreshSupplier.next(false);
+          this.refreshService.isRefreshClient.next(false);
         }
       }
     });

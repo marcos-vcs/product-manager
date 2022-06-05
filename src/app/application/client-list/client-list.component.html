@@ -1,1 +1,109 @@
-<p>client-list works!</p>
+<div class="container-fluid">
+
+  <div class="row justify-content-center">
+    <div class="col-lg-8 mt-2 center">
+
+        <mat-form-field class="ml-5" style="width: 70%">
+          <input
+            (input)="find()"
+            type="text"
+            matInput
+            placeholder="Buscar"
+            name= "search"
+            [(ngModel)]="search">
+          <button (click)="find()" matSuffix mat-button><mat-icon >search</mat-icon></button>
+        </mat-form-field>
+
+      </div>
+  </div>
+
+  <div *ngIf="loadState" class="row justify-content-center">
+    <div class="col-lg-10 mt-5">
+      <mat-spinner class="mx-auto"></mat-spinner>
+    </div>
+  </div>
+
+  <div *ngIf="notFoundMessage && !loadState" class="row justify-content-center">
+    <div class="col-lg-10 mt-5 center text-center not-found">
+      <div>
+        <img src="../../../assets/not-found-client.png" width="300" loading="lazy" alt="nenhum cliente encontrado!">
+      </div>
+      Nenhum cliente encontrado!
+    </div>
+  </div>
+
+  <div class="row mt-5 center" *ngIf="dataSource.data.length > 0">
+    <div class="col" class="mat-elevation-z8 w-100">
+
+      <table mat-table [dataSource]="dataSource"  *ngIf="!loadMore">
+
+        <!-- Name Column -->
+        <ng-container class="tr" matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef class="name"> Nome </th>
+          <td mat-cell *matCellDef="let element"> {{element.name | titlecase}} </td>
+        </ng-container>
+
+        <!-- Address Column -->
+        <ng-container class="tr address" matColumnDef="address">
+          <th mat-header-cell *matHeaderCellDef class="address"> Endereço </th>
+          <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+        </ng-container>
+
+        <!-- Actions Column -->
+         <ng-container class="tr actions" matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef class="actions"> Opções </th>
+          <td mat-cell *matCellDef="let element">
+            <button (click)="update(element)" mat-icon-button aria-label="Editar">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button (click)="deleteVerify(element.code)" mat-icon-button aria-label="Excluir">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+      <div class="row my-3" *ngIf="loadMore">
+        <div class="col-12">
+          <mat-spinner class="mx-auto"></mat-spinner>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col mt-3 mb-5">
+
+      <button
+        (click)="load()"
+        *ngIf="dataSource.data.length < max && dataSource.data.length !== 0 && !search"
+        type="button"
+        [disabled]="loadState"
+        class="btn btn-primary see-more">
+          Veja mais
+      </button>
+
+      <button
+        (click)="loadFind()"
+        *ngIf="dataSource.data.length < max && dataSource.data.length !== 0 && search"
+        type="button"
+        class="btn btn-primary see-more">
+          Veja mais
+      </button>
+
+    </div>
+  </div>
+
+  <div class="row text-center w-100 mb-3">
+    <div class="col">
+      <span *ngIf="dataSource.data.length === max && !loadState && !notFoundMessage" class="allSuppliers">
+        Todos os clientes foram carregados!
+      </span>
+    </div>
+  </div>
+
+</div>
