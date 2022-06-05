@@ -53,6 +53,9 @@ import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSelectModule } from '@angular/material/select';
+import { ClientListComponent } from './application/client-list/client-list.component';
+import { ClientModalComponent } from './application/client-modal/client-modal.component';
+import { ClientTrashComponent } from './application/client-trash/client-trash.component';
 
 registerLocaleData(ptBr);
 
@@ -73,7 +76,10 @@ registerLocaleData(ptBr);
     SupplierTrashComponent,
     SupplierModalComponent,
     OfflineDialogComponent,
-    BottomSheetComponent
+    BottomSheetComponent,
+    ClientListComponent,
+    ClientModalComponent,
+    ClientTrashComponent
   ],
   imports: [
     NgxLoadingModule.forRoot({}),

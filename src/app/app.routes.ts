@@ -1,4 +1,6 @@
 import { Routes } from "@angular/router";
+import { ClientListComponent } from "./application/client-list/client-list.component";
+import { ClientTrashComponent } from "./application/client-trash/client-trash.component";
 import { HomeComponent } from "./application/home/home.component";
 import { ProductListComponent } from "./application/product-list/product-list.component";
 import { ProductTrashComponent } from "./application/product-trash/product-trash.component";
@@ -19,7 +21,9 @@ export const rootRouterConfig: Routes = [
             {path: 'product-manager', component: ProductListComponent},
             {path: 'product-trash', component: ProductTrashComponent},
             {path: 'supplier-manager', component: SupplierListComponent},
-            {path: 'supplier-trash', component: SupplierTrashComponent}
+            {path: 'supplier-trash', component: SupplierTrashComponent},
+            {path: 'client-manager', component: ClientListComponent},
+            {path: 'client-trash', component: ClientTrashComponent},
         ],
         canActivate: [SecurityGuard]
     },
