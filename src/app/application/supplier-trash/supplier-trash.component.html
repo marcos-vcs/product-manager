@@ -90,7 +90,7 @@
         </div>
       </div>
 
-      <table mat-table [dataSource]="dataSource"  *ngIf="!loadMore">
+      <table mat-table [dataSource]="dataSource"  *ngIf="!loadMore && !loadState">
 
         <!-- Name Column -->
         <ng-container class="tr" matColumnDef="name">
