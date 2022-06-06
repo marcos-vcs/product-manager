@@ -196,11 +196,11 @@ export class ClientListComponent implements OnInit {
     setTimeout(() => {
       this.database.delete(code).subscribe(
         () => {
-          this.snackbar.openSnackbarSuccess('Fornecedor movido para a lixeira com sucesso!');
+          this.snackbar.openSnackbarSuccess('Cliente movido para a lixeira com sucesso!');
           this.get();
         },
         (error) => {
-          this.snackbar.openSnackbarAlert("Erro ao mover fornecedor para a lixeira: " + error.message);
+          this.snackbar.openSnackbarAlert("Erro ao mover cliente para a lixeira: " + error.message);
           console.log(error);
         }
       );

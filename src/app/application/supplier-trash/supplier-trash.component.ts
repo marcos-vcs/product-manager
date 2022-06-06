@@ -38,9 +38,7 @@ export class SupplierTrashComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.refreshService.isRefreshSupplier.subscribe(() => {
-      this.get();
-    });
+    this.get();
   }
 
   get(){
@@ -149,25 +147,20 @@ export class SupplierTrashComponent implements OnInit {
 
   }
 
-  update(supplier: Supplier){
-    const dialogRef = this.dialog.open(SupplierModalComponent, {
-      minWidth: "550px",
-      width: "900px",
-      maxHeight: "90vh",
-      disableClose: true,
+  confirmRestore(supplier: Supplier){
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: '90%',
+      minWidth: '60%',
       data: {
-        supplier: supplier,
-        isNew: false
+        title: 'Restaurar fornecedor',
+        message: 'Tem certeza que deseja restaurar este fornecedor?'
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
-        if(!this.refreshService.isRefreshSupplier.value){
-          this.refreshService.isRefreshSupplier.next(true);
-        }else{
-          this.refreshService.isRefreshSupplier.next(false);
-        }
+        this.restore(supplier);
       }
     });
 
@@ -242,6 +235,19 @@ export class SupplierTrashComponent implements OnInit {
         this.restoreAll(this.dataSource.data);
       }
     });
+  }
+
+  private restore(supplier: Supplier){
+    this.database.delete(supplier.code??'').subscribe(
+      () => {
+        this.snackbar.openSnackbarSuccess('Fornecedor restaurado com sucesso!');
+        this.get();
+      },
+      (error) => {
+        this.snackbar.openSnackbarAlert("Erro ao restaurar fornecedor: " + error.message);
+        console.log(error);
+      }
+    );
   }
 
   private restoreAll(suppliers: Supplier[]){
