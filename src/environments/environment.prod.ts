@@ -1,12 +1,12 @@
 export const environment = {
   firebase: {
-    apiKey: "AIzaSyDoNvvSA3xIsGemBdZHDvH1it3wHoP7lPo",
-    authDomain: "product-manager-e4e65.firebaseapp.com",
-    projectId: "product-manager-e4e65",
-    storageBucket: "product-manager-e4e65.appspot.com",
-    messagingSenderId: "879513176811",
-    appId: "1:879513176811:web:56e81fb6ed98cdf21dccae",
-    measurementId: "G-MXCN48KSSN"
+    apiKey: "AIzaSyDEEXowt-s5wQVxrV17AZVL7BPHEsKqsPs",
+    authDomain: "product-manager-22a30.firebaseapp.com",
+    projectId: "product-manager-22a30",
+    storageBucket: "product-manager-22a30.appspot.com",
+    messagingSenderId: "696029692880",
+    appId: "1:696029692880:web:fbd8ae4521f536ae652fd5",
+    measurementId: "G-66QVKBWGR1"
   },
   production: true,
   api: 'https://app-product-manager.up.railway.app/api/',
