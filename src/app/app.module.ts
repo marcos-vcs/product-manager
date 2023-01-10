@@ -121,7 +121,7 @@ registerLocaleData(ptBr);
     { provide: LOCALE_ID, useValue: 'pt' },
     { provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' },
     { provide: APP_BASE_HREF,  useValue: '/' },
-    { provide: BUCKET, useValue: 'gs://product-manager-dbb81.appspot.com' },
+    { provide: BUCKET, useValue: 'gs://product-manager-22a30.appspot.com' },
     { provide: MatPaginatorIntl, useValue: getDutchPaginatorIntl() },
   ],
   bootstrap: [AppComponent]
