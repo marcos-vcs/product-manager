@@ -1,15 +1,15 @@
 export const environment = {
   firebase: {
-    projectId: 'product-manager-dbb81',
-    appId: '1:444956294922:web:02d06dae2d2a497ed384f3',
-    storageBucket: 'product-manager-dbb81.appspot.com',
-    apiKey: 'AIzaSyCWKXaSXTK0iGpijkupBOSvQYRll8F_zrQ',
-    authDomain: 'product-manager-dbb81.firebaseapp.com',
-    messagingSenderId: '444956294922',
-    measurementId: 'G-M6GHH1D9H4',
+    apiKey: "AIzaSyDoNvvSA3xIsGemBdZHDvH1it3wHoP7lPo",
+    authDomain: "product-manager-e4e65.firebaseapp.com",
+    projectId: "product-manager-e4e65",
+    storageBucket: "product-manager-e4e65.appspot.com",
+    messagingSenderId: "879513176811",
+    appId: "1:879513176811:web:56e81fb6ed98cdf21dccae",
+    measurementId: "G-MXCN48KSSN"
   },
   production: true,
-  api: 'https://app-product-manager.herokuapp.com/api/',
+  api: 'https://app-product-manager.up.railway.app/api/',
   supplier: 'supplier-manager',
   product: 'product-manager',
   client: 'client-manager',
